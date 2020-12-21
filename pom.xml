@@ -81,7 +81,14 @@
         <finalName>HR</finalName>
         <pluginManagement>
             <plugins>
-                <!--  deploy plugin  -->
+                <!-- heroku deploy plugin -->
+                <plugin>
+                    <groupId>com.heroku.sdk</groupId>
+                    <artifactId>heroku-maven-plugin</artifactId>
+                    <version>3.0.3</version>
+                </plugin>
+
+                <!-- tomcat deploy plugin  -->
                 <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat7-maven-plugin</artifactId>
