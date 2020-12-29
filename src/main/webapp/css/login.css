@@ -4,14 +4,19 @@ body {
     align-items: center;
 }
 
-.signin_message {
+form h2 {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.message {
     padding: 10px;
     margin: 10px 0;
     border-radius: 1rem;
     color: var(--main-font-color);
 }
 
-.signin_form {
+.form {
     margin-top: 40px;
     width: 364px;
     padding: 10px;
@@ -20,15 +25,15 @@ body {
     border-radius: 1rem;
 }
 
-.signin_form * {
+.form * {
     color: var(--main-font-color);
 }
 
-.signin_form *:hover {
+.form *:hover {
     color: var(--main-font-color);
 }
 
-.signin_form input[type=text], .signin_form input[type=password] {
+.form input[type=text], .form input[type=password], input[type=date] {
     display: block;
     width: 90%;
     margin: 20px auto 10px;
@@ -37,17 +42,43 @@ body {
     border-radius: 1rem;
 }
 
-.signin_form input[type=submit] {
+.login_form input[type=submit] {
     cursor: pointer;
-    display: block;
-    margin: 30px auto 10px;
+    display: inline-block;
+    margin-right: 11%;
     background-color: var(--accept-btn-color);
     border-radius: 1rem;
-    width: 90px;
     padding: 6px;
 }
 
-.signin_form input:focus {
+.registration_form input[type=submit] {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 17%;
+    background-color: var(--accept-btn-color);
+    border-radius: 1rem;
+    padding: 6px;
+}
+
+.form input:focus {
     filter: brightness(130%);
     color: #1b1b1b;
+}
+
+.form label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: -10px;
+    margin-left: 10px;
+}
+
+.form_actions {
+    margin: 20px 0 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.form_actions a {
+    margin-right: 10%;
 }

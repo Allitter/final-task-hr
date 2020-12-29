@@ -9,7 +9,7 @@ public class AuthenticationCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        return Router.forward(Pages.SIGN_IN);
+        return Router.forward(Pages.LOGIN);
     }
 
 }

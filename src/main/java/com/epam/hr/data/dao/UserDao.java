@@ -9,13 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDao extends AbstractDao<User> {
-    private static final String TABLE = "user u join role r on u.id_role = r.id";
-    private static final String ALL_USER_ATTRIBUTES = "u.id, u.login, u.password, u.name, u.last_name, u.patronymic, u.birth_date, r.name role_name";
-    private static final String USER_BY_LOGIN_AND_PASSWORD_QUERY = "select " + ALL_USER_ATTRIBUTES + " from " + TABLE + " where u.login = ? and u.password = ?;";
-    private static final String ALL_EMPLOYEES = "select " + ALL_USER_ATTRIBUTES + " from " + TABLE + " where u.id_role = 3 limit ?, ?;";
-    private static final String ALL_JOB_SEEKERS = "select " + ALL_USER_ATTRIBUTES + " from " + TABLE + " where u.id_role = 2 limit ?, ?;";
+    private static final String FULL_TABLE = "user u join role r on u.id_role = r.id";
+    private static final String TABLE = "user";
+    private static final String USER_ATTRIBUTES_NO_PASSWORD = "u.id, u.login, u.name, u.last_name, u.patronymic, u.birth_date, r.name role_name";
+    private static final String ALL_USER_ATTRIBUTES = USER_ATTRIBUTES_NO_PASSWORD + ", u.password";
+    private static final String USER_BY_LOGIN_AND_PASSWORD_QUERY = "select " + ALL_USER_ATTRIBUTES + " from " + FULL_TABLE + " where u.login = ? and u.password = sha2(?, 256);";
+    private static final String ALL_EMPLOYEES = "select " + ALL_USER_ATTRIBUTES + " from " + FULL_TABLE + " where u.id_role = 3 limit ?, ?;";
+    private static final String ALL_JOB_SEEKERS = "select " + ALL_USER_ATTRIBUTES + " from " + FULL_TABLE + " where u.id_role = 2 limit ?, ?;";
     private static final String UPDATE_QUERY = "update user set login = ?, password = ?, name = ?, last_name = ?, patronymic = ?, birth_date = ?, where id = ?;";
-    private static final String INSERT_QUERY = "insert into user (login, password, name, last_name, patronymic, birth_date, role_id) values (?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_QUERY = "insert into user (login, password, name, last_name, patronymic, birth_date, id_role) values (?, sha2(?, 256), ?, ?, ?, ?, ?);";
     private static final String EMPLOYEE_CONDITION = "u.id_role = 3";
     private static final String JOB_SEEKER_CONDITION = "u.id_role = 2";
     private final UserMapper mapper = new UserMapper();
@@ -41,17 +43,17 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     public List<User> findAll(int start, int count) throws DaoException {
-        return findAll(TABLE, mapper, start, count);
+        return findAll(FULL_TABLE, mapper, start, count);
     }
 
     @Override
     public void removeById(long id) throws DaoException {
-        removeById(TABLE, id);
+        removeById(FULL_TABLE, id);
     }
 
     @Override
     public int findQuantity() throws DaoException {
-        return findQuantity(TABLE);
+        return findQuantity(FULL_TABLE);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class UserDao extends AbstractDao<User> {
         if (optional.isPresent()) {
             executeNoResultQueryPrepared(UPDATE_QUERY, login, password, name, lastName, patronymic, birthDate, id);
         } else {
-            executeNoResultQueryPrepared(INSERT_QUERY, login, password, name, lastName, password, birthDate, role.ordinal());
+            executeNoResultQueryPrepared(INSERT_QUERY, login, password, name, lastName, patronymic, birthDate, role.ordinal()); // todo remove ordinal
         }
     }
 
@@ -79,6 +81,6 @@ public class UserDao extends AbstractDao<User> {
         }
 
         String condition = role == UserRole.EMPLOYEE ? EMPLOYEE_CONDITION : JOB_SEEKER_CONDITION;
-        return findQuantity(TABLE, condition);
+        return findQuantity(FULL_TABLE, condition);
     }
 }

@@ -10,7 +10,9 @@ import static com.epam.hr.domain.model.UserRole.*;
 public enum CommandType {
     DEFAULT_COMMAND(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     AUTHENTICATION(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
-    LOGIN(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
+    LOGIN(DEFAULT),
+    REGISTRATION_PAGE(DEFAULT),
+    REGISTRATION(DEFAULT),
     CHANGE_LANGUAGE(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     LOGOUT(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     VACANCIES(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
@@ -33,7 +35,7 @@ public enum CommandType {
                 .findAny()
                 .orElse(null);
 
-        return command == null ? Optional.empty() : Optional.of(command);
+        return Optional.ofNullable(command);
     }
 
     CommandType(UserRole... roles) {

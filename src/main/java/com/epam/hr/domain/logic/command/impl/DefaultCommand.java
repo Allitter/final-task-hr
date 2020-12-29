@@ -29,7 +29,7 @@ public class DefaultCommand implements Command {
                 path = request.getContextPath() + CONTROLLER_COMMAND_EMPLOYEES;
                 return Router.redirect(path);
             default:
-                return Router.forward(Pages.SIGN_IN);
+                return Router.forward(Pages.LOGIN);
         }
     }
 

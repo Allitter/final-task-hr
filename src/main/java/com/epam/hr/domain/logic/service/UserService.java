@@ -66,4 +66,17 @@ public class UserService {
         return result;
     }
 
+    public boolean isLoginUnique(String login) {
+        // TODO implement
+        return true;
+    }
+
+    public void saveUser(User user) throws ServiceException {
+        try(UserDao dao = new UserDao()) {
+            dao.save(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 }

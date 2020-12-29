@@ -70,7 +70,7 @@ form * {
     --shadow-small: 0 0 5px var(--shadow-color);
     --shadow-medium: 0 0 15px var(--shadow-color);
     --shadow-big: 0 0 25px var(--shadow-color);
-    --alert-text-color: #aa0808;
+    --alert-text-color: #ff0808;
 }
 
 /*  ------------------------------------------------------vars---------------------------------------------------- */

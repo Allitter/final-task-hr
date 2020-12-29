@@ -33,7 +33,11 @@
 
                 </c:if>
                 <c:if test="${user.role.name() == 'JOB_SEEKER'}">
-                    <a class="btn" href="">Apply</a>
+                    <form action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="vacancy_apply">
+                        <input type="hidden" name="vacancy_id" value="${vacancy.id}">
+                        <button class="btn">Apply</button>
+                    </form>
                 </c:if>
             </div>
         </div>

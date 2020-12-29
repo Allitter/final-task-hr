@@ -12,6 +12,10 @@ public final class CommandFactory {
         switch (commandType) {
             case LOGIN :
                 return new LoginCommand(new UserService());
+            case REGISTRATION_PAGE:
+                return new RegistrationPageCommand();
+            case REGISTRATION:
+                return new RegistrationCommand(new UserService());
             case VACANCIES :
                 return new VacanciesCommand(new VacancyService());
             case VACANCY_INFO :

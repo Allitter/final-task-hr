@@ -6,24 +6,31 @@
     <link rel="stylesheet" href="css/login.css">
 
     <%@ include file="head_common.jsp"%>
+
+    <title><fmt:message key="login.title" /></title>
 </head>
 
 <body>
-    <form class="signin_form" action="${pageContext.request.contextPath}/controller" method="post">
-        <c:if test="${show_authentication_error}">
-            <div class="signin_message">
-                <p class="alert-text">
-                    <fmt:message key="login.bad_credentials" />
-                </p>
-            </div>
-        </c:if>
+<form class="login_form form shadow-medium" action="${pageContext.request.contextPath}/controller" method="post">
+    <h2><fmt:message key="login.title" /></h2>
 
-        <input type="hidden" name="command" value="login">
-        <input type="text" name="login" placeholder="<fmt:message key="login.login_label"/>" id="login">
-        <input type="password" name="password" placeholder="<fmt:message key="login.password_label"/>" id="password">
+    <c:if test="${show_authentication_error}">
+        <div class="message">
+            <p class="alert-text">
+                <fmt:message key="login.bad_credentials" />
+            </p>
+        </div>
+    </c:if>
 
+    <input type="hidden" name="command" value="login">
+    <input type="text" name="login" placeholder="<fmt:message key="login.login_label"/>" id="login">
+    <input type="password" name="password" placeholder="<fmt:message key="login.password_label"/>" id="password">
+
+    <div class="form_actions">
         <input class="btn shadow-none shadow-hov-small" type="submit" value="<fmt:message key="login.login_button"/>">
-    </form>
+        <a href="${pageContext.request.contextPath}/controller?command=registration_page"><fmt:message key="login.register_suggestion"/></a>
+    </div>
+</form>
 </body>
 
 </html>

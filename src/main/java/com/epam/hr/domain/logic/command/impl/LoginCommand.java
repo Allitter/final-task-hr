@@ -10,6 +10,8 @@ import com.epam.hr.domain.logic.service.UserService;
 import com.epam.hr.domain.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.awt.geom.AreaOp;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -27,6 +29,7 @@ public class LoginCommand implements Command {
         String login = (String) request.getAttribute(Attributes.LOGIN);
         String password = (String) request.getAttribute(Attributes.PASSWORD);
 
+        Router router;
         try {
             Optional<User> optional = userService.authenticateUser(login, password);
             if (optional.isPresent()) {
@@ -36,15 +39,17 @@ public class LoginCommand implements Command {
 
                 User user = optional.get();
                 session.setAttribute(Attributes.USER, user);
+                String path = request.getContextPath() + request.getServletPath();
+                router = Router.redirect(path);
             } else {
                 request.setAttribute(Attributes.SHOW_AUTHENTICATION_ERROR_MESSAGE, true);
+                router = Router.forward(Pages.LOGIN);
             }
         } catch (ServiceException e) {
             LOGGER.error(e);
-            return Router.forward(Pages.SERVER_ERROR);
+            router = Router.forward(Pages.SERVER_ERROR);
         }
 
-        String path = request.getContextPath() + request.getServletPath();
-        return Router.redirect(path);
+        return router;
     }
 }
