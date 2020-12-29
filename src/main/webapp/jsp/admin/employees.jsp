@@ -2,21 +2,14 @@
 <html>
 
 <head>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fmt"   uri="http://java.sun.com/jsp/jstl/fmt" %>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
     <title>HR-ORG</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="shortcut icon" href="favicon.ico" type="image/png">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/util.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <%@ include file="../head_common.jsp" %>
 </head>
 
 <body>
-    <fmt:setLocale value="${lang}"/>
-    <fmt:setBundle basename="properties.text" />
-
     <%@ include file="../header.jsp" %>
 
     <div class="nav-main">

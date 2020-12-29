@@ -20,6 +20,10 @@ public final class CommandFactory {
                 return new VacancyEditCommand(new VacancyService());
             case VACANCY_UPDATE :
                 return new VacancyUpdateCommand(new VacancyService());
+            case VACANCY_ADD :
+                return new VacancyAddCommand(new VacancyService());
+            case VACANCY_ADD_ACCEPT :
+                return new VacancyAddAcceptCommand(new VacancyService());
             case  EMPLOYEES :
                 return new EmployeesCommand(new UserService());
             case  JOB_SEEKERS :

@@ -3,6 +3,7 @@ package com.epam.hr.domain.logic.command;
 import com.epam.hr.domain.model.UserRole;
 import com.epam.hr.domain.model.User;
 import java.util.*;
+
 import static com.epam.hr.domain.model.UserRole.*;
 
 // TODO think about roles
@@ -16,6 +17,8 @@ public enum CommandType {
     VACANCY_INFO(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     VACANCY_EDIT(EMPLOYEE),
     VACANCY_UPDATE(EMPLOYEE),
+    VACANCY_ADD(EMPLOYEE),
+    VACANCY_ADD_ACCEPT(EMPLOYEE),
     JOB_SEEKERS(EMPLOYEE, ADMINISTRATOR),
     EMPLOYEES(ADMINISTRATOR);
 
@@ -25,7 +28,6 @@ public enum CommandType {
         if (name == null) {
             return Optional.empty();
         }
-
         CommandType command = Arrays.stream(CommandType.values())
                 .filter(register -> register.name().equalsIgnoreCase(name))
                 .findAny()

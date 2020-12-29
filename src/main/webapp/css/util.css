@@ -1,0 +1,216 @@
+/* 
+    default decorations setup
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+p {
+    font-size: 0.9375rem;
+}
+
+html, body {
+    background-color: var(--secondary-color);
+    width: 100%;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: 500;
+}
+
+img {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+a, a:hover, a:active, a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+a, button, a span, div {
+    -webkit-transition: 0.15s ease-in-out;
+    -o-transition: 0.15s ease-in-out;
+    transition: 0.15s ease-in-out;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul>li {
+    list-style: none;
+}
+
+form * {
+    outline: none;
+    border: none;
+}
+
+/*  --------------------------------------------default decorations setup----------------------------------------- */
+
+/*
+    Vars
+*/
+
+:root {
+    --main-bg-color: #0B172A;
+    --bottons-bg-color: #463949;
+    --main-font-color: #FDFDFD;
+    --secondary-color: #463949;
+    --accept-btn-color: #008800;
+    --button-hov-color: #BC4123;
+    --shadow-color: rgb(0, 0, 0);
+    --shadow-small: 0 0 5px var(--shadow-color);
+    --shadow-medium: 0 0 15px var(--shadow-color);
+    --shadow-big: 0 0 25px var(--shadow-color);
+    --alert-text-color: #aa0808;
+}
+
+/*  ------------------------------------------------------vars---------------------------------------------------- */
+
+/*
+    util
+*/
+
+/* 
+    Text
+*/
+
+.alert-text {
+    color: var(--alert-text-color) !important;
+}
+
+/* ------------------- text -----------------  */
+
+/*
+    Separator
+*/
+
+.separator {
+    display: inline-block;
+    height: 3px;
+    width: 100px;
+    margin: 25px auto;
+    background: var(--main-font-color);
+}
+
+/* ------------------- separator -----------------  */
+
+/* 
+    Dropdown button
+*/
+
+.dropbtn {
+    margin: 10px 0;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: -21px;
+    padding: 6px 20px;
+    z-index: 1;
+}
+
+.dropdown-content li {
+    margin-bottom: 20px;
+}
+
+.dropdown-content input[type=submit] {
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 20px;
+    background-color: var(--bottons-bg-color);
+}
+
+.dropdown-content input[type=submit]:hover {
+    background-color: var(--button-hov-color);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: var(--secondary-color);
+}
+
+/* ------------------- dropdown button -----------------  */
+
+/* 
+    Button
+*/
+
+.btn {
+    width: 90px;
+    box-sizing: border-box;
+    padding: 6px 20px;
+    border-radius: 20px;
+    color: var(--main-font-color);
+    font-size: 1rem;
+
+    background-color: var(--bottons-bg-color);
+}
+
+.btn:hover {
+    cursor: pointer;
+    filter: brightness(130%);
+    box-shadow: var(--shadow-big);
+}
+
+/* ------------------- button -----------------  */
+
+/* 
+    Shadow
+*/
+
+.shadow-none {
+    box-shadow: none;
+}
+
+.shadow-small {
+    box-shadow: var(--shadow-small);
+}
+
+.shadow-medium {
+    box-shadow: var(--shadow-medium);
+}
+
+.sahdow-big {
+    box-shadow: var(--shadow-big);
+}
+
+.shadow-hov-none:hover {
+    box-shadow: none;
+}
+
+.shadow-hov-small:hover {
+    box-shadow: var(--shadow-small);
+}
+
+.shadow-hov-medium:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+.shadow-hov-big:hover {
+    box-shadow: var(--shadow-big);
+}
+
+/* ------------------- shadow -----------------  */
+
+/* ------------------------------------------------------util---------------------------------------------------- */

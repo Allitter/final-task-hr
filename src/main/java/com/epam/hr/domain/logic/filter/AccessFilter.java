@@ -19,9 +19,9 @@ public class AccessFilter extends HttpFilter {
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute(Attributes.USER);
-        CommandType register = (CommandType)request.getAttribute(Attributes.COMMAND);
+        CommandType command = (CommandType)request.getAttribute(Attributes.COMMAND);
 
-        if (register.hasAccessToCommand(user)) {
+        if (command.hasAccessToCommand(user)) {
             chain.doFilter(request, response);
         } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.ACCESS_DENIED);

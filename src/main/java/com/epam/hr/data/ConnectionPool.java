@@ -17,6 +17,7 @@ public class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String URL_PROPERTY = "url";
     private static final String DATABASE_PROPERTIES_PATH = "database.properties";
+    private static final String HEROKU_DATABASE_PROPERTIES_PATH = "dbheroku.properties";
     private static final String CONNECTIONS_COUNT_PROPERTY = "connections.count";
     private static final Lock INSTANCE_LOCK = new ReentrantLock();
     private static ConnectionPool instance;
@@ -87,30 +88,46 @@ public class ConnectionPool {
         return instance;
     }
 
+    // todo
     private void init() {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        Properties properties = new Properties();
         try {
-            properties.load(classLoader.getResourceAsStream(DATABASE_PROPERTIES_PATH));
-
-            String url = properties.getProperty(URL_PROPERTY);
-            String connectionsCountProperty = properties.getProperty(CONNECTIONS_COUNT_PROPERTY);
-            int connectionsCount = Integer.parseInt(connectionsCountProperty);
-
-            for (int i = 0; i < connectionsCount; i++) {
-                Connection connection = DriverManager.getConnection(url, properties);
-
-                LOGGER.info("Created connection {}", connection);
-
-                ProxyConnection proxyConnection = new ProxyConnection(connection, this);
-                availableConnections.add(proxyConnection);
+            tryEstablishConnections(HEROKU_DATABASE_PROPERTIES_PATH);
+        } catch (SQLException e) {
+            try {
+                tryEstablishConnections(DATABASE_PROPERTIES_PATH);
+            } catch (SQLException ex) {
+                throw new DaoRuntimeException(ex);
             }
-        } catch (SQLException | IOException e) {
-            throw new DaoRuntimeException("Connection initialization error", e);
         }
     }
 
-    // TODO
+    private void tryEstablishConnections(String connectionPropPath) throws SQLException {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        Properties properties = new Properties();
+
+        try {
+            properties.load(classLoader.getResourceAsStream(connectionPropPath));
+        } catch (IOException e) {
+            throw new DaoRuntimeException("Incorrect db properties path");
+        }
+
+        String url = properties.getProperty(URL_PROPERTY);
+        String connectionsCountProperty = properties.getProperty(CONNECTIONS_COUNT_PROPERTY);
+        int connectionsCount = Integer.parseInt(connectionsCountProperty);
+
+
+        for (int i = 0; i < connectionsCount; i++) {
+            Connection connection = DriverManager.getConnection(url, properties);
+
+            LOGGER.info("Created connection {}", connection);
+
+            ProxyConnection proxyConnection = new ProxyConnection(connection, this);
+            availableConnections.add(proxyConnection);
+        }
+    }
+
+
+    // TODO lock
     public void destroy() {
         try {
             while (!usedConnections.isEmpty()) {
