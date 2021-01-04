@@ -4,6 +4,14 @@
     <div class="separator"></div>
 
     <ul>
+        <c:if test="${user.role.name() == 'JOB_SEEKER'}">
+            <li>
+                <a href="${pageContext.request.contextPath}/controller?command=job_applications&page=0">
+                    <fmt:message key="navigation.job_applications" />
+                </a>
+            </li>
+        </c:if>
+
         <c:if test="${user.role.name() == 'EMPLOYEE' || user.role.name() == 'JOB_SEEKER'}">
             <li>
                 <a href="${pageContext.request.contextPath}/controller?command=vacancies&page=0">

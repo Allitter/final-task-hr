@@ -1,11 +1,13 @@
 package com.epam.hr.domain.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
 public class User implements Serializable {
     public static final User DEFAULT = new User();
+    private static final String FORMATTED_DATE_PATTERN = "yyyy-MM-dd";
     private final long id;
     private final UserRole role;
     private final String login;
@@ -14,9 +16,10 @@ public class User implements Serializable {
     private final String lastName;
     private final String patronymic;
     private final Date birthDate;
+    private final boolean isBanned;
 
     public User(long id, UserRole role, String login, String password, String name,
-                String lastName, String patronymic, Date birthDate) {
+                String lastName, String patronymic, Date birthDate, boolean isBanned) {
         this.id = id;
         this.role = role;
         this.login = login;
@@ -25,6 +28,7 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.birthDate = birthDate;
+        this.isBanned = isBanned;
     }
 
     private User() {
@@ -36,6 +40,7 @@ public class User implements Serializable {
         lastName = "";
         patronymic = "";
         birthDate = new Date();
+        isBanned = false;
     }
 
     public long getId() {
@@ -70,23 +75,42 @@ public class User implements Serializable {
         return birthDate;
     }
 
+    public String getFormattedBirthDate() {
+        if (birthDate == null) {
+            return "";
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(FORMATTED_DATE_PATTERN);
+        return dateFormat.format(birthDate);
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", role=" + role +
                 ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", birthDate=" + birthDate +
+                ", isBanned=" + isBanned +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return id == user.id && role == user.role
                 && Objects.equals(login, user.login)

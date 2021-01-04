@@ -26,7 +26,7 @@ public class VacancyUpdateCommand implements Command {
             long id = Long.parseLong(idString);
             String name = (String) request.getAttribute(Attributes.VACANCY_NAME);
             String shortDescription = (String) request.getAttribute(Attributes.VACANCY_SHORT_DESCRIPTION);
-            String longDescription = (String) request.getAttribute(Attributes.VACANCY_LONG_DESCRIPTION);
+            String longDescription = (String) request.getAttribute(Attributes.LONG_DESCRIPTION);
 
             Vacancy vacancy = new Vacancy(id, name, shortDescription, longDescription);
             service.save(vacancy);

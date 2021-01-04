@@ -10,7 +10,6 @@ import com.epam.hr.domain.logic.service.UserService;
 import com.epam.hr.domain.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sun.awt.geom.AreaOp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

@@ -14,10 +14,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class RegistrationCommand implements Command {
     private static final String DATE_FORMAT = "yyyy-mm-dd";
+    private static final int DEFAULT_ID = -1;
+    private static final boolean DEFAULT_IS_BANNED = false;
     private final UserService service;
 
     public RegistrationCommand(UserService service) {
@@ -30,7 +31,7 @@ public class RegistrationCommand implements Command {
         UserRole role = UserRole.JOB_SEEKER;
         String login = (String) request.getAttribute(Attributes.LOGIN);
         String password = (String) request.getAttribute(Attributes.PASSWORD);
-        String name = (String) request.getAttribute(Attributes.NAME);
+        String name = (String) request.getAttribute(Attributes.RESUME_NAME);
         String lastName = (String) request.getAttribute(Attributes.LAST_NAME);
         String patronymic = (String) request.getAttribute(Attributes.PATRONYMIC);
         String birthDateString = (String) request.getAttribute(Attributes.BIRTH_DATE);
@@ -52,7 +53,7 @@ public class RegistrationCommand implements Command {
         }
 
         // TODO send email code
-        User user = new User(-1, role, login, password, name, lastName, patronymic, birthDate);
+        User user = new User(DEFAULT_ID, role, login, password, name, lastName, patronymic, birthDate, DEFAULT_IS_BANNED);
         service.saveUser(user);
 
         // send to login page

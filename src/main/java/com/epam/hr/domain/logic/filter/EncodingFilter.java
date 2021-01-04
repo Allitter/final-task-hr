@@ -14,11 +14,10 @@ public class EncodingFilter extends HttpFilter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        String codeRequest = request.getCharacterEncoding();
-        if (encoding != null && !encoding.equalsIgnoreCase(codeRequest)) {
+        String requestEncoding = request.getCharacterEncoding();
+        if (encoding != null && !encoding.equalsIgnoreCase(requestEncoding)) {
             request.setCharacterEncoding(encoding);
             response.setCharacterEncoding(encoding);
         }

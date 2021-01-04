@@ -4,6 +4,8 @@ import com.epam.hr.domain.logic.command.Attributes;
 import com.epam.hr.domain.logic.command.CommandType;
 import com.epam.hr.domain.logic.command.Pages;
 import com.epam.hr.domain.model.User;
+import com.epam.hr.domain.model.UserRole;
+
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,9 +21,14 @@ public class AccessFilter extends HttpFilter {
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute(Attributes.USER);
-        CommandType command = (CommandType)request.getAttribute(Attributes.COMMAND);
+        CommandType commandType = (CommandType)request.getAttribute(Attributes.COMMAND);
+        UserRole role = user.getRole();
 
-        if (command.hasAccessToCommand(user)) {
+        if (user.isBanned()) {
+            String path = Pages.BAN_PAGE;
+            RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+            dispatcher.forward(request, response);
+        } else if (commandType.hasAccessToCommand(role)) {
             chain.doFilter(request, response);
         } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.ACCESS_DENIED);

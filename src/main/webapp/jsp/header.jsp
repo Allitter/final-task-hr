@@ -1,3 +1,8 @@
+
+<head>
+    <%@include file="head_common.jsp"%>
+</head>
+
 <header class="header">
         <div class="header_top">
             <div class="user_info">
@@ -7,11 +12,16 @@
             <div class="header_buttons">
                 <form action="${pageContext.request.contextPath}/controller" method="GET">
                     <input type="hidden" name="command" value="logout">
-                    <input class="btn" type="submit" value="<fmt:message key="header.logout_button"/>">
+                    <input class="btn" type="submit" value="<fmt:message key="header.logout_button"/>" style="width: 100px">
+                </form>
+
+                <form action="${pageContext.request.contextPath}/controller" method="GET">
+                    <input type="hidden" name="command" value="account">
+                    <input class="btn" type="submit" value="<fmt:message key="header.account_button"/>" style="width: 100px">
                 </form>
 
                 <div class= "dropdown">
-                    <button class="btn dropbtn">
+                    <button class="btn dropbtn" style="width: 100px">
                         <c:choose>
                             <c:when test="${lang != null}">
                                 ${lang}
@@ -26,19 +36,19 @@
                             <li>
                                 <form action="${pageContext.request.contextPath}/controller" method="POST">
                                     <input type="hidden" name="command" value="change_language">
-                                    <input class="btn" type="submit" name="lang" value="en">
+                                    <input class="btn" type="submit" name="lang" value="en" style="width: 100px">
                                 </form>
                             </li>
                             <li>
                                 <form action="${pageContext.request.contextPath}/controller" method="POST">
                                     <input type="hidden" name="command" value="change_language">
-                                    <input class="btn" type="submit" name="lang" value="ru">
+                                    <input class="btn" type="submit" name="lang" value="ru" style="width: 100px">
                                 </form>
                             </li>
                             <li>
                                 <form action="${pageContext.request.contextPath}/controller" method="POST">
                                     <input type="hidden" name="command" value="change_language">
-                                    <input class="btn" type="submit" name="lang" value="be">
+                                    <input class="btn" type="submit" name="lang" value="be" style="width: 100px">
                                 </form>
                             </li>
                         </ul>

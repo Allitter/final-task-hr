@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.Map;
 
 public class ParameterFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         Enumeration parameters  = request.getParameterNames();
         while (parameters.hasMoreElements()) {
             String parameterKey = (String)parameters.nextElement();

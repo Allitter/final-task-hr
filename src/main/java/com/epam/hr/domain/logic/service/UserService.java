@@ -1,6 +1,6 @@
 package com.epam.hr.domain.logic.service;
 
-import com.epam.hr.data.dao.UserDao;
+import com.epam.hr.data.dao.impl.UserDao;
 import com.epam.hr.domain.model.UserRole;
 import com.epam.hr.exception.DaoException;
 import com.epam.hr.exception.ServiceException;
@@ -15,6 +15,33 @@ public class UserService {
         Optional<User> result;
         try(UserDao dao = new UserDao()) {
             result = dao.getUserByLoginAndPassword(login, password);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+
+        return result;
+    }
+
+    public void banUser(long id) throws ServiceException {
+        try(UserDao dao = new UserDao()) {
+           dao.banUser(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public void unbanUser(long id) throws ServiceException {
+        try(UserDao dao = new UserDao()) {
+            dao.unbanUser(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public Optional<User> findById(long id) throws ServiceException {
+        Optional<User> result;
+        try(UserDao dao = new UserDao()) {
+            result = dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -78,5 +105,4 @@ public class UserService {
             throw new ServiceException(e);
         }
     }
-
 }

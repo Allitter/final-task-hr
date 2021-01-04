@@ -16,12 +16,14 @@
         <%@ include file="navigation.jsp" %>
 
         <main class="main">
-            <div class="control_set">
-                <form action="${pageContext.request.contextPath}/controller" method="post">
-                    <input type="hidden" name="command" value="vacancy_add">
-                    <input class="btn" type="submit" value="Add">
-                </form>
-            </div>
+            <c:if test="${user.role.name() == 'EMPLOYEE'}">
+                <div class="control_set">
+                    <form action="${pageContext.request.contextPath}/controller" method="post">
+                        <input type="hidden" name="command" value="vacancy_add">
+                        <input class="btn" type="submit" value="Add">
+                    </form>
+                </div>
+            </c:if>
 
             <div class="items">
                 <c:forEach var="vacancy" items="${vacancies}">

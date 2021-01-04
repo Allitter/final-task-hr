@@ -10,17 +10,18 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractDao<T> implements Dao<T> {
-    public static final int FIRST_ENTITY_INDEX = 0;
+    private static final String SELECT_ALL_QUERY = "select * from %s;";
+    private static final String SELECT_ALL_WITH_LIMIT_QUERY = "select * from %s limit ?, ?;";
+    private static final String FIND_BY_ID_QUERY = "select * from %s where id = ?;";
+    private static final String REMOVE_BY_ID_QUERY = "delete from %s where id = ?;";
     public static final String COUNT_ROWS_QUERY = "select count(*) as c from %s;";
     public static final String COUNT_ROWS_QUERY_WITH_CONDITION = "select count(*) as c from %s where %s;";
     public static final String COUNT_ATTRIBUTE_NAME = "c";
-    private static final String FIND_BY_ID_QUERY = "select * from %s where id = ?;";
-    private static final String SELECT_ALL_QUERY = "select * from %s limit ?, ?;";
-    private static final String REMOVE_BY_ID_QUERY = "delete from %S where id = ?;";
+    public static final int FIRST_ENTITY_INDEX = 0;
+
     private final Connection connection;
 
-    /* package private access */
-    AbstractDao() {
+    protected AbstractDao() {
         ConnectionPool pool = ConnectionPool.getInstance();
         connection = pool.getConnection();
     }
@@ -58,20 +59,6 @@ public abstract class AbstractDao<T> implements Dao<T> {
         }
     }
 
-    protected Optional<T> executeSingleResultQuery(String query, Mapper<T> mapper) throws DaoException {
-        List<T> entities = executeQuery(query, mapper);
-
-        Optional<T> optional;
-        if (!entities.isEmpty()) {
-            T entity = entities.get(FIRST_ENTITY_INDEX);
-            optional = Optional.of(entity);
-        } else {
-            optional = Optional.empty();
-        }
-
-        return optional;
-    }
-
     protected Optional<T> executeSingleResultQueryPrepared(String query, Mapper<T> mapper, Object... params) throws DaoException {
         List<T> entities = executeQueryPrepared(query, mapper, params);
 
@@ -100,17 +87,15 @@ public abstract class AbstractDao<T> implements Dao<T> {
 
     protected int findQuantity(String tableName) throws DaoException {
         String query = String.format(COUNT_ROWS_QUERY, tableName);
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(query);
-            resultSet.next();
-            return resultSet.getInt(COUNT_ATTRIBUTE_NAME);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
+        return countRows(query);
     }
 
     protected int findQuantity(String tableName, String condition) throws DaoException {
         String query = String.format(COUNT_ROWS_QUERY_WITH_CONDITION, tableName, condition);
+        return countRows(query);
+    }
+
+    private int countRows(String query) throws DaoException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
@@ -127,17 +112,17 @@ public abstract class AbstractDao<T> implements Dao<T> {
 
     public void removeById(String tableName, long id) throws DaoException {
         String query = String.format(REMOVE_BY_ID_QUERY, tableName);
-        executeNoResultQueryPrepared(query, tableName, id);
+        executeNoResultQueryPrepared(query, id);
+    }
+
+    protected List<T> findAll(String tableName, Mapper<T> mapper) throws DaoException {
+        String query = String.format(SELECT_ALL_QUERY, tableName);
+        return executeQueryPrepared(query, mapper);
     }
 
     protected List<T> findAll(String tableName, Mapper<T> mapper, int start, int count) throws DaoException {
-        String query = String.format(SELECT_ALL_QUERY, tableName);
+        String query = String.format(SELECT_ALL_WITH_LIMIT_QUERY, tableName);
         return executeQueryPrepared(query, mapper, start, count);
-    }
-
-    protected void save(String tableName, T item) {
-
-        // TODO implement
     }
 
     @Override

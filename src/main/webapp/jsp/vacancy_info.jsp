@@ -30,7 +30,13 @@
                         <input type="hidden" name="vacancy_id" value="${vacancy.id}">
                         <button class="btn">Edit</button>
                     </form>
-
+                </c:if>
+                <c:if test="${user.role.name() == 'EMPLOYEE'}">
+                    <form action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="job_applications_for_vacancy">
+                        <input type="hidden" name="vacancy_id" value="${vacancy.id}">
+                        <button class="btn">Applications</button>
+                    </form>
                 </c:if>
                 <c:if test="${user.role.name() == 'JOB_SEEKER'}">
                     <form action="${pageContext.request.contextPath}/controller">
@@ -42,9 +48,7 @@
             </div>
         </div>
 
-        <div class="item_body">
-            <span style="text-align: start;">${vacancy.description}</span>
-        </div>
+        <div class="item_body"><span style="text-align: start;">${vacancy.description}</span></div>
     </main>
 
 </div>

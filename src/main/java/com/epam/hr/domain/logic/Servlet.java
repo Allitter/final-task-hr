@@ -1,12 +1,9 @@
 package com.epam.hr.domain.logic;
 
 import com.epam.hr.data.ConnectionPool;
-import com.epam.hr.domain.logic.command.Attributes;
-import com.epam.hr.domain.logic.command.CommandType;
+import com.epam.hr.domain.logic.command.*;
 import com.epam.hr.exception.LogicRuntimeException;
 import com.epam.hr.exception.ServiceException;
-import com.epam.hr.domain.logic.command.Command;
-import com.epam.hr.domain.logic.command.CommandFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,11 +66,13 @@ public class Servlet extends HttpServlet {
             Router router = command.execute(request);
             String page = router.getPath();
 
-            if (router.getType().equals(RouteType.FORWARD)) {
+            if (router.isForward()) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(page);
                 dispatcher.forward(request, response);
-            } else {
+            } else if (router.isRedirect()) {
                 response.sendRedirect(page);
+            } else {
+                LOGGER.warn("Unknown route type {}", router.getType());
             }
 
         } catch (ServletException | IOException | ServiceException e) {

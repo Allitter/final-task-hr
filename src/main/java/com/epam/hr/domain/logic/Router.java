@@ -17,6 +17,14 @@ public class Router {
         return new Router(RouteType.REDIRECT, path);
     }
 
+    public boolean isForward() {
+        return type == RouteType.FORWARD;
+    }
+
+    public boolean isRedirect() {
+        return type == RouteType.REDIRECT;
+    }
+
     public RouteType getType() {
         return type;
     }
@@ -24,4 +32,10 @@ public class Router {
     public String getPath() {
         return path;
     }
+
+    public enum RouteType {
+        REDIRECT,
+        FORWARD
+    }
 }
+

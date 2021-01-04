@@ -1,6 +1,6 @@
 package com.epam.hr.domain.logic.service;
 
-import com.epam.hr.data.dao.VacanciesDao;
+import com.epam.hr.data.dao.impl.VacanciesDao;
 import com.epam.hr.exception.DaoException;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.domain.model.Vacancy;

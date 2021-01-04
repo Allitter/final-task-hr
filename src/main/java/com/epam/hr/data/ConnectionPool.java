@@ -91,16 +91,10 @@ public class ConnectionPool {
     // todo
     private void init() {
         try {
-            tryEstablishConnections(DATABASE_PROPERTIES_PATH);
-        } catch (SQLException ex) {
-            throw new DaoRuntimeException(ex);
+            tryEstablishConnections(HEROKU_DATABASE_PROPERTIES_PATH);
+        } catch (SQLException e) {
+            throw new DaoRuntimeException(e);
         }
-
-//        try {
-//            tryEstablishConnections(HEROKU_DATABASE_PROPERTIES_PATH);
-//        } catch (SQLException e) {
-//
-//        }
     }
 
     private void tryEstablishConnections(String connectionPropPath) throws SQLException {

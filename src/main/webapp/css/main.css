@@ -50,8 +50,15 @@ body * {
 }
 
 .header_buttons {
+    display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
 }
+
+.header_buttons>* {
+    margin: 5px 10px;
+}
+
 
 .logo {
     margin-top: 40px;
@@ -92,7 +99,7 @@ body * {
     display: block;
     content: "";
     height: 2px;
-    width: 0%;
+    width: 0;
     -webkit-transition: width .2s ease-in-out;
     -moz--transition: width .2s ease-in-out;
     transition: width .2s ease-in-out;
@@ -146,8 +153,8 @@ body * {
 .avatar {
     display: inline-block;
     box-sizing: border-box;
-    height: 44px;
-    width: 44px;
+    min-height: 48px;
+    min-width: 48px;
     border-radius: 50%;
     background-repeat: no-repeat;
     background-position: center;
@@ -174,6 +181,10 @@ body * {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: baseline;
+}
+
+.item_header_buttons .btn {
+    margin: 0 10px;
 }
 
 .item_header_buttons a {
@@ -238,7 +249,6 @@ body * {
 }
 
 .item_name {
-    margin-bottom: 10px;
 }
 
 .item_short_desc {
@@ -301,6 +311,93 @@ body * {
     display: flex;
     justify-content: flex-end;
     width: 88%;
+}
+
+.user_info_top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 30px 10px 50px;
+}
+
+.resumes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.single_resume_item {
+    display: inline-block;
+    width: max-content;
+    margin: 10px 6px;
+    padding: 6px 14px;
+    background-color: var(--secondary-color);
+    border-radius: 1rem;
+}
+
+.account_resumes {
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    border-radius: 2rem;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid var(--secondary-color);
+}
+
+.account_resumes>* {
+    margin-left: 5%;
+}
+
+.account_resumes> form {
+    margin-top: 15px;
+    margin-left: 6%;
+}
+
+.account_resumes .single_resume_item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: left;
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.single_resume_item>form>.single_action {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.single_resume_item>form>.single_action img {
+    width: 13px;
+    height: 13px;
+}
+
+.item_body_top, .resume, .notes>form {
+    border: 2px solid var(--secondary-color);
+    border-radius: 2rem;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    margin-top: 20px;
+}
+
+.interview_note {
+    box-sizing: border-box;
+    width: 90%;
+    height: 200px;
+    resize: none;
+    margin-left: 5%;
+    padding: 10px 10px 10px 20px;
+}
+
+.interview_modify_btn {
+    box-sizing: border-box;
+    width: 90px;
+    margin-left: 20px;
+    background-color: var(--accept-btn-color) !important;
 }
 
 /*  ------------------------------------------------------main---------------------------------------------------- */

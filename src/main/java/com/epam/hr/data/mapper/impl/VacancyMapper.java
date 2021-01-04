@@ -1,10 +1,11 @@
-package com.epam.hr.data.mapper;
+package com.epam.hr.data.mapper.impl;
 
+import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.domain.model.Vacancy;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class VacanciesMapper implements Mapper<Vacancy> {
+public class VacancyMapper implements Mapper<Vacancy> {
     private static final String ID = "id";
     private static final String VACATION_NAME = "name";
     private static final String SHORT_DESCRIPTION = "short_description";
