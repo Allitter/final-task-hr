@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public class ApplicationDao extends AbstractDao<JobApplication> {
     private static final String TABLE = "job_application";
-    private static final String UPDATE_QUERY = String.format("update %s set id_state = ?, preliminary_interview_note = ?, technical_interview_note = ? where id = ?;", TABLE);
-    private static final String INSERT_QUERY = String.format("insert into %s (id_user, id_vacancy, date, id_state, id_resume, preliminary_interview_note, technical_interview_note) values (?, ?, ?, ?, ?, ?, ?);", TABLE) ;
+    private static final String UPDATE_QUERY = String.format("update %s set state = ?, preliminary_interview_note = ?, technical_interview_note = ? where id = ?;", TABLE);
+    private static final String INSERT_QUERY = String.format("insert into %s (id_user, id_vacancy, date, state, id_resume, preliminary_interview_note, technical_interview_note) values (?, ?, ?, ?, ?, ?, ?);", TABLE) ;
     private static final String APPLICATIONS_BY_USER_ID = String.format("select * from %s where id_user = ?;", TABLE);
     private static final String APPLICATIONS_BY_VACANCY_ID = String.format("select * from %s where id_vacancy = ?;", TABLE) ;
     private static final String APPLICATIONS_BY_USER_ID_AND_VACANCY_ID = String.format("select * from %s where id_user = ? and id_vacancy = ?;", TABLE) ;
@@ -58,6 +58,7 @@ public class ApplicationDao extends AbstractDao<JobApplication> {
         long idResume = jobApplication.getIdResume();
         Date date = jobApplication.getDate();
         JobApplicationState state = jobApplication.getState();
+        String stateName = state.name();
         String preliminaryInterviewNote = jobApplication.getPreliminaryInterviewNote();
         String technicalInterviewNote = jobApplication.getTechnicalInterviewNote();
 
@@ -65,11 +66,11 @@ public class ApplicationDao extends AbstractDao<JobApplication> {
         Optional<JobApplication> optional = getById(id);
 
         if (optional.isPresent()) {
-            executeNoResultQueryPrepared(UPDATE_QUERY, state,
+            executeNoResultQueryPrepared(UPDATE_QUERY, stateName,
                     preliminaryInterviewNote, technicalInterviewNote, id);
         } else {
             executeNoResultQueryPrepared(INSERT_QUERY, idUser, idVacancy, date,
-                    state, idResume, preliminaryInterviewNote, technicalInterviewNote);
+                    stateName, idResume, preliminaryInterviewNote, technicalInterviewNote);
         }
     }
 }

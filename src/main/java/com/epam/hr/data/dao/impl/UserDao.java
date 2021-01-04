@@ -85,12 +85,13 @@ public class UserDao extends AbstractDao<User> {
         String patronymic = user.getPatronymic();
         String birthDate = user.getFormattedBirthDate();
         UserRole role = user.getRole();
+        String roleName = role.name();
 
         Optional<User> optional = getById(id);
         if (optional.isPresent()) {
             executeNoResultQueryPrepared(UPDATE_QUERY, login, name, lastName, patronymic, birthDate, id);
         } else {
-            executeNoResultQueryPrepared(INSERT_QUERY, login, password, name, lastName, patronymic, birthDate, role);
+            executeNoResultQueryPrepared(INSERT_QUERY, login, password, name, lastName, patronymic, birthDate, roleName);
         }
     }
 }

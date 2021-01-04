@@ -77,6 +77,12 @@ public class Servlet extends HttpServlet {
 
         } catch (ServletException | IOException | ServiceException e) {
             LOGGER.error(e);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.SERVER_ERROR);
+            try {
+                dispatcher.forward(request, response);
+            } catch (ServletException | IOException ex) {
+                LOGGER.error(ex);
+            }
         }
     }
 }
