@@ -29,14 +29,7 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <form action="${pageContext.request.contextPath}/controller" METHOD="post">
-                            <input type="hidden" name="command" value="resume_info">
-                            <input type="hidden" name="resume_id" value="${applicationDto.idResume}">
-                            <button class="btn">
-                                resume
-                            </button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/controller" METHOD="post">
+                        <form action="${pageContext.request.contextPath}/controller" METHOD="get">
                             <input type="hidden" name="command" value="vacancy_info">
                             <input type="hidden" name="vacancy_id" value="${applicationDto.idVacancy}">
                             <button class="btn">
@@ -48,10 +41,9 @@
             </c:forEach>
         </div>
 
-        <div class="page_bar">
-            <a href="${pageContext.request.contextPath}/controller?command=job_applications&page=${page - 1}"><fmt:message key="main.previous_page" /></a>
-            <a href="${pageContext.request.contextPath}/controller?command=job_applications&page=${page + 1}"><fmt:message key="main.next_page" /></a>
-        </div>
+        <hrt:page-bar numberOfPages="${number_of_pages}"
+                      currentPage="${page}"
+                      command="job_applications" />
     </main>
 </div>
 </body>

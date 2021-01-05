@@ -27,7 +27,7 @@
                     </form>
                 </c:if>
 
-                <c:if test="${job_application.state.name() == 'FIRST_INTERVIEW'}">
+                <c:if test="${job_application.state.name() == 'PRELIMINARY_INTERVIEW'}">
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="assign_technical_interview">
                         <input type="hidden" name="job_application_id" value="${job_application.id}">
@@ -70,15 +70,15 @@
 
             <div class="notes">
                 <c:if test="${job_application.state.name() != 'RECENTLY_CREATED' && job_application.state.name() != 'DENIED'}">
-                    <form action="" method="POST">
+                    <form action="${pageContext.request.contextPath}/controller" method="POST">
                         <input type="hidden" name="command" value="update_preliminary_note">
-                        <input type="hidden" name="user_id" value="0">
+                        <input type="hidden" name="job_application_id" value="${job_application.id}">
 
                         <label for="preliminary_interview"
                                style="display: block; text-align: left; margin-top: 30px;">Preliminary
                             interview:</label>
                         <br>
-                        <textarea class="interview_note" name="preliminary_interview"
+                        <textarea class="interview_note" name="preliminary_interview_note"
                                   id="preliminary_interview">${job_application.preliminaryInterviewNote}</textarea>
                         <br>
 
@@ -88,16 +88,17 @@
                     </form>
                 </c:if>
 
-                <c:if test="${job_application.state.name() != 'RECENTLY_CREATED' && job_application.state.name() != 'FIRST_INTERVIEW' && job_application.state.name() != 'DENIED'}">
-                    <form action="" method="POST">
-                        <input type="hidden" name="command" value="update_technical_note">
-                        <input type="hidden" name="user_id" value="0">
+                <c:if test="${job_application.state.name() != 'RECENTLY_CREATED'
+                                && job_application.state.name() != 'PRELIMINARY_INTERVIEW'
+                                && job_application.state.name() != 'DENIED'}">
 
-                        <label for="technical_interview"
-                               style="display: block; text-align: left; margin-top: 30px;">Technical
-                            interview:</label>
+                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <input type="hidden" name="command" value="update_technical_note">
+                        <input type="hidden" name="job_application_id" value="${job_application.id}">
+
+                        <label for="technical_interview" style="display: block; text-align: left; margin-top: 30px;">Technical interview:</label>
                         <br>
-                        <textarea class="interview_note" name="technical_interview"
+                        <textarea class="interview_note" name="technical_interview_note"
                                   id="technical_interview">${job_application.technicalInterviewNote}</textarea>
 
                         <div class="item_edit_actions">
@@ -109,7 +110,7 @@
 
             <div class="resume">
                 <h3 style="margin-top: 10px; margin-bottom: 40px; text-align: center;">Resume</h3>
-                <p style="white-space: pre-wrap; margin-top: 10px;">${resume.text}</p>
+                <p style="white-space: pre-wrap; margin-top: 10px;">${job_application.resume_text}</p>
             </div>
         </div>
     </main>

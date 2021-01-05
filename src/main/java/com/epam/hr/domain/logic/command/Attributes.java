@@ -22,6 +22,7 @@ public final class Attributes {
     public static final String LONG_DESCRIPTION = "item_long_desc";
     public static final String VACANCY_ID = "vacancy_id";
     public static final String PAGE = "page";
+    public static final String NUMBER_OF_PAGES = "number_of_pages";
     public static final String SHOW_NONE_UNIQUE_LOGIN_MESSAGE = "show_none_unique_login_message";
     public static final String SHOW_AUTHENTICATION_ERROR_MESSAGE = "show_authentication_error";
     public static final String USER_ID = "user_id";
@@ -30,6 +31,8 @@ public final class Attributes {
     public static final String RESUME = "resume";
     public static final String RESUMES = "resumes";
     public static final String RESUME_ID = "resume_id";
+    public static final String PRELIMINARY_INTERVIEW_NOTE = "preliminary_interview_note";
+    public static final String TECHNICAL_INTERVIEW_NOTE = "technical_interview_note";
 
 
     private Attributes() {

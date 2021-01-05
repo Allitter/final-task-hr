@@ -167,7 +167,19 @@ form * {
     background-color: var(--bottons-bg-color);
 }
 
-.btn:hover {
+.page_btn {
+    display: inline-block;
+    width: 20px;
+    border-radius: 50%;
+    color: var(--main-font-color);
+    border: none;
+    outline: none;
+    padding: 6px;
+    background-color: var(--bottons-bg-color);
+    box-shadow: var(--shadow-medium);
+}
+
+.btn:hover, .page_btn:hover {
     cursor: pointer;
     filter: brightness(130%);
     box-shadow: var(--shadow-big);

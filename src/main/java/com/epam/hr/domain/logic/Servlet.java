@@ -25,7 +25,7 @@ public class Servlet extends HttpServlet {
     public void init() {
         try {
             super.init();
-            Driver driver = new com.mysql.jdbc.Driver();
+            Driver driver = new com.mysql.cj.jdbc.Driver();
             DriverManager.registerDriver(driver);
         } catch (SQLException | ServletException e) {
             throw new LogicRuntimeException(e);

@@ -11,10 +11,10 @@ import java.util.Optional;
 public class UserDao extends AbstractDao<User> {
     private static final String TABLE = "user";
     private static final String USER_BY_LOGIN_AND_PASSWORD_QUERY = String.format("select * from %s where login = ? and password = sha2(?, 256);", TABLE);
-    private static final String ALL_EMPLOYEES = String.format("select * from %s where id_role = 1 limit ?, ?;", TABLE) ;
-    private static final String ALL_JOB_SEEKERS = String.format("select * from %s where id_role = 2 limit ?, ?;", TABLE) ;
+    private static final String ALL_EMPLOYEES = String.format("select * from %s where role = 'EMPLOYEE' limit ?, ?;", TABLE) ;
+    private static final String ALL_JOB_SEEKERS = String.format("select * from %s where role = 'JOB_SEEKER' limit ?, ?;", TABLE) ;
     private static final String UPDATE_QUERY = String.format("update %s set login = ?, name = ?, last_name = ?, patronymic = ?, birth_date = ? where id = ?;", TABLE);
-    private static final String INSERT_QUERY = String.format("insert into %s (login, password, name, last_name, patronymic, birth_date, id_role) values (?, sha2(?, 256), ?, ?, ?, ?, ?);", TABLE) ;
+    private static final String INSERT_QUERY = String.format("insert into %s (login, password, name, last_name, patronymic, birth_date, role) values (?, sha2(?, 256), ?, ?, ?, ?, ?);", TABLE) ;
     private static final String BAN_USER_QUERY = String.format("update %s set banned = 1 where id = ?;", TABLE);
     private static final String UNBAN_USER_QUERY = String.format("update %s set banned = 0 where id = ?;", TABLE) ;
     private static final String USER_BY_ID_QUERY = String.format("select * from %s where id = ?;", TABLE) ;

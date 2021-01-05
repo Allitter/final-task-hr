@@ -11,11 +11,11 @@ public class JobApplicationDto extends JobApplication {
         super(jobApplication.getId(),
                 jobApplication.getIdUser(),
                 jobApplication.getIdVacancy(),
-                jobApplication.getIdResume(),
                 jobApplication.getDate(),
                 jobApplication.getState(),
                 jobApplication.getPreliminaryInterviewNote(),
-                jobApplication.getTechnicalInterviewNote());
+                jobApplication.getTechnicalInterviewNote(),
+                jobApplication.getResumeText());
         this.vacancyName = vacancyName;
         this.vacancyShortDescription = vacancyShortDescription;
     }

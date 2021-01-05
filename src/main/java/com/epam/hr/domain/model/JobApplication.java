@@ -7,23 +7,24 @@ public class JobApplication {
     private final long id;
     private final long idUser;
     private final long idVacancy;
-    private final long idResume;
     private final Date date;
     private final JobApplicationState state;
     private final String preliminaryInterviewNote;
     private final String technicalInterviewNote;
+    private final String resumeText;
 
-    public JobApplication(long id, long idUser, long idVacancy, long idResume,
+    public JobApplication(long id, long idUser, long idVacancy,
                           Date date, JobApplicationState state,
-                          String preliminaryInterviewNote, String technicalInterviewNote) {
+                          String preliminaryInterviewNote,
+                          String technicalInterviewNote, String resumeText) {
         this.id = id;
         this.idUser = idUser;
         this.idVacancy = idVacancy;
-        this.idResume = idResume;
         this.date = date;
         this.state = state;
         this.preliminaryInterviewNote = preliminaryInterviewNote;
         this.technicalInterviewNote = technicalInterviewNote;
+        this.resumeText = resumeText;
     }
 
     public long getId() {
@@ -46,12 +47,12 @@ public class JobApplication {
         return state;
     }
 
-    public long getIdResume() {
-        return idResume;
-    }
-
     public String getPreliminaryInterviewNote() {
         return preliminaryInterviewNote;
+    }
+
+    public String getResumeText() {
+        return resumeText;
     }
 
     public String getTechnicalInterviewNote() {
@@ -59,7 +60,15 @@ public class JobApplication {
     }
 
     public JobApplication changeState(JobApplicationState state) {
-        return new JobApplication(id, idUser, idVacancy, idResume, date, state, preliminaryInterviewNote, technicalInterviewNote);
+        return new JobApplication(id, idUser, idVacancy, date, state, preliminaryInterviewNote, technicalInterviewNote, resumeText);
+    }
+
+    public JobApplication changePreliminaryNote(String preliminaryNote) {
+        return new JobApplication(id, idUser, idVacancy, date, state, preliminaryNote, technicalInterviewNote, resumeText);
+    }
+
+    public JobApplication changeTechnicalNote(String technicalNote) {
+        return new JobApplication(id, idUser, idVacancy, date, state, preliminaryInterviewNote, technicalNote, resumeText);
     }
 
     @Override
@@ -68,7 +77,6 @@ public class JobApplication {
                 "id=" + id +
                 ", idUser=" + idUser +
                 ", idVacancy=" + idVacancy +
-                ", idResume=" + idResume +
                 ", date=" + date +
                 ", state=" + state +
                 ", preliminaryInterviewNote='" + preliminaryInterviewNote + '\'' +
@@ -88,7 +96,6 @@ public class JobApplication {
         return id == that.id
                 && idUser == that.idUser
                 && idVacancy == that.idVacancy
-                && idResume == that.idResume
                 && Objects.equals(date, that.date)
                 && state == that.state
                 && Objects.equals(preliminaryInterviewNote, that.preliminaryInterviewNote)
@@ -97,6 +104,6 @@ public class JobApplication {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idUser, idVacancy, idResume, date, state, preliminaryInterviewNote, technicalInterviewNote);
+        return Objects.hash(id, idUser, idVacancy, date, state, preliminaryInterviewNote, technicalInterviewNote);
     }
 }

@@ -1,86 +1,99 @@
 package com.epam.hr.domain.logic.command;
 
 import com.epam.hr.domain.logic.command.impl.*;
-import com.epam.hr.domain.logic.service.ApplicationService;
+import com.epam.hr.domain.logic.command.impl.application.*;
+import com.epam.hr.domain.logic.command.impl.resume.*;
+import com.epam.hr.domain.logic.command.impl.user.*;
+import com.epam.hr.domain.logic.command.impl.vacancy.*;
+import com.epam.hr.domain.logic.service.JobApplicationService;
 import com.epam.hr.domain.logic.service.ResumeService;
 import com.epam.hr.domain.logic.service.UserService;
 import com.epam.hr.domain.logic.service.VacancyService;
 import com.epam.hr.domain.logic.validation.VacancyValidator;
 
 public final class CommandFactory {
+    private static final VacancyService VACANCY_SERVICE = new VacancyService();
+    private static final UserService USER_SERVICE = new UserService();
+    private static final JobApplicationService JOB_APPLICATION_SERVICE = new JobApplicationService();
+    private static final ResumeService RESUME_SERVICE = new ResumeService();
+
     private CommandFactory() {
     }
 
     public static Command create(CommandType commandType) {
         switch (commandType) {
             case LOGIN :
-                return new LoginCommand(new UserService());
+                return new LoginCommand(USER_SERVICE);
             case REGISTRATION_PAGE:
                 return new RegistrationPageCommand();
             case REGISTRATION:
-                return new RegistrationCommand(new UserService());
+                return new RegistrationCommand(USER_SERVICE);
             case VACANCIES :
-                return new VacanciesCommand(new VacancyService());
+                return new VacanciesCommand(VACANCY_SERVICE);
             case VACANCY_INFO :
-                return new VacancyInfoCommand(new VacancyService());
+                return new VacancyInfoCommand(VACANCY_SERVICE);
             case VACANCY_EDIT :
-                return new VacancyEditCommand(new VacancyService());
+                return new VacancyEditCommand(VACANCY_SERVICE);
             case VACANCY_UPDATE :
-                return new VacancyUpdateCommand(new VacancyService());
+                return new VacancyUpdateCommand(VACANCY_SERVICE);
             case VACANCY_ADD :
-                return new VacancyAddCommand(new VacancyService());
+                return new VacancyAddCommand(VACANCY_SERVICE);
             case VACANCY_ADD_ACCEPT :
-                return new VacancyAddAcceptCommand(new VacancyValidator(), new VacancyService());
+                return new VacancyAddAcceptCommand(new VacancyValidator(), VACANCY_SERVICE);
             case VACANCY_APPLY :
-                return new VacancyApplyCommand(new ApplicationService(), new ResumeService(), new VacancyService());
+                return new VacancyApplyCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE, VACANCY_SERVICE);
             case VACANCY_APPLY_ACCEPT :
-                return new VacancyApplyAcceptCommand(new ApplicationService());
+                return new VacancyApplyAcceptCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE);
             case RESUME_ADD :
                 return new ResumeAddCommand();
             case RESUME_ADD_ACCEPT :
-                return new ResumeAddAcceptCommand(new ResumeService());
+                return new ResumeAddAcceptCommand(RESUME_SERVICE);
             case RESUME_EDIT :
-                return new ResumeEditCommand(new ResumeService());
+                return new ResumeEditCommand(RESUME_SERVICE);
             case RESUME_EDIT_ACCEPT :
-                return new ResumeEditAcceptCommand(new ResumeService());
+                return new ResumeEditAcceptCommand(RESUME_SERVICE);
             case RESUME_REMOVE:
-                return new ResumeRemoveCommand(new ResumeService());
+                return new ResumeRemoveCommand(RESUME_SERVICE);
             case JOB_SEEKER_INFO:
-                return new JobSeekerInfoCommand(new UserService(), new ResumeService());
+                return new JobSeekerInfoCommand(USER_SERVICE, RESUME_SERVICE);
             case EMPLOYEE_INFO:
-                return new EmployeeInfoCommand(new UserService());
+                return new EmployeeInfoCommand(USER_SERVICE);
             case  EMPLOYEES :
-                return new EmployeesCommand(new UserService());
+                return new EmployeesCommand(USER_SERVICE);
             case  JOB_SEEKERS :
-                return new JobSeekersCommand(new UserService());
+                return new JobSeekersCommand(USER_SERVICE);
             case  JOB_APPLICATIONS:
-                return new JobApplicationsCommand(new ApplicationService(), new VacancyService());
+                return new JobApplicationsCommand(JOB_APPLICATION_SERVICE, VACANCY_SERVICE);
             case  JOB_APPLICATIONS_FOR_VACANCY:
-                return new JobApplicationForVacancyCommand(new ApplicationService(), new VacancyService(), new UserService());
+                return new JobApplicationsForVacancyCommand(JOB_APPLICATION_SERVICE, VACANCY_SERVICE, USER_SERVICE);
             case  JOB_APPLICATION_INFO:
-                return new JobApplicationInfoCommand(new UserService(), new ResumeService(), new ApplicationService());
+                return new JobApplicationInfoCommand(USER_SERVICE, JOB_APPLICATION_SERVICE);
             case ASSIGN_PRELIMINARY_INTERVIEW:
-                return new AssignPreliminaryInterviewCommand(new ApplicationService());
+                return new AssignPreliminaryInterviewCommand(JOB_APPLICATION_SERVICE);
             case ASSIGN_TECHNICAL_INTERVIEW:
-                return new AssignTechnicalInterviewCommand(new ApplicationService());
+                return new AssignTechnicalInterviewCommand(JOB_APPLICATION_SERVICE);
             case ASSIGN_FOR_JOB:
-                return new AssignForJobCommand(new ApplicationService());
+                return new AssignForJobCommand(JOB_APPLICATION_SERVICE);
             case BLOCK_JOB_APPLICATION:
-                return new BlockJobApplicationCommand(new ApplicationService());
+                return new BlockJobApplicationCommand(JOB_APPLICATION_SERVICE);
+            case UPDATE_PRELIMINARY_NOTE:
+                return new UpdatePreliminaryNoteCommand(JOB_APPLICATION_SERVICE);
+            case UPDATE_TECHNICAL_NOTE:
+                return new UpdateTechnicalNoteCommand(JOB_APPLICATION_SERVICE);
             case AUTHENTICATION :
                 return new AuthenticationCommand();
             case CHANGE_LANGUAGE :
                 return new ChangeLanguageCommand();
             case USER_BAN :
-                return new UserBanCommand(new UserService());
+                return new UserBanCommand(USER_SERVICE);
             case USER_UNBAN :
-                return new UserUnbanCommand(new UserService());
+                return new UserUnbanCommand(USER_SERVICE);
             case ACCOUNT :
-                return new AccountCommand(new ResumeService());
+                return new AccountCommand(RESUME_SERVICE);
             case ACCOUNT_UPDATE :
-                return new AccountUpdateCommand(new UserService());
+                return new AccountUpdateCommand(USER_SERVICE);
             case RESUME_INFO:
-                return new ResumeInfoCommand(new ResumeService(), new UserService());
+                return new ResumeInfoCommand(RESUME_SERVICE, USER_SERVICE);
             case LOGOUT :
                 return new LogoutCommand();
             default :

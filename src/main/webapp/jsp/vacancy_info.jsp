@@ -23,7 +23,7 @@
             </h2>
 
             <div class="item_header_buttons">
-                <a class="btn" href="${pageContext.request.contextPath}/controller?command=vacancies">Back</a>
+                <!--<a class="btn" href="${pageContext.request.contextPath}/controller?command=vacancies">Back</a>-->
                 <c:if test="${user.role.name() == 'EMPLOYEE'}">
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="vacancy_edit">

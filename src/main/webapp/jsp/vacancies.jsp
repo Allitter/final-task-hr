@@ -56,10 +56,9 @@
                 </c:forEach>
             </div>
 
-            <div class="page_bar">
-                <a href="${pageContext.request.contextPath}/controller?command=vacancies&page=${page - 1}"><fmt:message key="main.previous_page" /></a>
-                <a href="${pageContext.request.contextPath}/controller?command=vacancies&page=${page + 1}"><fmt:message key="main.next_page" /></a>
-            </div>
+            <hrt:page-bar numberOfPages="${number_of_pages}"
+                          currentPage="${page}"
+                          command="vacancies" />
         </main>
     </div>
 </body>
