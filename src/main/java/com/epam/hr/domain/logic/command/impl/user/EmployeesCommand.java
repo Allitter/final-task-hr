@@ -9,6 +9,7 @@ import com.epam.hr.domain.model.User;
 import com.epam.hr.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class EmployeesCommand implements Command {
             int numberOfPages = totalQuantity / NUMBER_OF_RECORDS_PER_PAGE;
             numberOfPages = totalQuantity % NUMBER_OF_RECORDS_PER_PAGE == 0 ? numberOfPages : numberOfPages + 1;
 
-            if (page >= numberOfPages) {
+            if (numberOfPages != 0 && page >= numberOfPages) {
                 page--;
             }
 

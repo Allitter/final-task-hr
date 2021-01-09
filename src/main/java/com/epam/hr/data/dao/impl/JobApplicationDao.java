@@ -4,8 +4,9 @@ import com.epam.hr.data.dao.AbstractDao;
 import com.epam.hr.data.mapper.impl.JobApplicationMapper;
 import com.epam.hr.domain.model.JobApplication;
 import com.epam.hr.domain.model.JobApplicationState;
-import com.epam.hr.domain.model.UserRole;
 import com.epam.hr.exception.DaoException;
+
+import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,10 @@ public class JobApplicationDao extends AbstractDao<JobApplication> {
     private static final String VACANCY_JOB_APPLICATIONS_QUANTITY_CONDITION = "id_vacancy = %d";
 
     private final JobApplicationMapper mapper = new JobApplicationMapper();
+
+    public JobApplicationDao(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public Optional<JobApplication> getById(long id) throws DaoException {

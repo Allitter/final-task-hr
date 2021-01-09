@@ -20,7 +20,7 @@
                 <div class="control_set">
                     <form action="${pageContext.request.contextPath}/controller" method="post">
                         <input type="hidden" name="command" value="vacancy_add">
-                        <input class="btn" type="submit" value="Add">
+                        <input class="btn" type="submit" value="<fmt:message key="button.add"/>">
                     </form>
                 </div>
             </c:if>
@@ -39,7 +39,7 @@
                                 <input type="hidden" name="command" value="vacancy_info">
                                 <input type="hidden" name="vacancy_id" value="${vacancy.id}">
                                 <button class="single_action">
-                                    <img src="images/open.png" alt="open">
+                                    <img src="images/open.png" alt="<fmt:message key="button.open"/>">
                                 </button>
                             </form>
                             <c:if test="${user.role.name() == 'EMPLOYEE' || user.role.name() == 'ADMINISTRATOR'}">
@@ -47,7 +47,7 @@
                                     <input type="hidden" name="command" value="vacancy_edit">
                                     <input type="hidden" name="vacancy_id" value="${vacancy.id}">
                                     <button class="single_action">
-                                        <img src="images/edit.png" alt="edit">
+                                        <img src="images/edit.png" alt="<fmt:message key="button.edit"/>">
                                     </button>
                                 </form>
                             </c:if>

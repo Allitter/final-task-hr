@@ -5,6 +5,8 @@ import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.data.mapper.impl.ResumeMapper;
 import com.epam.hr.domain.model.Resume;
 import com.epam.hr.exception.DaoException;
+
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,10 @@ public class ResumeDao extends AbstractDao<Resume> {
     private static final String RESUMES_BY_USER_ID = String.format("select * from %s where id_user = ?;", TABLE);
 
     private final Mapper<Resume> mapper = new ResumeMapper();
+
+    public ResumeDao(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public Optional<Resume> getById(long id) throws DaoException {

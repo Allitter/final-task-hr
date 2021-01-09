@@ -1,7 +1,11 @@
 package com.epam.hr.domain.logic.command;
 
 import com.epam.hr.domain.model.UserRole;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static com.epam.hr.domain.model.UserRole.*;
 
@@ -22,6 +26,8 @@ public enum CommandType {
     VACANCIES(JOB_SEEKER, EMPLOYEE),
     VACANCY_INFO(JOB_SEEKER, EMPLOYEE),
 
+    VERIFICATION_PAGE(JOB_SEEKER),
+    VERIFICATION(JOB_SEEKER),
     VACANCY_APPLY(JOB_SEEKER),
     VACANCY_APPLY_ACCEPT(JOB_SEEKER),
     RESUME_ADD(JOB_SEEKER),
@@ -29,7 +35,7 @@ public enum CommandType {
     RESUME_EDIT(JOB_SEEKER),
     RESUME_EDIT_ACCEPT(JOB_SEEKER),
     RESUME_REMOVE(JOB_SEEKER),
-    JOB_APPLICATIONS(JOB_SEEKER),
+    JOB_APPLICATIONS_FOR_SEEKER(JOB_SEEKER),
 
     JOB_SEEKERS(EMPLOYEE, ADMINISTRATOR),
     JOB_SEEKER_INFO(EMPLOYEE, ADMINISTRATOR),

@@ -19,12 +19,12 @@
     <main class="main item_more">
         <div class="item_header" style="display: flex; justify-content: flex-end;">
             <div class="item_header_buttons">
-                <a class="btn" href="${pageContext.request.contextPath}/controller?command=employees">Back</a>
+                <a class="btn" href="${pageContext.request.contextPath}/controller?command=employees"><fmt:message key="button.back"/></a>
                 <c:if test="${user.role.name() == 'ADMINISTRATOR' && !employee.isBanned()}">
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="user_ban">
                         <input type="hidden" name="user_id" value="${employee.id}">
-                        <button class="btn">Ban</button>
+                        <button class="btn"><fmt:message key="button.ban"/></button>
                     </form>
                 </c:if>
 
@@ -32,7 +32,7 @@
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="user_unban">
                         <input type="hidden" name="user_id" value="${employee.id}">
-                        <button class="btn">Unban</button>
+                        <button class="btn"><fmt:message key="button.unban"/></button>
                     </form>
                 </c:if>
             </div>
@@ -44,9 +44,11 @@
                      style="background-image: url(/hr/images/test_hr.png); min-width: 100px; min-height: 100px;">
                 </div>
                 <h2 style="margin-left: 20px;" class="item_name">
-                    ${employee.name} ${employee.lastName}${employee.patronymic}
+                    ${employee.name} ${employee.lastName} ${employee.patronymic}
                 </h2>
             </div>
+            <p><fmt:message key="label.email"/>: ${employee.email}</p>
+            <p><fmt:message key="label.phone"/>: ${employee.phone}</p>
         </div>
     </main>
 

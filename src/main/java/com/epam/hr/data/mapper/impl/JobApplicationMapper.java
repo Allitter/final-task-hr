@@ -31,6 +31,15 @@ public class JobApplicationMapper implements Mapper<JobApplication> {
         String stateName = resultSet.getString(STATE);
         JobApplicationState state = JobApplicationState.valueOf(stateName);
 
-        return new JobApplication(id, idUser, idVacancy, date, state, preliminaryInterviewNote, technicalInterviewNote, resumeText);
+        return new JobApplication.Builder()
+                .setId(id)
+                .setIdUser(idUser)
+                .setIdVacancy(idVacancy)
+                .setDate(date)
+                .setState(state)
+                .setPreliminaryInterviewNote(preliminaryInterviewNote)
+                .setTechnicalInterviewNote(technicalInterviewNote)
+                .setResumeText(resumeText)
+                .build();
     }
 }

@@ -2,11 +2,11 @@
 <html>
 
 <head>
+    <%@ include file="../head_common.jsp"%>
+
     <title>500</title>
     <link rel="stylesheet" href="css/500error.css">
     <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,300,400" rel="stylesheet">
-
-    <%@ include file="../head_common.jsp"%>
 </head>
 
 <body>

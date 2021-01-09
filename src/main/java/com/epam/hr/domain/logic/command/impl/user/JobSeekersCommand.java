@@ -33,7 +33,7 @@ public class JobSeekersCommand implements Command {
             int numberOfPages = totalQuantity / NUMBER_OF_RECORDS_PER_PAGE;
             numberOfPages = totalQuantity % NUMBER_OF_RECORDS_PER_PAGE == 0 ? numberOfPages : numberOfPages + 1;
 
-            if (page >= numberOfPages) {
+            if (numberOfPages != 0 && page >= numberOfPages) {
                 page--;
             }
 

@@ -1,34 +1,67 @@
 package com.epam.hr.domain.model;
 
+import java.util.Date;
 import java.util.Objects;
 
-public class JobApplicationVacancyDto extends JobApplicationDto {
-    private final String userName;
-    private final String userLastName;
-    private final String userPatronymic;
+public class JobApplicationVacancyDto {
+    private final JobApplication jobApplication;
+    private final Vacancy vacancy;
 
-    public JobApplicationVacancyDto(JobApplicationDto applicationDto,
-                                    String userName, String userLastName,
-                                    String userPatronymic) {
-        super(applicationDto,
-                applicationDto.getVacancyName(),
-                applicationDto.getVacancyShortDescription());
-
-        this.userName = userName;
-        this.userLastName = userLastName;
-        this.userPatronymic = userPatronymic;
+    public JobApplicationVacancyDto(JobApplication jobApplication, Vacancy vacancy) {
+        this.jobApplication = jobApplication;
+        this.vacancy = vacancy;
     }
 
-    public String getUserName() {
-        return userName;
+    public long getId() {
+        return jobApplication.getId();
     }
 
-    public String getUserLastName() {
-        return userLastName;
+    public long getIdUser() {
+        return jobApplication.getIdUser();
     }
 
-    public String getUserPatronymic() {
-        return userPatronymic;
+    public long getIdVacancy() {
+        return jobApplication.getIdVacancy();
+    }
+
+    public Date getDate() {
+        return jobApplication.getDate();
+    }
+
+    public JobApplicationState getState() {
+        return jobApplication.getState();
+    }
+
+    public String getPreliminaryInterviewNote() {
+        return jobApplication.getPreliminaryInterviewNote();
+    }
+
+    public String getResumeText() {
+        return jobApplication.getResumeText();
+    }
+
+    public String getTechnicalInterviewNote() {
+        return jobApplication.getTechnicalInterviewNote();
+    }
+
+    public String getVacancyName() {
+        return vacancy.getName();
+    }
+
+    public String getVacancyShortDescription() {
+        return vacancy.getShortDescription();
+    }
+
+    public String getVacancyDescription() {
+        return vacancy.getDescription();
+    }
+
+    @Override
+    public String toString() {
+        return "JobApplicationVacancyDto{" +
+                "jobApplication=" + jobApplication +
+                ", vacancy=" + vacancy +
+                '}';
     }
 
     @Override
@@ -39,17 +72,13 @@ public class JobApplicationVacancyDto extends JobApplicationDto {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
-        JobApplicationVacancyDto that = (JobApplicationVacancyDto) o;
-        return Objects.equals(userName, that.userName)
-                && Objects.equals(userLastName, that.userLastName)
-                && Objects.equals(userPatronymic, that.userPatronymic);
+        JobApplicationVacancyDto dto = (JobApplicationVacancyDto) o;
+        return Objects.equals(jobApplication, dto.jobApplication)
+                && Objects.equals(vacancy, dto.vacancy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userName, userLastName, userPatronymic);
+        return Objects.hash(jobApplication, vacancy);
     }
 }

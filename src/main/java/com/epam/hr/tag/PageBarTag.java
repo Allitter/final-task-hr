@@ -2,6 +2,7 @@ package com.epam.hr.tag;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -43,16 +44,14 @@ public class PageBarTag extends TagSupport {
     }
 
     @Override
-    public int doStartTag() throws JspException {
+    public int doStartTag() {
         if (numberOfPages < MINIMAL_NUMBER_OF_PAGES_TO_SHOW) {
             return SKIP_BODY;
         }
 
         try {
             JspWriter out = pageContext.getOut();
-
             out.println(PAGE_BAR_DIV_START_TAG);
-
             String pageReference;
             if (numberOfPages > SIDE_BUTTONS_MINIMAL_PAGES_AMOUNT) {
                 pageReference = getPageReference(FIRST_PAGE);
@@ -65,7 +64,6 @@ public class PageBarTag extends TagSupport {
                 }
 
                 pageReference = getPageReference(i);
-
                 if (i == currentPage) {
                     out.println(String.format(CURRENT_PAGE_BUTTON_TAG, pageReference, i + PAGE_NUMBER_BIAS));
                 } else {

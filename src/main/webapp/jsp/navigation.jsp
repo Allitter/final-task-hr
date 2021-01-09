@@ -6,7 +6,7 @@
     <ul>
         <c:if test="${user.role.name() == 'JOB_SEEKER'}">
             <li>
-                <a href="${pageContext.request.contextPath}/controller?command=job_applications&page=0">
+                <a href="${pageContext.request.contextPath}/controller?command=job_applications_for_seeker&page=0">
                     <fmt:message key="navigation.job_applications" />
                 </a>
             </li>

@@ -18,19 +18,23 @@ public class EmployeeInfoCommand implements Command {
         this.service = service;
     }
 
-    // TODO maybe merge commands
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
+    public Router execute(HttpServletRequest request) {
         long id = Long.parseLong((String)request.getAttribute(Attributes.USER_ID));
 
-        Optional<User> optional = service.findById(id);
-        if (optional.isPresent()) {
-            User user = optional.get();
-            request.setAttribute(Attributes.EMPLOYEE, user);
-        } else {
-            return Router.forward(Pages.PAGE_NOT_FOUND);
+        try {
+            Optional<User> optional = service.findById(id);
+            if (optional.isPresent()) {
+                User user = optional.get();
+                request.setAttribute(Attributes.EMPLOYEE, user);
+            } else {
+                return Router.forward(Pages.PAGE_NOT_FOUND);
+            }
+
+            return Router.forward(Pages.EMPLOYEE_INFO);
+        } catch (ServiceException e) {
+            return Router.forward(Pages.SERVER_ERROR);
         }
 
-        return Router.forward(Pages.EMPLOYEE_INFO);
     }
 }

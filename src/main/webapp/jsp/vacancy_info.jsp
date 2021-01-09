@@ -18,31 +18,28 @@
 
     <main class="main item_more">
         <div class="item_header">
-            <h2 class="item_name">
-                ${vacancy.name}
-            </h2>
+            <h2 class="item_name">${vacancy.name}</h2>
 
             <div class="item_header_buttons">
-                <!--<a class="btn" href="${pageContext.request.contextPath}/controller?command=vacancies">Back</a>-->
                 <c:if test="${user.role.name() == 'EMPLOYEE'}">
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="vacancy_edit">
                         <input type="hidden" name="vacancy_id" value="${vacancy.id}">
-                        <button class="btn">Edit</button>
+                        <button class="btn"><fmt:message key="button.edit"/></button>
                     </form>
                 </c:if>
                 <c:if test="${user.role.name() == 'EMPLOYEE'}">
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="job_applications_for_vacancy">
                         <input type="hidden" name="vacancy_id" value="${vacancy.id}">
-                        <button class="btn">Applications</button>
+                        <button class="btn"><fmt:message key="button.applications"/></button>
                     </form>
                 </c:if>
                 <c:if test="${user.role.name() == 'JOB_SEEKER'}">
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="vacancy_apply">
                         <input type="hidden" name="vacancy_id" value="${vacancy.id}">
-                        <button class="btn">Apply</button>
+                        <button class="btn"><fmt:message key="button.apply"/></button>
                     </form>
                 </c:if>
             </div>

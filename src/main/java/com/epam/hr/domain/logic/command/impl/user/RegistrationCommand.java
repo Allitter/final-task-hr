@@ -8,56 +8,71 @@ import com.epam.hr.domain.logic.service.UserService;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.model.UserRole;
 import com.epam.hr.exception.ServiceException;
+import com.epam.hr.exception.ValidationException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class RegistrationCommand implements Command {
+    public static final String VERIFICATION_PAGE_COMMAND = "?command=verification_page";
     private static final String DATE_FORMAT = "yyyy-mm-dd";
-    private static final int DEFAULT_ID = -1;
-    private static final boolean DEFAULT_IS_BANNED = false;
     private final UserService service;
+
 
     public RegistrationCommand(UserService service) {
         this.service = service;
     }
 
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
-        // extract user fields
-        UserRole role = UserRole.JOB_SEEKER;
+    public Router execute(HttpServletRequest request) {
         String login = (String) request.getAttribute(Attributes.LOGIN);
         String password = (String) request.getAttribute(Attributes.PASSWORD);
-        String name = (String) request.getAttribute(Attributes.RESUME_NAME);
+        String name = (String) request.getAttribute(Attributes.NAME);
         String lastName = (String) request.getAttribute(Attributes.LAST_NAME);
         String patronymic = (String) request.getAttribute(Attributes.PATRONYMIC);
         String birthDateString = (String) request.getAttribute(Attributes.BIRTH_DATE);
+        String phone = (String) request.getAttribute(Attributes.PHONE);
+        String email = (String) request.getAttribute(Attributes.EMAIL);
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
 
-        Date birthDate;
         try {
-            birthDate = dateFormat.parse(birthDateString);
-        } catch (ParseException e) {
-            throw new ServiceException("Invalid date format");
+            Date birthDate;
+            try {
+                birthDate = dateFormat.parse(birthDateString);
+            } catch (ParseException e) {
+                throw new ServiceException("Invalid date format");
+            }
+
+            User user = new User.Builder()
+                    .setRole(UserRole.JOB_SEEKER)
+                    .setLogin(login)
+                    .setPassword(password)
+                    .setName(name)
+                    .setLastName(lastName)
+                    .setPatronymic(patronymic)
+                    .setEmail(email)
+                    .setPhone(phone)
+                    .setBirthDate(birthDate)
+                    .setEnabled(false)
+                    .build();
+
+            user = service.saveUser(user);
+            HttpSession session = request.getSession();
+            session.setAttribute(Attributes.USER, user);
+
+            String path = request.getContextPath() + request.getServletPath() + VERIFICATION_PAGE_COMMAND;
+            return Router.redirect(path);
+        } catch (ValidationException e) {
+            List<String> fails = e.getValidationFails();
+            request.setAttribute(Attributes.FAILS, fails);
+            return Router.forward(Pages.REGISTRATION);
+        } catch (ServiceException e) {
+                return Router.forward(Pages.SERVER_ERROR);
         }
-
-        // TODO validate
-
-        // check login for uniqueness
-        if (!service.isLoginUnique(login)) {
-            request.setAttribute(Attributes.SHOW_NONE_UNIQUE_LOGIN_MESSAGE, true);
-            return Router.forward(Pages.LOGIN);
-        }
-
-        // TODO send email code
-        User user = new User(DEFAULT_ID, role, login, password, name, lastName, patronymic, birthDate, DEFAULT_IS_BANNED);
-        service.saveUser(user);
-
-        // send to login page
-
-        return Router.forward(Pages.LOGIN);
     }
 }

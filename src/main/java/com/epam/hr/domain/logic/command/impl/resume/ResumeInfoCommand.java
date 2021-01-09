@@ -9,6 +9,7 @@ import com.epam.hr.domain.logic.service.UserService;
 import com.epam.hr.domain.model.Resume;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.exception.ServiceException;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
@@ -22,31 +23,29 @@ public class ResumeInfoCommand implements Command {
     }
 
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
+    public Router execute(HttpServletRequest request) {
         long resumeId = Long.parseLong((String) request.getAttribute(Attributes.RESUME_ID));
 
-        Optional<Resume> optional = resumeService.findById(resumeId);
+        try {
+            Optional<Resume> optional = resumeService.findById(resumeId);
 
-        if (!optional.isPresent()) {
-            return Router.forward(Pages.PAGE_NOT_FOUND);
-        }
+            if (!optional.isPresent()) {
+                return Router.forward(Pages.PAGE_NOT_FOUND);
+            }
+            Resume resume = optional.get();
+            long userId = resume.getIdUser();
+            Optional<User> optionalUser = userService.findById(userId);
+            if (!optionalUser.isPresent()) {
+                return Router.forward(Pages.SERVER_ERROR);
+            }
 
-        Resume resume = optional.get();
-        long userId = resume.getIdUser();
+            User user = optionalUser.get();
+            request.setAttribute(Attributes.RESUME, resume);
+            request.setAttribute(Attributes.JOB_SEEKER, user);
 
-        Optional<User> optionalUser = userService.findById(userId);
-
-        if (!optionalUser.isPresent()) {
+            return Router.forward(Pages.RESUME_INFO);
+        } catch (ServiceException e) {
             return Router.forward(Pages.SERVER_ERROR);
         }
-
-        User user = optionalUser.get();
-
-        request.setAttribute(Attributes.RESUME, resume);
-        request.setAttribute(Attributes.JOB_SEEKER, user);
-
-        return Router.forward(Pages.RESUME_INFO);
     }
-
-
 }

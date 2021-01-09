@@ -2,11 +2,10 @@ package com.epam.hr.data.dao;
 
 import com.epam.hr.exception.DaoException;
 
-import java.io.Closeable;
 import java.util.List;
 import java.util.Optional;
 
-public interface Dao<T> extends Closeable {
+public interface Dao<T> extends AutoCloseable {
 
     Optional<T> getById(long id) throws DaoException;
 

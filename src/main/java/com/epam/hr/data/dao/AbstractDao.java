@@ -1,8 +1,9 @@
 package com.epam.hr.data.dao;
 
-import com.epam.hr.data.ConnectionPool;
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.exception.DaoException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractDao<T> implements Dao<T> {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private static final String SELECT_ALL_QUERY = "select * from %s;";
     private static final String SELECT_ALL_WITH_LIMIT_QUERY = "select * from %s limit ?, ?;";
     private static final String FIND_BY_ID_QUERY = "select * from %s where id = ?;";
@@ -19,11 +22,10 @@ public abstract class AbstractDao<T> implements Dao<T> {
     public static final String COUNT_ATTRIBUTE_NAME = "c";
     public static final int FIRST_ENTITY_INDEX = 0;
 
-    private final Connection connection;
+    private Connection connection;
 
-    protected AbstractDao() {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        connection = pool.getConnection();
+    protected AbstractDao(Connection connection) {
+        this.connection = connection;
     }
 
     protected List<T> executeQuery(String query, Mapper<T> mapper) throws DaoException {
@@ -110,7 +112,7 @@ public abstract class AbstractDao<T> implements Dao<T> {
         return executeSingleResultQueryPrepared(query, mapper, id);
     }
 
-    public void removeById(String tableName, long id) throws DaoException {
+    protected void removeById(String tableName, long id) throws DaoException {
         String query = String.format(REMOVE_BY_ID_QUERY, tableName);
         executeNoResultQueryPrepared(query, id);
     }
@@ -127,7 +129,19 @@ public abstract class AbstractDao<T> implements Dao<T> {
 
     @Override
     public void close() {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        pool.releaseConnection(connection);
+        if (connection == null) {
+            return;
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        }
+    }
+
+    /* package private access for Transaction helper */
+    void eraseConnection() {
+        this.connection = null;
     }
 }

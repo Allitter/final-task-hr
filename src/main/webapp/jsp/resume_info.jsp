@@ -22,7 +22,7 @@
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="resume_remove">
                         <input type="hidden" name="resume_id" value="${resume.id}">
-                        <button class="btn" style="margin: 5px 10px; width: 100px">Remove</button>
+                        <button class="btn" style="margin: 5px 10px;"><fmt:message key="button.remove"/></button>
                     </form>
                 </c:if>
 
@@ -30,7 +30,7 @@
                     <form action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="resume_edit">
                         <input type="hidden" name="resume_id" value="${resume.id}">
-                        <button class="btn" style="margin: 5px 20px; width: 100px">Edit</button>
+                        <button class="btn" style="margin: 5px 20px;"><fmt:message key="button.edit"/></button>
                     </form>
                 </c:if>
             </div>
@@ -38,9 +38,7 @@
 
         <div class="item_body" style="text-align: start; white-space: normal;">
             <div class="user_info_top">
-                <div class="avatar"
-                     style="background-image: url(/hr/images/2577247.jpg); min-width: 100px; min-height: 100px;">
-                </div>
+                <div class="avatar" style="background-image: url(/hr/images/2577247.jpg); min-width: 100px; min-height: 100px;"></div>
                 <h2 style="margin-left: 20px;" class="item_name">
                     ${seeker.name} ${seeker.lastName} ${seeker.patronymic}
                 </h2>

@@ -1,12 +1,12 @@
 package com.epam.hr.domain.logic.command.impl.vacancy;
 
+import com.epam.hr.domain.logic.Router;
 import com.epam.hr.domain.logic.command.Attributes;
 import com.epam.hr.domain.logic.command.Command;
 import com.epam.hr.domain.logic.command.Pages;
-import com.epam.hr.exception.ServiceException;
-import com.epam.hr.domain.logic.Router;
 import com.epam.hr.domain.logic.service.VacancyService;
 import com.epam.hr.domain.model.Vacancy;
+import com.epam.hr.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,12 +33,11 @@ public class VacanciesCommand implements Command {
 
             int numberOfPages = totalQuantity / NUMBER_OF_RECORDS_PER_PAGE;
             numberOfPages = totalQuantity % NUMBER_OF_RECORDS_PER_PAGE == 0 ? numberOfPages : numberOfPages + 1;
-
-            if (page >= numberOfPages) {
+            if (numberOfPages != 0 && page >= numberOfPages) {
                 page--;
             }
-
             int from = page * NUMBER_OF_RECORDS_PER_PAGE;
+
             List<Vacancy> vacancies = vacancyService.findVacancies(from, NUMBER_OF_RECORDS_PER_PAGE);
 
             request.setAttribute(Attributes.VACANCIES, vacancies);

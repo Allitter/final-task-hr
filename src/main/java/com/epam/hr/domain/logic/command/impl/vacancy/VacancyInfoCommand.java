@@ -9,6 +9,7 @@ import com.epam.hr.domain.model.Vacancy;
 import com.epam.hr.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
@@ -21,19 +22,24 @@ public class VacancyInfoCommand implements Command {
     }
 
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
+    public Router execute(HttpServletRequest request) {
         String idString = (String) request.getAttribute(Attributes.VACANCY_ID);
         long id = Long.parseLong(idString);
-        Optional<Vacancy> optional = service.findById(id);
-        if (optional.isPresent()) {
-            Vacancy vacancy = optional.get();
-            request.setAttribute(Attributes.VACANCY, vacancy);
 
-            String path = Pages.VACANCY_INFO;
-            return Router.forward(path);
-        } else {
-            LOGGER.warn("Attempt to view not existing vacancy from"); // TODO maybe add ip
-            return  Router.forward(Pages.SERVER_ERROR);
+        try {
+            Optional<Vacancy> optional = service.findById(id);
+            if (optional.isPresent()) {
+                Vacancy vacancy = optional.get();
+                request.setAttribute(Attributes.VACANCY, vacancy);
+
+                String path = Pages.VACANCY_INFO;
+                return Router.forward(path);
+            } else {
+                LOGGER.warn("Attempt to view not existing vacancy from {}", request.getRemoteAddr());
+                return  Router.forward(Pages.SERVER_ERROR);
+            }
+        } catch (ServiceException e) {
+            return Router.forward(Pages.SERVER_ERROR);
         }
     }
 

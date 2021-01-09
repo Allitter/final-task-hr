@@ -2,6 +2,7 @@ package com.epam.hr.domain.logic.filter;
 
 import com.epam.hr.domain.logic.command.Attributes;
 import com.epam.hr.domain.model.User;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpFilter;

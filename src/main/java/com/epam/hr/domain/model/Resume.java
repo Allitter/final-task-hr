@@ -31,6 +31,14 @@ public class Resume {
         return text;
     }
 
+    public Resume changeName(String name) {
+        return new Resume(id, idUser, name, text);
+    }
+
+    public Resume changeText(String text) {
+        return new Resume(id, idUser, name, text);
+    }
+
     @Override
     public String toString() {
         return "Resume{" +

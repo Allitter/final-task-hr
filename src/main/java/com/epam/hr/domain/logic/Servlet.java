@@ -3,7 +3,6 @@ package com.epam.hr.domain.logic;
 import com.epam.hr.data.ConnectionPool;
 import com.epam.hr.domain.logic.command.*;
 import com.epam.hr.exception.LogicRuntimeException;
-import com.epam.hr.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Enumeration;
 
 public class Servlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -34,18 +32,7 @@ public class Servlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        try {
-            ConnectionPool.getInstance().destroy();
-
-            Enumeration<Driver> driverEnumeration = DriverManager.getDrivers();
-            while (driverEnumeration.hasMoreElements()) {
-                Driver driver = driverEnumeration.nextElement();
-                DriverManager.deregisterDriver(driver);
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e);
-        }
-
+        ConnectionPool.getInstance().destroy();
         super.destroy();
     }
 
@@ -73,9 +60,11 @@ public class Servlet extends HttpServlet {
                 response.sendRedirect(page);
             } else {
                 LOGGER.warn("Unknown route type {}", router.getType());
+                RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.PAGE_NOT_FOUND);
+                dispatcher.forward(request, response);
             }
 
-        } catch (ServletException | IOException | ServiceException e) {
+        } catch (Exception e) {
             LOGGER.error(e);
             RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.SERVER_ERROR);
             try {

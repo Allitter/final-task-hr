@@ -14,13 +14,15 @@
 <form class="login_form form shadow-medium" action="${pageContext.request.contextPath}/controller" method="post">
     <h2><fmt:message key="login.title" /></h2>
 
-    <c:if test="${show_authentication_error}">
-        <div class="message">
-            <p class="alert-text">
-                <fmt:message key="login.bad_credentials" />
-            </p>
-        </div>
-    </c:if>
+    <div class="message">
+        <c:choose>
+            <c:when test='${fails.contains("loginNullOrEmpty")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
+            <c:when test='${fails.contains("loginRegexFail")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
+            <c:when test='${fails.contains("passwordNullOrEmpty")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
+            <c:when test='${fails.contains("passwordRegexFail")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
+            <c:when test='${fails.contains("incorrectLoginOrPassword")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
+        </c:choose>
+    </div>
 
     <input type="hidden" name="command" value="login">
     <input type="text" name="login" placeholder="<fmt:message key="login.login_label"/>" id="login">

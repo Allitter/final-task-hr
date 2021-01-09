@@ -390,9 +390,12 @@ body * {
 
 .interview_modify_btn {
     box-sizing: border-box;
-    width: 90px;
     margin-left: 20px;
     background-color: var(--accept-btn-color) !important;
+}
+
+.message {
+    margin-top: 20px;
 }
 
 /*  ------------------------------------------------------main---------------------------------------------------- */

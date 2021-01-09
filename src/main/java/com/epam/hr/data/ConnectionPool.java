@@ -3,13 +3,14 @@ package com.epam.hr.data;
 import com.epam.hr.exception.DaoRuntimeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Properties;
-import java.util.concurrent.locks.Condition;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -23,9 +24,10 @@ public class ConnectionPool {
     private static ConnectionPool instance;
 
     private final Lock connectionLock = new ReentrantLock();
-    private final Condition connectionAvailable = connectionLock.newCondition();
     private final LinkedList<ProxyConnection> availableConnections;
     private final LinkedList<ProxyConnection> usedConnections;
+    private int connectionsTotalCount;
+    private Semaphore semaphore;
 
     private ConnectionPool() {
         availableConnections = new LinkedList<>();
@@ -36,9 +38,7 @@ public class ConnectionPool {
         ProxyConnection connection = null;
         connectionLock.lock();
         try {
-            while (availableConnections.isEmpty()) {
-                connectionAvailable.await();
-            }
+            semaphore.acquire();
 
             connection = availableConnections.pop();
             usedConnections.add(connection);
@@ -53,21 +53,15 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) {
-        connectionLock.lock();
-
-        try {
-            if (!(connection instanceof ProxyConnection)) {
-                LOGGER.warn("Attempt to return invalid connection to the pool {}", connection);
-                return;
-            }
-
-            usedConnections.remove(connection);
-            ProxyConnection proxyConnection = (ProxyConnection) connection;
-            availableConnections.add(proxyConnection);
-            connectionAvailable.signal();
-        } finally {
-            connectionLock.unlock();
+        if (!(connection instanceof ProxyConnection)) {
+            LOGGER.warn("Attempt to return invalid connection to the pool {}", connection);
+            return;
         }
+
+        usedConnections.remove(connection);
+        ProxyConnection proxyConnection = (ProxyConnection) connection;
+        availableConnections.add(proxyConnection);
+        semaphore.release();
     }
 
     public static ConnectionPool getInstance() {
@@ -88,10 +82,10 @@ public class ConnectionPool {
         return instance;
     }
 
-    // todo
     private void init() {
         try {
             tryEstablishConnections(HEROKU_DATABASE_PROPERTIES_PATH);
+            semaphore = new Semaphore(connectionsTotalCount);
         } catch (SQLException e) {
             throw new DaoRuntimeException(e);
         }
@@ -109,10 +103,9 @@ public class ConnectionPool {
 
         String url = properties.getProperty(URL_PROPERTY);
         String connectionsCountProperty = properties.getProperty(CONNECTIONS_COUNT_PROPERTY);
-        int connectionsCount = Integer.parseInt(connectionsCountProperty);
+        connectionsTotalCount = Integer.parseInt(connectionsCountProperty);
 
-
-        for (int i = 0; i < connectionsCount; i++) {
+        for (int i = 0; i < connectionsTotalCount; i++) {
             Connection connection = DriverManager.getConnection(url, properties);
 
             LOGGER.info("Created connection {}", connection);
@@ -122,10 +115,10 @@ public class ConnectionPool {
         }
     }
 
-
-    // TODO lock
     public void destroy() {
+        connectionLock.lock();
         try {
+            semaphore.acquire(connectionsTotalCount);
             while (!usedConnections.isEmpty()) {
                 ProxyConnection connection = usedConnections.pop();
                 connection.destroy();
@@ -135,8 +128,12 @@ public class ConnectionPool {
                 ProxyConnection connection = availableConnections.pop();
                 connection.destroy();
             }
-        } catch (SQLException sqlException) {
-            LOGGER.error(sqlException);
+        } catch (SQLException | InterruptedException e) {
+            LOGGER.error(e);
+            Thread.currentThread().interrupt();
+        } finally {
+            connectionLock.unlock();
+            semaphore.release(connectionsTotalCount);
         }
     }
 }

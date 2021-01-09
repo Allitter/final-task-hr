@@ -3,6 +3,7 @@ package com.epam.hr.domain.logic.command.impl.user;
 import com.epam.hr.domain.logic.Router;
 import com.epam.hr.domain.logic.command.Attributes;
 import com.epam.hr.domain.logic.command.Command;
+import com.epam.hr.domain.logic.command.Pages;
 import com.epam.hr.domain.logic.service.UserService;
 import com.epam.hr.exception.ServiceException;
 
@@ -16,11 +17,16 @@ public class UserUnbanCommand implements Command {
     }
 
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
+    public Router execute(HttpServletRequest request) {
         long id = Long.parseLong((String)request.getAttribute(Attributes.USER_ID));
-        service.unbanUser(id);
 
-        String path = request.getContextPath() + request.getServletPath();
-        return Router.redirect(path);
+        try {
+            service.unbanUser(id);
+
+            String path = request.getContextPath() + request.getServletPath();
+            return Router.redirect(path);
+        } catch (ServiceException e) {
+            return Router.forward(Pages.SERVER_ERROR);
+        }
     }
 }

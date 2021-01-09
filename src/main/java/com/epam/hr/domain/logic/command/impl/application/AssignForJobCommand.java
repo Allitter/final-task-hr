@@ -20,20 +20,22 @@ public class AssignForJobCommand implements Command {
     }
 
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
+    public Router execute(HttpServletRequest request) {
         long idJobApplication = Long.parseLong((String)request.getAttribute(Attributes.JOB_APPLICATION_ID));
 
-        Optional<JobApplication> optionalApplication = jobApplicationService.findById(idJobApplication);
-        if (!optionalApplication.isPresent()) {
-            return Router.forward(Pages.PAGE_NOT_FOUND);
+        try {
+            Optional<JobApplication> optionalApplication = jobApplicationService.findById(idJobApplication);
+            if (!optionalApplication.isPresent()) {
+                return Router.forward(Pages.PAGE_NOT_FOUND);
+            }
+
+            JobApplication jobApplication = optionalApplication.get();
+            jobApplicationService.updateState(jobApplication, JobApplicationState.APPLIED);
+
+            String path = request.getHeader(Attributes.REFERER);
+            return Router.redirect(path);
+        } catch (ServiceException e) {
+            return Router.forward(Pages.SERVER_ERROR);
         }
-
-        JobApplication jobApplication = optionalApplication.get();
-        jobApplication = jobApplication.changeState(JobApplicationState.APPLIED);
-
-        jobApplicationService.save(jobApplication);
-
-        String path = request.getHeader(Attributes.REFERER);
-        return Router.redirect(path);
     }
 }

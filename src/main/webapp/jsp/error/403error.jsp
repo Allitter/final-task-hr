@@ -2,17 +2,17 @@
 <html>
 
 <head>
+    <%@ include file="../head_common.jsp"%>
+
     <title>403</title>
     <link rel="stylesheet" href="css/4xxerror.css">
-
-    <%@ include file="../head_common.jsp"%>
 </head>
 
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" id="robot-error" viewBox="0 0 260 118.9">
     <defs>
         <clipPath id="white-clip"><circle id="white-eye" fill="#cacaca" cx="130" cy="65" r="20"></circle> </clipPath>
-        <text id="text-s" class="error-text" y="106"> 403 </text>
+        <text id="text-s" class="error-text" y="106">403</text>
     </defs>
     <path class="alarm" fill="#e62326" d="M120.9 19.6V9.1c0-5 4.1-9.1 9.1-9.1h0c5 0 9.1 4.1 9.1 9.1v10.6"></path>
     <use xlink:href="#text-s" x="-0.5px" y="-1px" fill="black"></use>

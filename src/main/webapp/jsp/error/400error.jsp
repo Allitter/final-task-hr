@@ -2,10 +2,10 @@
 <html>
 
 <head>
+    <%@ include file="../head_common.jsp"%>
+
     <title>400</title>
     <link rel="stylesheet" href="css/4xxerror.css">
-
-    <%@ include file="../head_common.jsp"%>
 </head>
 
 <body>

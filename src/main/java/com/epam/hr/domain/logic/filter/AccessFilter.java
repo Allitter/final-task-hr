@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AccessFilter extends HttpFilter {
-
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession();
@@ -28,7 +27,14 @@ public class AccessFilter extends HttpFilter {
             String path = Pages.BAN_PAGE;
             RequestDispatcher dispatcher = request.getRequestDispatcher(path);
             dispatcher.forward(request, response);
-        } else if (commandType.hasAccessToCommand(role)) {
+            return;
+        }
+
+        if (!user.isEnabled() && commandType != CommandType.VERIFICATION) {
+            request.setAttribute(Attributes.COMMAND, CommandType.VERIFICATION_PAGE);
+        }
+
+        if (commandType.hasAccessToCommand(role)) {
             chain.doFilter(request, response);
         } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.ACCESS_DENIED);

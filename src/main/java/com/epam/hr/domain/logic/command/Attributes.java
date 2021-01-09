@@ -7,6 +7,10 @@ public final class Attributes {
     public static final String USER = "user";
     public static final String USERS = "users";
     public static final String LOGIN = "login";
+    public static final String PHONE = "phone";
+    public static final String EMAIL = "email";
+    public static final String FAILS = "fails";
+    public static final String VERIFICATION_CODE = "verification_code";
     public static final String RESUME_NAME = "resume_name";
     public static final String LAST_NAME = "last_name";
     public static final String PATRONYMIC = "patronymic";
@@ -33,6 +37,7 @@ public final class Attributes {
     public static final String RESUME_ID = "resume_id";
     public static final String PRELIMINARY_INTERVIEW_NOTE = "preliminary_interview_note";
     public static final String TECHNICAL_INTERVIEW_NOTE = "technical_interview_note";
+    public static final String NAME = "name";
 
 
     private Attributes() {

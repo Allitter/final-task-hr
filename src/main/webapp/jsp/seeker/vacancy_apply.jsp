@@ -20,7 +20,7 @@
             <div class="account_resumes">
                 <c:choose>
                     <c:when test="${resumes.size() > 0}">
-                        <h3>Choose resume:</h3>
+                        <h3><fmt:message key="header.choose_resume" /></h3>
                         <div class="resumes">
                             <c:forEach items="${resumes}" var="resume">
                                 <div class="single_resume_item">
@@ -31,7 +31,7 @@
                                         <input type="hidden" name="vacancy_id" value="${vacancy.id}">
 
                                         <button class="single_action">
-                                            <img src="images/check.png" alt="edit">
+                                            <img src="images/check.png" alt="<fmt:message key="button.edit" />edit">
                                         </button>
                                     </form>
                                 </div>
@@ -39,12 +39,10 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <h3>You don't have any resumes</h3>
-                        <form action="${pageContext.request.contextPath}/controller" method="post"
-                              style="width: max-content;">
+                        <h3><fmt:message key="messages.no_resumes" /></h3>
+                        <form action="${pageContext.request.contextPath}/controller" method="post" style="width: max-content;">
                             <input type="hidden" name="command" value="resume_add">
-                            <input class="btn shadow-none shadow-hov-small" type="submit" value="Add one"
-                                   style="background-color: var(--accept-btn-color)">
+                            <input class="btn shadow-none shadow-hov-small" type="submit" value="<fmt:message key="button.add" />" style="background-color: var(--accept-btn-color)">
                         </form>
                     </c:otherwise>
                 </c:choose>

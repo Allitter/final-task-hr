@@ -22,19 +22,23 @@ public class VacancyEditCommand implements Command {
     }
 
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
+    public Router execute(HttpServletRequest request) {
         String idString = (String) request.getAttribute(Attributes.VACANCY_ID);
         long id = Long.parseLong(idString);
-        Optional<Vacancy> optional = service.findById(id);
-        if (optional.isPresent()) {
-            Vacancy vacancy = optional.get();
-            request.setAttribute(Attributes.VACANCY, vacancy);
 
-            String path = Pages.VACANCY_EDIT;
-            return Router.forward(path);
-        } else {
-            LOGGER.warn("Attempt to edit not existing vacancy from"); // TODO maybe add ip
-            return  Router.forward(Pages.SERVER_ERROR);
+        try {
+            Optional<Vacancy> optional = service.findById(id);
+            if (optional.isPresent()) {
+                Vacancy vacancy = optional.get();
+                request.setAttribute(Attributes.VACANCY, vacancy);
+
+                return Router.forward(Pages.VACANCY_UPDATE);
+            } else {
+                LOGGER.warn("Attempt to edit not existing vacancy from {}", request.getRemoteAddr());
+                return  Router.forward(Pages.PAGE_NOT_FOUND);
+            }
+        } catch (ServiceException e) {
+            return Router.forward(Pages.SERVER_ERROR);
         }
     }
 }

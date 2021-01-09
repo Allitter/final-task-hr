@@ -21,14 +21,18 @@ public class AccountCommand implements Command {
     }
 
     @Override
-    public Router execute(HttpServletRequest request) throws ServiceException {
+    public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Attributes.USER);
         long userId = user.getId();
-        List<Resume> resumes = service.findUserResumes(userId);
 
-        request.setAttribute(Attributes.RESUMES, resumes);
+        try {
+            List<Resume> resumes = service.findUserResumes(userId);
+            request.setAttribute(Attributes.RESUMES, resumes);
 
-        return Router.forward(Pages.ACCOUNT);
+            return Router.forward(Pages.ACCOUNT);
+        } catch (ServiceException e) {
+            return Router.forward(Pages.SERVER_ERROR);
+        }
     }
 }
