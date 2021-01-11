@@ -2,7 +2,6 @@ package com.epam.hr.data.dao;
 
 import com.epam.hr.data.dao.factory.DaoFactory;
 import com.epam.hr.exception.DaoException;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class TransactionHelper implements AutoCloseable {
     }
 
     public <T extends AbstractDao> T addDao(DaoFactory<T> factory) {
-        T dao = factory.create();
+        T dao = factory.create(connection);
         registeredDaos.add(dao);
         return dao;
     }

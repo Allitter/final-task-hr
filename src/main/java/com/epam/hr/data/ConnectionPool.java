@@ -30,6 +30,10 @@ public class ConnectionPool {
     private Semaphore semaphore;
 
     private ConnectionPool() {
+        if (instance != null) {
+            throw new DaoRuntimeException("Attempt to create second instance of connection pool");
+        }
+
         availableConnections = new LinkedList<>();
         usedConnections = new LinkedList<>();
     }

@@ -11,11 +11,6 @@
 
             <div class="header_buttons">
                 <form action="${pageContext.request.contextPath}/controller" method="GET">
-                    <input type="hidden" name="command" value="logout">
-                    <input class="btn" type="submit" value="<fmt:message key="header.logout_button"/>" style="width: 100px">
-                </form>
-
-                <form action="${pageContext.request.contextPath}/controller" method="GET">
                     <input type="hidden" name="command" value="account">
                     <input class="btn" type="submit" value="<fmt:message key="header.account_button"/>" style="width: 100px">
                 </form>
@@ -54,6 +49,11 @@
                         </ul>
                     </div>
                 </div>
+
+                <form action="${pageContext.request.contextPath}/controller" method="GET">
+                    <input type="hidden" name="command" value="logout">
+                    <input class="btn" type="submit" value="<fmt:message key="header.logout_button"/>" style="width: 100px; background-color: var(--alert-text-color)">
+                </form>
             </div>
         </div>
 
