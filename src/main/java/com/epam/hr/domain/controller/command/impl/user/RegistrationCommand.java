@@ -2,25 +2,19 @@ package com.epam.hr.domain.controller.command.impl.user;
 
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
-import com.epam.hr.domain.controller.command.Command;
 import com.epam.hr.domain.controller.command.Pages;
-import com.epam.hr.domain.service.UserService;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserRole;
+import com.epam.hr.domain.model.UserDataHolder;
+import com.epam.hr.domain.service.UserService;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-public class RegistrationCommand implements Command {
+public class RegistrationCommand extends AbstractUserCommand {
     public static final String VERIFICATION_PAGE_COMMAND = "?command=verification_page";
-    private static final String DATE_FORMAT = "yyyy-mm-dd";
     private final UserService service;
 
 
@@ -30,39 +24,9 @@ public class RegistrationCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        String login = (String) request.getAttribute(Attributes.LOGIN);
-        String password = (String) request.getAttribute(Attributes.PASSWORD);
-        String name = (String) request.getAttribute(Attributes.NAME);
-        String lastName = (String) request.getAttribute(Attributes.LAST_NAME);
-        String patronymic = (String) request.getAttribute(Attributes.PATRONYMIC);
-        String birthDateString = (String) request.getAttribute(Attributes.BIRTH_DATE);
-        String phone = (String) request.getAttribute(Attributes.PHONE);
-        String email = (String) request.getAttribute(Attributes.EMAIL);
-        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-
-        // todo move do separate method
-        Date birthDate;
+        UserDataHolder userDataHolder = buildUserDataHolderFromRequest(request);
         try {
-            birthDate = dateFormat.parse(birthDateString);
-        } catch (ParseException e) {
-            throw new ServiceException("Invalid date format");
-        }
-
-        User user = new User.Builder()
-                .setRole(UserRole.JOB_SEEKER)
-                .setLogin(login)
-                .setPassword(password)
-                .setName(name)
-                .setLastName(lastName)
-                .setPatronymic(patronymic)
-                .setEmail(email)
-                .setPhone(phone)
-                .setBirthDate(birthDate)
-                .setEnabled(false)
-                .build();
-
-        try {
-            user = service.saveUser(user);
+            User user = service.addUser(userDataHolder);
             HttpSession session = request.getSession();
             session.setAttribute(Attributes.USER, user);
 

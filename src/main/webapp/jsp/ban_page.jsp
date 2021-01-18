@@ -15,6 +15,13 @@
     <h2 class="alert-text"><fmt:message key="header.banned" /></h2>
     <p style="margin: 10px;"><fmt:message key="messages.sorry_for_ban" /></p>
     <p style="margin: 10px;"><fmt:message key="messages.contact_administrator" /></p>
+
+    <div style="display: flex; justify-content: center; margin-top: 20px; margin-bottom: 10px;">
+        <form action="${pageContext.request.contextPath}/controller" method="GET">
+            <input type="hidden" name="command" value="logout">
+            <input class="btn" type="submit" value="<fmt:message key="header.logout_button"/>" style="width: 100px; background-color: var(--alert-text-color); margin: 0;">
+        </form>
+    </div>
 </form>
 </body>
 

@@ -19,7 +19,7 @@
         <div class="item_header" style="display: flex; justify-content: flex-end;">
             <div class="item_header_buttons">
                 <c:if test="${user.role.name() == 'JOB_SEEKER' && user.id == resume.idUser}">
-                    <form action="${pageContext.request.contextPath}/controller">
+                    <form action="${pageContext.request.contextPath}/controller" method="post">
                         <input type="hidden" name="command" value="resume_remove">
                         <input type="hidden" name="resume_id" value="${resume.id}">
                         <button class="btn" style="margin: 5px 10px;"><fmt:message key="button.remove"/></button>
@@ -27,7 +27,7 @@
                 </c:if>
 
                 <c:if test="${user.role.name() == 'JOB_SEEKER' && user.id == resume.idUser}">
-                    <form action="${pageContext.request.contextPath}/controller">
+                    <form action="${pageContext.request.contextPath}/controller" method="post">
                         <input type="hidden" name="command" value="resume_edit">
                         <input type="hidden" name="resume_id" value="${resume.id}">
                         <button class="btn" style="margin: 5px 20px;"><fmt:message key="button.edit"/></button>

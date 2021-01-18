@@ -63,7 +63,7 @@
             <input type="date" required name="birth_date" id="birth_date" value="${user.getFormattedBirthDate()}" min="1950-01-01" max="2007-12-31">
 
             <div class="form_actions" style="justify-content: center;">
-                <input class="btn shadow-none shadow-hov-small" type="submit" value="<fmt:message key="button.modify" />" style="margin: 0; background-color: var(--accept-btn-color)">
+                <input class="btn shadow-none shadow-hov-small" type="submit" value="<fmt:message key="button.save" />" style="margin: 0; background-color: var(--accept-btn-color)">
             </div>
         </form>
 
@@ -86,7 +86,7 @@
                     </c:forEach>
                 </div>
 
-                <form action="${pageContext.request.contextPath}/controller" method="post" style="width: max-content;">
+                <form action="${pageContext.request.contextPath}/controller" method="get" style="width: max-content;">
                     <input type="hidden" name="command" value="resume_add">
                     <input class="btn shadow-none shadow-hov-small" type="submit" value="<fmt:message key="button.add" />" style="background-color: var(--accept-btn-color)">
                 </form>

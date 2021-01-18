@@ -1,10 +1,9 @@
 package com.epam.hr.domain.validator;
 
-import com.epam.hr.domain.model.User;
+import com.epam.hr.domain.model.UserDataHolder;
+import com.epam.hr.domain.util.DateUtils;
+import com.epam.hr.exception.UtilsException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -27,27 +26,25 @@ public class UserValidator extends AbstractValidator {
     private static final String PHONE_REGEX = "[+][0-9]{7,14}";
     private static final String BIRTH_DATE = "birthDate";
     private static final String BIRTH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
-    private static final String DATE_FORMAT = "yyyy-mm-dd";
     private static final String MIN_BIRTH_DATE = "1950-01-01";
     private static final String MAX_BIRTH_DATE = "2007-12-31";
 
-    public List<String> validateForRegister(User user) {
-        List<String> result = validateForUpdate(user);
-
-        String password = user.getPassword();
+    public List<String> validateForRegister(UserDataHolder userDataHolder) {
+        List<String> result = validateForUpdate(userDataHolder);
+        String password = userDataHolder.getPassword();
         result.addAll(validatePassword(password));
 
         return result;
     }
 
-    public List<String> validateForUpdate(User user) {
-        String login = user.getLogin();
-        String name = user.getName();
-        String lastName = user.getLastName();
-        String patronymic = user.getPatronymic();
-        String email = user.getEmail();
-        String phone = user.getPhone();
-        Date birthDate = user.getBirthDate();
+    public List<String> validateForUpdate(UserDataHolder userDataHolder) {
+        String login = userDataHolder.getLogin();
+        String name = userDataHolder.getName();
+        String lastName = userDataHolder.getLastName();
+        String patronymic = userDataHolder.getPatronymic();
+        String email = userDataHolder.getEmail();
+        String phone = userDataHolder.getPhone();
+        String birthDate = userDataHolder.getBirthDate();
 
         List<String> result = new LinkedList<>();
         result.addAll(validateLogin(login));
@@ -115,30 +112,16 @@ public class UserValidator extends AbstractValidator {
         }
 
         try {
-            DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-            Date birthDate = dateFormat.parse(date);
-            fails.addAll(validateBirthDate(birthDate));
+            Date birthDate = DateUtils.tryParse(date);
+            Date minBirthDate = DateUtils.tryParse(MIN_BIRTH_DATE);
+            Date maxBirthDate = DateUtils.tryParse(MAX_BIRTH_DATE);
 
-            return fails;
-        } catch (ParseException e) {
-            fails.add(BIRTH_DATE + PARSE_FAIL);
-            return fails;
-        }
-    }
-
-    public List<String> validateBirthDate(Date date) {
-        List<String> fails = new LinkedList<>();
-
-        try {
-            DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-
-            if ( !date.after(dateFormat.parse(MIN_BIRTH_DATE))
-                    || !date.before(dateFormat.parse(MAX_BIRTH_DATE))) {
+            if ( !birthDate.after(minBirthDate) || !birthDate.before(maxBirthDate)) {
                 fails.add(BIRTH_DATE + OUT_OF_BOUNDS);
             }
 
             return fails;
-        } catch (ParseException e) {
+        } catch (UtilsException e) {
             fails.add(BIRTH_DATE + PARSE_FAIL);
             return fails;
         }

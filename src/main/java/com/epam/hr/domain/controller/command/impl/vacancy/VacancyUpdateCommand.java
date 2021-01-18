@@ -2,16 +2,16 @@ package com.epam.hr.domain.controller.command.impl.vacancy;
 
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
-import com.epam.hr.domain.controller.command.Command;
 import com.epam.hr.domain.controller.command.Pages;
-import com.epam.hr.domain.service.VacancyService;
 import com.epam.hr.domain.model.Vacancy;
+import com.epam.hr.domain.service.VacancyService;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class VacancyUpdateCommand implements Command {
+public class VacancyUpdateCommand extends AbstractVacancyCommand {
     private final VacancyService service;
 
     public VacancyUpdateCommand(VacancyService service) {
@@ -27,7 +27,6 @@ public class VacancyUpdateCommand implements Command {
 
         try {
             service.updateVacancy(id, name, shortDescription, longDescription);
-
             String path = request.getContextPath() + request.getServletPath();
             return Router.redirect(path);
         } catch (ValidationException e) {

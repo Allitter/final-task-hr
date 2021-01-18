@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                <form action="${pageContext.request.contextPath}/controller" method="GET">
+                <form action="${pageContext.request.contextPath}/controller" method="post">
                     <input type="hidden" name="command" value="logout">
                     <input class="btn" type="submit" value="<fmt:message key="header.logout_button"/>" style="width: 100px; background-color: var(--alert-text-color)">
                 </form>

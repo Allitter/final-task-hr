@@ -16,14 +16,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AccessFilter extends HttpFilter {
+
     @Override
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilter(HttpServletRequest request, HttpServletResponse response,
+                            FilterChain chain) throws IOException, ServletException {
+
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute(Attributes.USER);
         CommandType commandType = (CommandType)request.getAttribute(Attributes.COMMAND);
         UserRole role = user.getRole();
 
-        if (user.isBanned()) {
+        if (user.isBanned() && commandType != CommandType.LOGOUT) {
             String path = Pages.BAN_PAGE;
             RequestDispatcher dispatcher = request.getRequestDispatcher(path);
             dispatcher.forward(request, response);

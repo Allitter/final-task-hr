@@ -3,22 +3,16 @@ package com.epam.hr.domain.controller.command.impl.resume.page;
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
-import com.epam.hr.domain.controller.command.impl.resume.AbstractResumeUpdateCommand;
-import com.epam.hr.domain.service.ResumeService;
+import com.epam.hr.domain.controller.command.impl.resume.AbstractResumeEditCommand;
 import com.epam.hr.domain.model.Resume;
-import com.epam.hr.domain.model.User;
+import com.epam.hr.domain.service.ResumeService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ResumeEditCommand extends AbstractResumeUpdateCommand {
+public class ResumeEditCommand extends AbstractResumeEditCommand {
 
     public ResumeEditCommand(ResumeService resumeService) {
         super(resumeService);
-    }
-
-    @Override
-    protected boolean hasAccess(Resume resume, User user) {
-        return resume.getIdUser() == user.getId();
     }
 
     @Override

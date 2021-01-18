@@ -31,18 +31,6 @@ public class Vacancy {
         return description;
     }
 
-    public Vacancy changeName(String name) {
-        return new Vacancy(id, name, shortDescription, description);
-    }
-
-    public Vacancy changeShortDescription(String shortDescription) {
-        return new Vacancy(id, name, description, shortDescription);
-    }
-
-    public Vacancy changeDescription(String description) {
-        return new Vacancy(id, name, shortDescription, description);
-    }
-
     @Override
     public String toString() {
         return "Vacancy{" +

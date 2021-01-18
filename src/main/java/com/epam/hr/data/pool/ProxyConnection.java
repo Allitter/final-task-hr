@@ -1,4 +1,4 @@
-package com.epam.hr.data;
+package com.epam.hr.data.pool;
 
 import java.sql.*;
 import java.util.Map;

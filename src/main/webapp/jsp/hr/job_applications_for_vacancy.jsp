@@ -17,16 +17,15 @@
 
     <main class="main">
         <c:choose>
-            <c:when test="${job_application_dtos.size() > 0}">
+            <c:when test="${job_applications.size() > 0}">
                 <div class="items">
-                    <c:forEach var="applicationDto" items="${job_application_dtos}">
+                    <c:forEach var="applicationDto" items="${job_applications}">
                         <div class="item">
                             <div class="item_info">
                                 <div class="item_description">
-
                                     <h3 class="item_name" style="display: inline;">${applicationDto.vacancyName}</h3>
-                                    <span style="margin-left: 10px; color: var(--accept-btn-color)">${applicationDto.state}</span>
-                                    <span style="margin-left: 10px; color: var(--main-bg-color)">${applicationDto.date}</span>
+                                    <span style="margin-left: 10px; color: var(--accept-btn-color)"><fmt:message key="enum.job_application_state.${applicationDto.state.name()}"/></span>
+                                    <span style="margin-left: 10px; color: var(--main-bg-color)"><fmt:formatDate value="${applicationDto.date}" pattern="${dateFormat}" /></span>
                                     <br>
                                     <span>${applicationDto.userName}</span>
                                     <span style="margin-left: 10px;">${applicationDto.userLastName}</span>
@@ -34,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="actions">
-                                <form action="${pageContext.request.contextPath}/controller" METHOD="get ">
+                                <form action="${pageContext.request.contextPath}/controller" METHOD="get">
                                     <input type="hidden" name="command" value="job_application_info">
                                     <input type="hidden" name="job_application_id" value="${applicationDto.id}">
                                     <button class="single_action">
@@ -51,9 +50,7 @@
             </c:otherwise>
         </c:choose>
 
-        <hrt:page-bar numberOfPages="${number_of_pages}"
-                      currentPage="${page}"
-                      command="job_applications_for_vacancy" />
+        <hrt:page-bar page="${page}" command="job_applications_for_vacancy" />
     </main>
 </div>
 </body>

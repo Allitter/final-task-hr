@@ -18,7 +18,7 @@
         <main class="main">
             <c:if test="${user.role.name() == 'EMPLOYEE'}">
                 <div class="control_set">
-                    <form action="${pageContext.request.contextPath}/controller" method="post">
+                    <form action="${pageContext.request.contextPath}/controller" method="get">
                         <input type="hidden" name="command" value="vacancy_add">
                         <input class="btn" type="submit" value="<fmt:message key="button.add"/>">
                     </form>
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="actions">
-                            <form action="${pageContext.request.contextPath}/controller" METHOD="post">
+                            <form action="${pageContext.request.contextPath}/controller" METHOD="get">
                                 <input type="hidden" name="command" value="vacancy_info">
                                 <input type="hidden" name="vacancy_id" value="${vacancy.id}">
                                 <button class="single_action">
@@ -43,7 +43,7 @@
                                 </button>
                             </form>
                             <c:if test="${user.role.name() == 'EMPLOYEE' || user.role.name() == 'ADMINISTRATOR'}">
-                                <form action="${pageContext.request.contextPath}/controller" METHOD="post">
+                                <form action="${pageContext.request.contextPath}/controller" METHOD="get">
                                     <input type="hidden" name="command" value="vacancy_edit">
                                     <input type="hidden" name="vacancy_id" value="${vacancy.id}">
                                     <button class="single_action">
@@ -56,9 +56,7 @@
                 </c:forEach>
             </div>
 
-            <hrt:page-bar numberOfPages="${number_of_pages}"
-                          currentPage="${page}"
-                          command="vacancies" />
+            <hrt:page-bar page="${page}" command="vacancies" />
         </main>
     </div>
 </body>

@@ -1,7 +1,11 @@
 package com.epam.hr.domain.controller.filter;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class EncodingFilter extends HttpFilter {
@@ -14,7 +18,8 @@ public class EncodingFilter extends HttpFilter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
 
         String requestEncoding = request.getCharacterEncoding();
         if (encoding != null && !encoding.equalsIgnoreCase(requestEncoding)) {

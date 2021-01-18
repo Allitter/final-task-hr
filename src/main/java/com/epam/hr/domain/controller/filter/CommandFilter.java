@@ -12,8 +12,11 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class CommandFilter extends HttpFilter {
+
     @Override
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilter(HttpServletRequest request, HttpServletResponse response,
+                            FilterChain chain) throws IOException, ServletException {
+
         String command = (String) request.getAttribute(Attributes.COMMAND);
         Optional<CommandType> optional = CommandType.getCommand(command);
 

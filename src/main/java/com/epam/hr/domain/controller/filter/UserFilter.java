@@ -14,7 +14,9 @@ import java.io.IOException;
 public class UserFilter extends HttpFilter {
 
     @Override
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilter(HttpServletRequest request, HttpServletResponse response,
+                            FilterChain chain) throws IOException, ServletException {
+
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute(Attributes.USER);
 

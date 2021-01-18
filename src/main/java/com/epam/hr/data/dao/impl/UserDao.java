@@ -1,6 +1,7 @@
 package com.epam.hr.data.dao.impl;
 
 import com.epam.hr.data.dao.AbstractDao;
+import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.data.mapper.impl.UserMapper;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.model.UserRole;
@@ -21,17 +22,16 @@ public class UserDao extends AbstractDao<User> {
     private static final String UNBAN_USER_QUERY = String.format("update %s set banned = 0 where id = ?;", TABLE) ;
     private static final String USER_BY_ID_QUERY = String.format("select * from %s where id = ?;", TABLE) ;
     private static final String USER_BY_LOGIN = String.format("select * from %s where login = ?;", TABLE) ;
-
     private static final String EMPLOYEE_CONDITION = "role = 'EMPLOYEE'";
     private static final String JOB_SEEKER_CONDITION = "role = 'JOB_SEEKER'";
+    private final Mapper<User> mapper;
 
-    private final UserMapper mapper = new UserMapper();
-
-    public UserDao(Connection connection) {
+    public UserDao(Connection connection, Mapper<User> mapper) {
         super(connection);
+        this.mapper = mapper;
     }
 
-    public Optional<User> getUserByLoginAndPassword(String login, String password) throws DaoException {
+    public Optional<User> findUserByLoginAndPassword(String login, String password) throws DaoException {
         return executeSingleResultQueryPrepared(USER_BY_LOGIN_AND_PASSWORD_QUERY, mapper, login, password);
     }
 
@@ -54,7 +54,7 @@ public class UserDao extends AbstractDao<User> {
     }
 
     @Override
-    public Optional<User> getById(long id) throws DaoException {
+    public Optional<User> findById(long id) throws DaoException {
         return executeSingleResultQueryPrepared(USER_BY_ID_QUERY, mapper, id);
     }
 
@@ -73,8 +73,8 @@ public class UserDao extends AbstractDao<User> {
     }
 
     @Override
-    public int findQuantity() throws DaoException {
-        return findQuantity(TABLE);
+    public int getRowCount() throws DaoException {
+        return getRowCount(TABLE);
     }
 
     public int findQuantity(UserRole role) throws DaoException {
@@ -83,7 +83,7 @@ public class UserDao extends AbstractDao<User> {
         }
 
         String condition = role == UserRole.EMPLOYEE ? EMPLOYEE_CONDITION : JOB_SEEKER_CONDITION;
-        return findQuantity(TABLE, condition);
+        return getRowCount(TABLE, condition);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class UserDao extends AbstractDao<User> {
         String roleName = role.name();
         boolean enabled = user.isEnabled();
 
-        Optional<User> optional = getById(id);
+        Optional<User> optional = findById(id);
         if (optional.isPresent()) {
             executeNoResultQueryPrepared(UPDATE_QUERY, login, name, lastName,
                     patronymic, birthDate, email, phone, enabled, id);

@@ -16,3 +16,8 @@
 <!--localisation-->
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="properties.text" />
+<c:choose>
+    <c:when test="${'ru'.equals(lang)}"><c:set value="dd.MM.yyyy" var="dateFormat" /></c:when>
+    <c:when test="${'be'.equals(lang)}"><c:set value="dd.MM.yyyy" var="dateFormat" /></c:when>
+    <c:otherwise><c:set value="dd-MM-yyyy" var="dateFormat" /></c:otherwise>
+</c:choose>

@@ -1,12 +1,16 @@
 package com.epam.hr.data.dao.factory.impl;
 
-import com.epam.hr.data.ConnectionPool;
 import com.epam.hr.data.dao.factory.DaoFactory;
 import com.epam.hr.data.dao.impl.ResumeDao;
+import com.epam.hr.data.mapper.Mapper;
+import com.epam.hr.data.mapper.impl.ResumeMapper;
+import com.epam.hr.data.pool.ConnectionPool;
+import com.epam.hr.domain.model.Resume;
 
 import java.sql.Connection;
 
 public class ResumeDaoFactory implements DaoFactory<ResumeDao> {
+    private static final Mapper<Resume> MAPPER = new ResumeMapper();
     private final ConnectionPool pool;
 
     public ResumeDaoFactory(ConnectionPool pool) {
@@ -15,11 +19,11 @@ public class ResumeDaoFactory implements DaoFactory<ResumeDao> {
 
     @Override
     public ResumeDao create() {
-        return new ResumeDao(pool.getConnection());
+        return new ResumeDao(pool.getConnection(), MAPPER);
     }
 
     @Override
     public ResumeDao create(Connection connection) {
-        return new ResumeDao(connection);
+        return new ResumeDao(connection, MAPPER);
     }
 }

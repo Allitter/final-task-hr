@@ -1,32 +1,33 @@
 package com.epam.hr.domain.controller.command;
 
-import com.epam.hr.data.ConnectionPool;
 import com.epam.hr.data.dao.factory.impl.*;
-import com.epam.hr.domain.controller.command.impl.AuthenticationCommand;
-import com.epam.hr.domain.controller.command.impl.ChangeLanguageCommand;
-import com.epam.hr.domain.controller.command.impl.DefaultCommand;
+import com.epam.hr.data.pool.ConnectionPool;
+import com.epam.hr.domain.controller.command.impl.*;
 import com.epam.hr.domain.controller.command.impl.application.*;
 import com.epam.hr.domain.controller.command.impl.application.page.JobApplicationInfoCommand;
 import com.epam.hr.domain.controller.command.impl.application.page.JobApplicationsForSeekerCommand;
 import com.epam.hr.domain.controller.command.impl.application.page.JobApplicationsForVacancyCommand;
 import com.epam.hr.domain.controller.command.impl.application.page.VacancyApplyCommand;
-import com.epam.hr.domain.controller.command.impl.resume.*;
+import com.epam.hr.domain.controller.command.impl.resume.ResumeAddAcceptCommand;
+import com.epam.hr.domain.controller.command.impl.resume.ResumeEditAcceptCommand;
+import com.epam.hr.domain.controller.command.impl.resume.ResumeRemoveCommand;
 import com.epam.hr.domain.controller.command.impl.resume.page.ResumeAddCommand;
 import com.epam.hr.domain.controller.command.impl.resume.page.ResumeEditCommand;
 import com.epam.hr.domain.controller.command.impl.resume.page.ResumeInfoCommand;
 import com.epam.hr.domain.controller.command.impl.user.*;
 import com.epam.hr.domain.controller.command.impl.user.page.*;
-import com.epam.hr.domain.controller.command.impl.vacancy.*;
+import com.epam.hr.domain.controller.command.impl.vacancy.VacancyAddAcceptCommand;
+import com.epam.hr.domain.controller.command.impl.vacancy.VacancyUpdateCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacanciesCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacancyAddCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacancyEditCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacancyInfoCommand;
 import com.epam.hr.domain.service.*;
+import com.epam.hr.domain.util.VerificationCodeGenerator;
 import com.epam.hr.domain.validator.JobApplicationValidator;
 import com.epam.hr.domain.validator.ResumeValidator;
 import com.epam.hr.domain.validator.UserValidator;
 import com.epam.hr.domain.validator.VacancyValidator;
-import com.epam.hr.domain.util.VerificationCodeGenerator;
 
 public final class CommandFactory {
     private static final ConnectionPool POOL = ConnectionPool.getInstance();
@@ -73,7 +74,7 @@ public final class CommandFactory {
             case VACANCY_APPLY :
                 return new VacancyApplyCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE, VACANCY_SERVICE);
             case VACANCY_APPLY_ACCEPT :
-                return new VacancyApplyAcceptCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE);
+                return new VacancyApplyAcceptCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE, VACANCY_SERVICE);
             case RESUME_ADD :
                 return new ResumeAddCommand();
             case RESUME_ADD_ACCEPT :
@@ -93,9 +94,9 @@ public final class CommandFactory {
             case JOB_SEEKERS :
                 return new JobSeekersCommand(USER_SERVICE);
             case JOB_APPLICATIONS_FOR_SEEKER:
-                return new JobApplicationsForSeekerCommand(JOB_APPLICATION_SERVICE, VACANCY_SERVICE);
+                return new JobApplicationsForSeekerCommand(JOB_APPLICATION_SERVICE);
             case JOB_APPLICATIONS_FOR_VACANCY:
-                return new JobApplicationsForVacancyCommand(JOB_APPLICATION_SERVICE, VACANCY_SERVICE, USER_SERVICE);
+                return new JobApplicationsForVacancyCommand(JOB_APPLICATION_SERVICE);
             case JOB_APPLICATION_INFO:
                 return new JobApplicationInfoCommand(USER_SERVICE, JOB_APPLICATION_SERVICE);
             case ASSIGN_PRELIMINARY_INTERVIEW:
@@ -130,6 +131,10 @@ public final class CommandFactory {
                 return new ResumeInfoCommand(RESUME_SERVICE, USER_SERVICE);
             case LOGOUT :
                 return new LogoutCommand();
+            case CONFIRMATION_PAGE:
+                return new ConfirmationPageCommand();
+            case CONFIRMATION:
+                return new ConfirmationCommand(USER_SERVICE);
             case REGISTRATION_PAGE:
                 return new RegistrationPageCommand();
             case REGISTRATION:

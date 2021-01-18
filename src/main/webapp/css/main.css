@@ -118,6 +118,7 @@ body * {
 .main {
     padding: 20px;
     width: 100%;
+    min-height: 700px;
     background-color: var(--main-bg-color);
     border-radius: 2rem;
     box-shadow: var(--shadow-medium);
@@ -184,7 +185,7 @@ body * {
 }
 
 .item_header_buttons .btn {
-    margin: 0 10px;
+    margin: 10px 10px;
 }
 
 .item_header_buttons a {
@@ -405,6 +406,9 @@ body * {
 */
 
 @media all and (max-width: 670px) {
+    .main {
+        min-height: 0;
+    }
     .nav-main {
         flex-direction: column;
     }

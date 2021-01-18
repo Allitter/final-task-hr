@@ -2,12 +2,12 @@ package com.epam.hr.domain.controller.command.impl.user.page;
 
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
-import com.epam.hr.domain.controller.command.Command;
 import com.epam.hr.domain.controller.command.Pages;
-import com.epam.hr.domain.service.MailingService;
-import com.epam.hr.domain.service.VerificationTokenService;
+import com.epam.hr.domain.controller.command.impl.user.AbstractUserCommand;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.model.VerificationToken;
+import com.epam.hr.domain.service.MailingService;
+import com.epam.hr.domain.service.VerificationTokenService;
 import com.epam.hr.domain.util.VerificationCodeGenerator;
 import com.epam.hr.exception.ServiceException;
 
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class VerificationPageCommand implements Command {
+public class VerificationPageCommand extends AbstractUserCommand {
     public static final String MESSAGE_SUBJECT = "Authentication";
     public static final String MESSAGE_TEXT = "Email authentication code: ";
 

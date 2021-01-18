@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    <form action="${pageContext.request.contextPath}/controller" METHOD="post">
+                                    <form action="${pageContext.request.contextPath}/controller" METHOD="get">
                                         <input type="hidden" name="command" value="job_seeker_info">
                                         <input type="hidden" name="user_id" value="${seeker.id}">
                                         <button class="single_action">
@@ -51,10 +51,7 @@
                 </c:otherwise>
             </c:choose>
 
-
-            <hrt:page-bar numberOfPages="${number_of_pages}"
-                          currentPage="${page}"
-                          command="job_seekers" />
+            <hrt:page-bar page="${page}" command="job_seekers" />
         </main>
     </div>
 </body>

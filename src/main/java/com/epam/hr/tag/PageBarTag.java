@@ -1,10 +1,10 @@
 package com.epam.hr.tag;
 
+import com.epam.hr.domain.model.Page;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
@@ -31,12 +31,9 @@ public class PageBarTag extends TagSupport {
     private int currentPage;
     private String command;
 
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public void setPage(Page page) {
+        numberOfPages = page.getNumberOfPages();
+        currentPage = page.getCurrentPage();
     }
 
     public void setCommand(String command) {

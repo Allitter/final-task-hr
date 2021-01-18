@@ -17,15 +17,15 @@ public class VerificationTokenDao extends AbstractDao<VerificationToken> {
     private static final String UPDATE_QUERY = String.format("update %s set code = ? where id = ?;", TABLE);
     private static final String TOKENS_BY_USER_ID = String.format("select * from %s where id_user = ?;", TABLE);
     private static final String REMOVE_EXPIRED_TOKENS = String.format("delete from %s where id_user = ? and expiration_date < NOW();", TABLE);
+    private final Mapper<VerificationToken> mapper;
 
-    private final Mapper<VerificationToken> mapper = new VerificationTokenMapper();
-
-    public VerificationTokenDao(Connection connection) {
+    public VerificationTokenDao(Connection connection, Mapper<VerificationToken> mapper) {
         super(connection);
+        this.mapper = mapper;
     }
 
     @Override
-    public Optional<VerificationToken> getById(long id) throws DaoException {
+    public Optional<VerificationToken> findById(long id) throws DaoException {
         return super.findById(TABLE, mapper, id);
     }
 
@@ -48,8 +48,8 @@ public class VerificationTokenDao extends AbstractDao<VerificationToken> {
     }
 
     @Override
-    public int findQuantity() throws DaoException {
-        return super.findQuantity(TABLE);
+    public int getRowCount() throws DaoException {
+        return super.getRowCount(TABLE);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class VerificationTokenDao extends AbstractDao<VerificationToken> {
         String code = verificationToken.getCode();
         Date expirationDate = verificationToken.getExpirationDate();
 
-        Optional<VerificationToken> optional = getById(id);
+        Optional<VerificationToken> optional = findById(id);
         if (optional.isPresent()) {
             executeNoResultQueryPrepared(UPDATE_QUERY, code, id);
         } else {

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface Dao<T> extends AutoCloseable {
 
-    Optional<T> getById(long id) throws DaoException;
+    Optional<T> findById(long id) throws DaoException;
 
     List<T> findAll(int start, int count) throws DaoException;
 
@@ -15,5 +15,5 @@ public interface Dao<T> extends AutoCloseable {
 
     void removeById(long id) throws DaoException;
 
-    int findQuantity() throws DaoException;
+    int getRowCount() throws DaoException;
 }

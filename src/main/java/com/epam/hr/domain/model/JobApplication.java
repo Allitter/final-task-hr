@@ -5,49 +5,27 @@ import java.util.Objects;
 
 public class JobApplication {
     private final long id;
-    private final long idUser;
-    private final long idVacancy;
+    private final User user;
+    private final Vacancy vacancy;
     private final Date date;
     private final JobApplicationState state;
     private final String preliminaryInterviewNote;
     private final String technicalInterviewNote;
     private final String resumeText;
 
-    private JobApplication(long id, long idUser, long idVacancy,
-                          Date date, JobApplicationState state,
-                          String preliminaryInterviewNote,
-                          String technicalInterviewNote, String resumeText) {
-        this.id = id;
-        this.idUser = idUser;
-        this.idVacancy = idVacancy;
-        this.date = date;
-        this.state = state;
-        this.preliminaryInterviewNote = preliminaryInterviewNote;
-        this.technicalInterviewNote = technicalInterviewNote;
-        this.resumeText = resumeText;
-    }
-
-    public JobApplication(JobApplication jobApplication) {
-        this.id = jobApplication.getId();
-        this.idUser = jobApplication.getIdUser();
-        this.idVacancy = jobApplication.getIdVacancy();
-        this.date = jobApplication.getDate();
-        this.state = jobApplication.getState();
-        this.preliminaryInterviewNote = jobApplication.getPreliminaryInterviewNote();
-        this.technicalInterviewNote = jobApplication.getTechnicalInterviewNote();
-        this.resumeText = jobApplication.getResumeText();
+    public JobApplication(JobApplication.Builder builder) {
+        this.id = builder.id;
+        this.user = builder.user;
+        this.vacancy = builder.vacancy;
+        this.date = builder.date;
+        this.state = builder.state;
+        this.preliminaryInterviewNote = builder.preliminaryInterviewNote;
+        this.technicalInterviewNote = builder.technicalInterviewNote;
+        this.resumeText = builder.resumeText;
     }
 
     public long getId() {
         return id;
-    }
-
-    public long getIdUser() {
-        return idUser;
-    }
-
-    public long getIdVacancy() {
-        return idVacancy;
     }
 
     public Date getDate() {
@@ -70,16 +48,81 @@ public class JobApplication {
         return technicalInterviewNote;
     }
 
+    public long getIdUser() {
+        return user.getId();
+    }
+
+    public UserRole geUserRole() {
+        return user.getRole();
+    }
+
+    public String getUserLogin() {
+        return user.getLogin();
+    }
+
+    public String getUserName() {
+        return user.getName();
+    }
+
+    public String getUserLastName() {
+        return user.getLastName();
+    }
+
+    public String getUserPatronymic() {
+        return user.getPatronymic();
+    }
+
+    public Date getUserBirthDate() {
+        return user.getBirthDate();
+    }
+
+    public String getUserEmail() {
+        return user.getEmail();
+    }
+
+    public String getUserPhone() {
+        return user.getPhone();
+    }
+
+    public boolean isUserEnabled() {
+        return user.isEnabled();
+    }
+
+    public boolean isUserBanned() {
+        return user.isBanned();
+    }
+
+    public String getFormattedUserBirthDate() {
+        return user.getFormattedBirthDate();
+    }
+
+    public long getIdVacancy() {
+        return vacancy.getId();
+    }
+
+    public String getVacancyName() {
+        return vacancy.getName();
+    }
+
+    public String getVacancyShortDescription() {
+        return vacancy.getShortDescription();
+    }
+
+    public String getVacancyDescription() {
+        return vacancy.getDescription();
+    }
+
     @Override
     public String toString() {
-        return "Application{" +
+        return "JobApplication{" +
                 "id=" + id +
-                ", idUser=" + idUser +
-                ", idVacancy=" + idVacancy +
+                ", user=" + user +
+                ", vacancy=" + vacancy +
                 ", date=" + date +
                 ", state=" + state +
                 ", preliminaryInterviewNote='" + preliminaryInterviewNote + '\'' +
                 ", technicalInterviewNote='" + technicalInterviewNote + '\'' +
+                ", resumeText='" + resumeText + '\'' +
                 '}';
     }
 
@@ -92,9 +135,8 @@ public class JobApplication {
             return false;
         }
         JobApplication that = (JobApplication) o;
-        return id == that.id
-                && idUser == that.idUser
-                && idVacancy == that.idVacancy
+        return id == that.id && Objects.equals(user, that.user)
+                && Objects.equals(vacancy, that.vacancy)
                 && Objects.equals(date, that.date)
                 && state == that.state
                 && Objects.equals(preliminaryInterviewNote, that.preliminaryInterviewNote)
@@ -104,7 +146,7 @@ public class JobApplication {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idUser, idVacancy, date, state,
+        return Objects.hash(id, user, vacancy, date, state,
                 preliminaryInterviewNote, technicalInterviewNote, resumeText);
     }
 
@@ -117,8 +159,8 @@ public class JobApplication {
         private static final String DEFAULT_RESUME_TEXT = "";
 
         private long id;
-        private long idUser;
-        private long idVacancy;
+        private User user;
+        private Vacancy vacancy;
         private Date date;
         private JobApplicationState state;
         private String preliminaryInterviewNote;
@@ -127,8 +169,6 @@ public class JobApplication {
 
         public Builder() {
             id = DEFAULT_ID;
-            idUser = DEFAULT_ID;
-            idVacancy = DEFAULT_ID;
             date = DEFAULT_DATE;
             state = DEFAULT_STATE;
             preliminaryInterviewNote = DEFAULT_PRELIMINARY_INTERVIEW_NOTE;
@@ -138,8 +178,6 @@ public class JobApplication {
 
         public Builder(JobApplication jobApplication) {
             this.id = jobApplication.getId();
-            this.idUser = jobApplication.getIdUser();
-            this.idVacancy = jobApplication.getIdVacancy();
             this.date = jobApplication.getDate();
             this.state = jobApplication.getState();
             this.preliminaryInterviewNote = jobApplication.getPreliminaryInterviewNote();
@@ -152,13 +190,13 @@ public class JobApplication {
             return this;
         }
 
-        public Builder setIdUser(long idUser) {
-            this.idUser = idUser;
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
 
-        public Builder setIdVacancy(long idVacancy) {
-            this.idVacancy = idVacancy;
+        public Builder setVacancy(Vacancy vacancy) {
+            this.vacancy = vacancy;
             return this;
         }
 
@@ -188,8 +226,7 @@ public class JobApplication {
         }
 
         public JobApplication build() {
-            return new JobApplication(id, idUser, idVacancy, date, state,
-                    preliminaryInterviewNote, technicalInterviewNote, resumeText);
+            return new JobApplication(this);
         }
     }
 }

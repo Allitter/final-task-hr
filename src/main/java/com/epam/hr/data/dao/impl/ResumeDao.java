@@ -15,15 +15,15 @@ public class ResumeDao extends AbstractDao<Resume> {
     private static final String INSERT_QUERY = String.format("insert into %s (id_user, text, name) values (?, ?, ?);", TABLE) ;
     private static final String UPDATE_QUERY = String.format("update %s set name = ?, text = ? where id = ?;", TABLE);
     private static final String RESUMES_BY_USER_ID = String.format("select * from %s where id_user = ?;", TABLE);
+    private final Mapper<Resume> mapper;
 
-    private final Mapper<Resume> mapper = new ResumeMapper();
-
-    public ResumeDao(Connection connection) {
+    public ResumeDao(Connection connection, Mapper<Resume> mapper) {
         super(connection);
+        this.mapper = mapper;
     }
 
     @Override
-    public Optional<Resume> getById(long id) throws DaoException {
+    public Optional<Resume> findById(long id) throws DaoException {
         return super.findById(TABLE, mapper, id);
     }
 
@@ -42,8 +42,8 @@ public class ResumeDao extends AbstractDao<Resume> {
     }
 
     @Override
-    public int findQuantity() throws DaoException {
-        return super.findQuantity(TABLE);
+    public int getRowCount() throws DaoException {
+        return super.getRowCount(TABLE);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ResumeDao extends AbstractDao<Resume> {
         String text = resume.getText();
         String name = resume.getName();
 
-        Optional<Resume> optional = getById(id);
+        Optional<Resume> optional = findById(id);
         if (optional.isPresent()) {
             executeNoResultQueryPrepared(UPDATE_QUERY, name, text, id);
         } else {

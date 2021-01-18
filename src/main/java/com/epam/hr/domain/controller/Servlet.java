@@ -1,7 +1,8 @@
 package com.epam.hr.domain.controller;
 
-import com.epam.hr.data.ConnectionPool;
+import com.epam.hr.data.pool.ConnectionPool;
 import com.epam.hr.domain.controller.command.*;
+import com.epam.hr.domain.service.SessionManager;
 import com.epam.hr.exception.LogicRuntimeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +30,9 @@ public class Servlet extends HttpServlet {
         } catch (SQLException | ServletException e) {
             throw new LogicRuntimeException(e);
         }
+        
+        SessionManager sessionManager = new SessionManager();
+        getServletContext().setAttribute(Attributes.SESSION_MANAGER, sessionManager);
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class UserMapper implements Mapper<User> {
+    private static final String ATTRIBUTE_PREFIX = "u.";
     private static final String ID = "id";
     private static final String LOGIN = "login";
     private static final String NAME = "name";
@@ -23,18 +24,27 @@ public class UserMapper implements Mapper<User> {
 
     @Override
     public User map(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(ID);
-        String login = resultSet.getString(LOGIN);
-        String name = resultSet.getString(NAME);
-        String lastName = resultSet.getString(LAST_NAME);
-        String patronymic = resultSet.getString(PATRONYMIC);
-        String email = resultSet.getString(EMAIL);
-        String phone = resultSet.getString(PHONE);
-        Date birthDate = resultSet.getDate(BIRTH_DATE);
-        boolean isBanned = resultSet.getBoolean(IS_BANNED);
-        boolean enabled = resultSet.getBoolean(ENABLED);
+        return map(resultSet, "");
+    }
 
-        String roleName = resultSet.getString(ROLE);
+    @Override
+    public User mapForAnotherEntity(ResultSet resultSet) throws SQLException {
+        return map(resultSet, ATTRIBUTE_PREFIX);
+    }
+
+    public User map(ResultSet resultSet, String attributePrefix) throws SQLException {
+        long id = resultSet.getLong(attributePrefix + ID);
+        String login = resultSet.getString(attributePrefix + LOGIN);
+        String name = resultSet.getString(attributePrefix + NAME);
+        String lastName = resultSet.getString(attributePrefix + LAST_NAME);
+        String patronymic = resultSet.getString(attributePrefix + PATRONYMIC);
+        String email = resultSet.getString(attributePrefix + EMAIL);
+        String phone = resultSet.getString(attributePrefix + PHONE);
+        Date birthDate = resultSet.getDate(attributePrefix + BIRTH_DATE);
+        boolean isBanned = resultSet.getBoolean(attributePrefix + IS_BANNED);
+        boolean enabled = resultSet.getBoolean(attributePrefix + ENABLED);
+
+        String roleName = resultSet.getString(attributePrefix + ROLE);
         UserRole role = UserRole.valueOf(roleName);
 
         return new User.Builder()

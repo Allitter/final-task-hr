@@ -2,9 +2,11 @@ package com.epam.hr.domain.service;
 
 import com.epam.hr.data.dao.factory.DaoFactory;
 import com.epam.hr.data.dao.impl.JobApplicationDao;
-import com.epam.hr.domain.validator.JobApplicationValidator;
 import com.epam.hr.domain.model.JobApplication;
 import com.epam.hr.domain.model.JobApplicationState;
+import com.epam.hr.domain.model.User;
+import com.epam.hr.domain.model.Vacancy;
+import com.epam.hr.domain.validator.JobApplicationValidator;
 import com.epam.hr.exception.DaoException;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
@@ -43,10 +45,10 @@ public class JobApplicationService {
         }
     }
 
-    public void addJobApplication(long idUser, long idVacancy, String resumeText) throws ServiceException {
+    public void addJobApplication(User user, Vacancy vacancy, String resumeText) throws ServiceException {
         JobApplication jobApplication = new JobApplication.Builder()
-                .setIdUser(idUser)
-                .setIdVacancy(idVacancy)
+                .setUser(user)
+                .setVacancy(vacancy)
                 .setState(JobApplicationState.RECENTLY_CREATED)
                 .setResumeText(resumeText)
                 .build();
@@ -136,10 +138,19 @@ public class JobApplicationService {
 
     public Optional<JobApplication> findById(long id) throws ServiceException {
         try (JobApplicationDao dao = jobApplicationDaoFactory.create()) {
-            return dao.getById(id);
+            return dao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    public JobApplication tryFindById(long id) throws ServiceException {
+        Optional<JobApplication> optionalJobApplication = findById(id);
+        if (!optionalJobApplication.isPresent()) {
+            throw new ServiceException("Job application doesn't exist");
+        }
+
+        return optionalJobApplication.get();
     }
 
     public int countUserJobApplications(long idUser) throws ServiceException {

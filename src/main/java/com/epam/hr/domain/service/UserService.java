@@ -2,17 +2,16 @@ package com.epam.hr.domain.service;
 
 import com.epam.hr.data.dao.factory.impl.UserDaoFactory;
 import com.epam.hr.data.dao.impl.UserDao;
-import com.epam.hr.domain.validator.UserValidator;
 import com.epam.hr.domain.model.User;
+import com.epam.hr.domain.model.UserDataHolder;
 import com.epam.hr.domain.model.UserRole;
+import com.epam.hr.domain.util.DateUtils;
+import com.epam.hr.domain.validator.UserValidator;
 import com.epam.hr.exception.DaoException;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserService {
     private static final String LOGIN_NOT_UNIQUE_FAIL = "loginNotUnique";
@@ -34,7 +33,7 @@ public class UserService {
                 throw new ValidationException(fails);
             }
 
-            Optional<User> optionalUser = dao.getUserByLoginAndPassword(login, password);
+            Optional<User> optionalUser = dao.findUserByLoginAndPassword(login, password);
             if (!optionalUser.isPresent()) {
                 throw new ValidationException(Collections.singletonList(INCORRECT_LOGIN_OR_PASSWORD));
             }
@@ -45,17 +44,19 @@ public class UserService {
         }
     }
 
-    public void banUser(long id) throws ServiceException {
+    public Optional<User> banUser(long id) throws ServiceException {
         try(UserDao dao = userDaoFactory.create()) {
-           dao.banUser(id);
+            dao.banUser(id);
+            return dao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
-    public void unbanUser(long id) throws ServiceException {
+    public Optional<User> unbanUser(long id) throws ServiceException {
         try(UserDao dao = userDaoFactory.create()) {
             dao.unbanUser(id);
+            return dao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -63,10 +64,19 @@ public class UserService {
 
     public Optional<User> findById(long id) throws ServiceException {
         try(UserDao dao = userDaoFactory.create()) {
-            return dao.getById(id);
+            return dao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    public User tryFindById(long id) throws ServiceException {
+        Optional<User> optionalUser = findById(id);
+        if (!optionalUser.isPresent()) {
+            throw new ServiceException("User doesn't exist");
+        }
+
+        return optionalUser.get();
     }
 
     public List<User> findEmployees(int start, int count) throws ServiceException {
@@ -101,30 +111,76 @@ public class UserService {
         }
     }
 
-    public User saveUser(User user) throws ServiceException {
+    public User addUser(UserDataHolder userDataHolder) throws ServiceException {
+        List<String> validationFails = userValidator.validateForRegister(userDataHolder);
+        Date date = DateUtils.tryParse(userDataHolder.getBirthDate());
+        User user = new User.Builder(userDataHolder)
+                .setRole(UserRole.JOB_SEEKER)
+                .setBirthDate(date)
+                .setEnabled(false)
+                .build();
+
         try(UserDao dao = userDaoFactory.create()) {
-            long id = user.getId();
-            List<String> fails;
-            if (id == -1) {
-                fails = userValidator.validateForRegister(user);
-            } else {
-                fails = userValidator.validateForUpdate(user);
+            Optional<User> userOptional = dao.findByLogin(userDataHolder.getLogin());
+            if (userOptional.isPresent()) {
+                validationFails.add(LOGIN_NOT_UNIQUE_FAIL);
             }
-            if (fails.isEmpty()) {
-                String login = user.getLogin();
-                Optional<User> optionalUser = dao.findByLogin(login);
-                if (optionalUser.isPresent() && id != optionalUser.get().getId()) {
-                    fails.add(LOGIN_NOT_UNIQUE_FAIL);
-                }
-            }
-            if (!fails.isEmpty()) {
-                throw new ValidationException(fails);
+            if (!validationFails.isEmpty()) {
+                throw new ValidationException(validationFails);
             }
 
             dao.save(user);
-            String login = user.getLogin();
-            Optional<User> optionalUser = dao.findByLogin(login);
+            Optional<User> optionalUser = dao.findByLogin(userDataHolder.getLogin());
+            // Always present as it is recently saved
             return optionalUser.get();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public User updateUser(UserDataHolder userDataHolder) throws ServiceException {
+        List<String> validationFails = userValidator.validateForUpdate(userDataHolder);
+        Date date = DateUtils.tryParse(userDataHolder.getBirthDate());
+        User updatedUser = new User.Builder(userDataHolder)
+                .setBirthDate(date)
+                .setBanned(false)
+                .setEnabled(true)
+                .build();
+
+        try(UserDao dao = userDaoFactory.create()) {
+            Optional<User> userOptional = dao.findByLogin(userDataHolder.getLogin());
+            if (userOptional.isPresent()) {
+                User userByEmail = userOptional.get();
+                if (userByEmail.getId() != userDataHolder.getId()) {
+                    validationFails.add(LOGIN_NOT_UNIQUE_FAIL);
+                }
+            }
+            if (!validationFails.isEmpty()) {
+                throw new ValidationException(validationFails);
+            }
+
+            dao.save(updatedUser);
+            return updatedUser;
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public User enable(long id) throws ServiceException {
+        try(UserDao dao = userDaoFactory.create()) {
+            Optional<User> optionalUser = dao.findById(id);
+            if (!optionalUser.isPresent()) {
+                throw new ServiceException("User not exists");
+            }
+
+            User user = optionalUser.get();
+            user = new User.Builder(user)
+                    .setEnabled(true)
+                    .build();
+
+            dao.save(user);
+
+            return user;
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

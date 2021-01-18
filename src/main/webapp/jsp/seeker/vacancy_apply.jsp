@@ -25,7 +25,7 @@
                             <c:forEach items="${resumes}" var="resume">
                                 <div class="single_resume_item">
                                     <a href="${pageContext.request.contextPath}/controller?command=resume_info&resume_id=${resume.id}"><span>${resume.name}</span></a>
-                                    <form action="${pageContext.request.contextPath}/controller" method="post">
+                                    <form action="${pageContext.request.contextPath}/controller" method="get">
                                         <input type="hidden" name="command" value="vacancy_apply_accept">
                                         <input type="hidden" name="resume_id" value="${resume.id}">
                                         <input type="hidden" name="vacancy_id" value="${vacancy.id}">

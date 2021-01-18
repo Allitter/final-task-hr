@@ -1,6 +1,7 @@
 package com.epam.hr.data.dao.impl;
 
 import com.epam.hr.data.dao.AbstractDao;
+import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.data.mapper.impl.VacancyMapper;
 import com.epam.hr.domain.model.Vacancy;
 import com.epam.hr.exception.DaoException;
@@ -13,15 +14,15 @@ public class VacancyDao extends AbstractDao<Vacancy> {
     private static final String TABLE = "vacancy";
     private static final String UPDATE_QUERY = String.format("update %s set name = ?, short_description = ?, description = ? where id = ?;", TABLE);
     private static final String INSERT_QUERY = String.format("insert into %s (name, short_description, description) values (?, ?, ?);", TABLE);
+    private final Mapper<Vacancy> mapper;
 
-    private final VacancyMapper mapper = new VacancyMapper();
-
-    public VacancyDao(Connection connection) {
+    public VacancyDao(Connection connection, Mapper<Vacancy> mapper) {
         super(connection);
+        this.mapper = mapper;
     }
 
     @Override
-    public Optional<Vacancy> getById(long id) throws DaoException {
+    public Optional<Vacancy> findById(long id) throws DaoException {
         return findById(TABLE, mapper,id);
     }
 
@@ -36,8 +37,8 @@ public class VacancyDao extends AbstractDao<Vacancy> {
     }
 
     @Override
-    public int findQuantity() throws DaoException {
-        return findQuantity(TABLE);
+    public int getRowCount() throws DaoException {
+        return getRowCount(TABLE);
     }
 
     @Override

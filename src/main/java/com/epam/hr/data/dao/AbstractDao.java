@@ -14,33 +14,18 @@ public abstract class AbstractDao<T> implements Dao<T> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final String SELECT_ALL_QUERY = "select * from %s;";
-    private static final String SELECT_ALL_WITH_LIMIT_QUERY = "select * from %s limit ?, ?;";
-    private static final String FIND_BY_ID_QUERY = "select * from %s where id = ?;";
+    private static final String SELECT_ALL_WITH_LIMIT_QUERY = "select %s from %s limit ?, ?;";
+    private static final String FIND_BY_ID_QUERY = "select %s from %s where id = ?;";
     private static final String REMOVE_BY_ID_QUERY = "delete from %s where id = ?;";
-    public static final String COUNT_ROWS_QUERY = "select count(*) as c from %s;";
-    public static final String COUNT_ROWS_QUERY_WITH_CONDITION = "select count(*) as c from %s where %s;";
-    public static final String COUNT_ATTRIBUTE_NAME = "c";
-    public static final int FIRST_ENTITY_INDEX = 0;
-
+    private static final String COUNT_ROWS_QUERY = "select count(*) as c from %s;";
+    private static final String COUNT_ROWS_QUERY_WITH_CONDITION = "select count(*) as c from %s where %s;";
+    private static final String COUNT_ATTRIBUTE_NAME = "c";
+    private static final int FIRST_ENTITY_INDEX = 0;
+    private static final String ALL_ATTRIBUTES = "*";
     private Connection connection;
 
     protected AbstractDao(Connection connection) {
         this.connection = connection;
-    }
-
-    protected List<T> executeQuery(String query, Mapper<T> mapper) throws DaoException {
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(query);
-            List<T> entities = new ArrayList<>();
-            while (resultSet.next()) {
-                T entity = mapper.map(resultSet);
-                entities.add(entity);
-            }
-
-            return entities;
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
     }
 
     protected List<T> executeQueryPrepared(String query, Mapper<T> mapper, Object... params) throws DaoException {
@@ -87,12 +72,12 @@ public abstract class AbstractDao<T> implements Dao<T> {
         }
     }
 
-    protected int findQuantity(String tableName) throws DaoException {
+    protected int getRowCount(String tableName) throws DaoException {
         String query = String.format(COUNT_ROWS_QUERY, tableName);
         return countRows(query);
     }
 
-    protected int findQuantity(String tableName, String condition) throws DaoException {
+    protected int getRowCount(String tableName, String condition) throws DaoException {
         String query = String.format(COUNT_ROWS_QUERY_WITH_CONDITION, tableName, condition);
         return countRows(query);
     }
@@ -108,9 +93,14 @@ public abstract class AbstractDao<T> implements Dao<T> {
     }
 
     protected Optional<T> findById(String tableName, Mapper<T> mapper, long id) throws DaoException {
-        String query = String.format(FIND_BY_ID_QUERY, tableName);
+        return findById(tableName, ALL_ATTRIBUTES, mapper, id);
+    }
+
+    protected Optional<T> findById(String tableName, String attributes, Mapper<T> mapper, long id) throws DaoException {
+        String query = String.format(FIND_BY_ID_QUERY, attributes, tableName);
         return executeSingleResultQueryPrepared(query, mapper, id);
     }
+
 
     protected void removeById(String tableName, long id) throws DaoException {
         String query = String.format(REMOVE_BY_ID_QUERY, tableName);
@@ -122,8 +112,12 @@ public abstract class AbstractDao<T> implements Dao<T> {
         return executeQueryPrepared(query, mapper);
     }
 
-    protected List<T> findAll(String tableName, Mapper<T> mapper, int start, int count) throws DaoException {
-        String query = String.format(SELECT_ALL_WITH_LIMIT_QUERY, tableName);
+    protected List<T> findAll(String table, Mapper<T> mapper, int start, int count) throws DaoException {
+        return findAll(table, ALL_ATTRIBUTES, mapper, start, count);
+    }
+
+    protected List<T> findAll(String table, String attributes, Mapper<T> mapper, int start, int count) throws DaoException {
+        String query = String.format(SELECT_ALL_WITH_LIMIT_QUERY, attributes, table);
         return executeQueryPrepared(query, mapper, start, count);
     }
 

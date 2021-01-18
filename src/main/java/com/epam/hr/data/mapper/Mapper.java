@@ -7,4 +7,5 @@ public interface Mapper<T> {
 
     T map(ResultSet resultSet) throws SQLException;
 
+    T mapForAnotherEntity(ResultSet resultSet) throws SQLException;
 }

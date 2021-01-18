@@ -17,16 +17,16 @@
 
     <main class="main">
         <c:choose>
-            <c:when test="${job_application_dtos.size() > 0}">
+            <c:when test="${job_applications.size() > 0}">
                 <div class="items">
 
-                    <c:forEach var="applicationDto" items="${job_application_dtos}">
+                    <c:forEach var="applicationDto" items="${job_applications}">
                         <div class="item">
                             <div class="item_info">
                                 <div class="item_description">
 
                                     <h3 class="item_name" style="display: inline;">${applicationDto.vacancyName}</h3>
-                                    <span style="margin-left: 10px; color: var(--accept-btn-color)">${applicationDto.state}</span>
+                                    <span style="margin-left: 10px; color: var(--accept-btn-color)"><fmt:message key="enum.job_application_state.${applicationDto.state.name()}"/></span>
                                     <span style="margin-left: 10px; color: var(--main-bg-color)">${applicationDto.date}</span>
                                     <p class="item_short_desc">${applicationDto.vacancyShortDescription}</p>
                                 </div>
@@ -47,9 +47,7 @@
             </c:otherwise>
         </c:choose>
 
-        <hrt:page-bar numberOfPages="${number_of_pages}"
-                      currentPage="${page}"
-                      command="job_applications" />
+        <hrt:page-bar page="${page}" command="job_applications" />
     </main>
 </div>
 </body>

@@ -2,6 +2,7 @@ package com.epam.hr.data.dao;
 
 import com.epam.hr.data.dao.factory.DaoFactory;
 import com.epam.hr.exception.DaoException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

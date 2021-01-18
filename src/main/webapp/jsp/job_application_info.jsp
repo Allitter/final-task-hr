@@ -20,7 +20,7 @@
             <div class="item_header_buttons">
                 <a class="btn" href="${pageContext.request.contextPath}/controller?command=job_seekers"><fmt:message key="button.back"/></a>
                 <c:if test="${job_application.state.name() == 'RECENTLY_CREATED'}">
-                    <form action="${pageContext.request.contextPath}/controller">
+                    <form action="${pageContext.request.contextPath}/controller" method="post">
                         <input type="hidden" name="command" value="assign_preliminary_interview">
                         <input type="hidden" name="job_application_id" value="${job_application.id}">
                         <button class="btn"><fmt:message key="button.assign_preliminary_interview"/></button>
@@ -29,7 +29,7 @@
 
                 <c:if test="${job_application.state.name() == 'PRELIMINARY_INTERVIEW'}">
                     <form action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="assign_technical_interview">
+                        <input type="hidden" name="command" value="assign_technical_interview" method="post">
                         <input type="hidden" name="job_application_id" value="${job_application.id}">
                         <button class="btn"><fmt:message key="button.assign_technical_interview"/></button>
                     </form>
@@ -37,15 +37,16 @@
 
                 <c:if test="${job_application.state.name() == 'TECHNICAL_INTERVIEW'}">
                     <form action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="assign_for_job">
+                        <input type="hidden" name="command" value="assign_for_job" method="post">
                         <input type="hidden" name="job_application_id" value="${job_application.id}">
                         <button class="btn"><fmt:message key="button.assign_for_job"/></button>
                     </form>
                 </c:if>
 
                 <c:if test="${job_application.state.name() != 'APPLIED' && job_application.state.name() != 'BLOCKED'}">
-                    <form action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="block_job_application">
+                    <form action="${pageContext.request.contextPath}/controller" method="post">
+                        <input type="hidden" name="command" value="confirmation_page">
+                        <input type="hidden" name="target_command" value="block_job_application">
                         <input type="hidden" name="job_application_id" value="${job_application.id}">
                         <button class="btn alert"><fmt:message key="button.block"/></button>
                     </form>
@@ -69,7 +70,7 @@
                     <h2 style="margin-left: 20px;" class="item_name">
                         ${seeker.name} ${seeker.lastName} ${seeker.patronymic}
                     </h2>
-                    <h3 style="color: var(--accept-btn-color); margin-left: 20px" >${job_application.state}</h3>
+                    <h3 style="color: var(--accept-btn-color); margin-left: 20px" ><fmt:message key="enum.job_application_state.${job_application.state.name()}"/></h3>
                 </div>
                 <p><fmt:message key="label.email"/>: ${seeker.email}</p>
                 <p><fmt:message key="label.phone"/>: ${seeker.phone}</p>
@@ -90,7 +91,7 @@
                         <br>
 
                         <div class="item_edit_actions">
-                            <input class="btn interview_modify_btn" type="submit" value="<fmt:message key="button.modify"/>">
+                            <input class="btn interview_modify_btn" type="submit" value="<fmt:message key="button.save"/>">
                         </div>
                     </form>
                 </c:if>
@@ -109,7 +110,7 @@
                                   id="technical_interview">${job_application.technicalInterviewNote}</textarea>
 
                         <div class="item_edit_actions">
-                            <input class="btn interview_modify_btn" type="submit" value="<fmt:message key="button.modify"/>">
+                            <input class="btn interview_modify_btn" type="submit" value="<fmt:message key="button.save"/>">
                         </div>
                     </form>
                 </c:if>

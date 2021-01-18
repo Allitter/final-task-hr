@@ -21,21 +21,19 @@ public class User implements Serializable {
     private final boolean isBanned;
     private final boolean enabled;
 
-    private User(long id, UserRole role, String login, String password, String name,
-                String lastName, String patronymic, String email, String phone,
-                Date birthDate, boolean isBanned, boolean enabled) {
-        this.id = id;
-        this.role = role;
-        this.login = login;
-        this.password = password;
-        this.name = name;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
-        this.email = email;
-        this.phone = phone;
-        this.birthDate = birthDate;
-        this.isBanned = isBanned;
-        this.enabled = enabled;
+    private User(User.Builder builder) {
+        this.id = builder.id;
+        this.role = builder.role;
+        this.login = builder.login;
+        this.password = builder.password;
+        this.name = builder.name;
+        this.lastName = builder.lastName;
+        this.patronymic = builder.patronymic;
+        this.email = builder.email;
+        this.phone = builder.phone;
+        this.birthDate = builder.birthDate;
+        this.isBanned = builder.isBanned;
+        this.enabled = builder.enabled;
     }
 
     public long getId() {
@@ -197,6 +195,20 @@ public class User implements Serializable {
             enabled = user.isEnabled();
         }
 
+        public Builder(UserDataHolder userDataHolder) {
+            id = userDataHolder.getId();
+            role = userDataHolder.getRole();
+            login = userDataHolder.getLogin();
+            password = userDataHolder.getPassword();
+            name = userDataHolder.getName();
+            lastName = userDataHolder.getLastName();
+            patronymic = userDataHolder.getPatronymic();
+            email = userDataHolder.getEmail();
+            phone = userDataHolder.getPhone();
+            birthDate = DEFAULT_BIRTH_DATE;
+            isBanned = DEFAULT_IS_BANNED;
+            enabled = DEFAULT_ENABLED;
+        }
 
         public Builder setId(long id) {
             this.id = id;
@@ -259,9 +271,7 @@ public class User implements Serializable {
         }
 
         public User build() {
-            return new User(this.id, this.role, this.login, this.password,
-                    this.name, this.lastName, this.patronymic, this.email,
-                    this.phone, this.birthDate, this.isBanned, this.enabled);
+            return new User(this);
         }
     }
 }
