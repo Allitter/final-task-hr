@@ -3,9 +3,12 @@ package com.epam.hr.domain.controller.command;
 public final class Attributes {
     public static final String COMMAND = "command";
     public static final String TARGET_COMMAND = "target_command";
+    public static final String ALREADY_APPLIED_FOR_VACANCY = "already_applied";
     public static final String PREVIOUS_PAGE = "previous_page";
     public static final String PARAMETERS = "parameters";
     public static final String MESSAGE = "message";
+    public static final String BAN = "ban";
+    public static final String SHOW_MESSAGE = "show_message";
     public static final String SESSION_MANAGER = "session_manager";
     public static final String LANGUAGE = "lang";
     public static final String REFERER = "referer";

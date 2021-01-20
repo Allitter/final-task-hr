@@ -3,7 +3,6 @@ package com.epam.hr.domain.controller.command.impl.user;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.impl.AbstractCommand;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserDataHolder;
 import com.epam.hr.domain.service.SessionManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,15 +23,15 @@ public abstract class AbstractUserCommand extends AbstractCommand {
         sessionManager.renewUserIfSessionExists(user);
     }
 
-    protected UserDataHolder buildUserDataHolderFromRequest(HttpServletRequest request) {
-        return buildUserDataHolderFromRequest(request, Optional.empty());
+    protected User buildUserFromRequest(HttpServletRequest request) {
+        return buildUserFromRequest(request, Optional.empty());
     }
 
-    protected UserDataHolder buildUserDataHolderFromRequest(HttpServletRequest request, User originUser) {
-        return buildUserDataHolderFromRequest(request, Optional.of(originUser));
+    protected User buildUserFromRequest(HttpServletRequest request, User originUser) {
+        return buildUserFromRequest(request, Optional.of(originUser));
     }
 
-    private UserDataHolder buildUserDataHolderFromRequest(HttpServletRequest request, Optional<User> origin) {
+    private User buildUserFromRequest(HttpServletRequest request, Optional<User> origin) {
         String password = (String) request.getAttribute(Attributes.PASSWORD);
         password = password == null ? "" : password;
         String login = (String) request.getAttribute(Attributes.LOGIN);
@@ -42,12 +41,12 @@ public abstract class AbstractUserCommand extends AbstractCommand {
         String birthDateString = (String) request.getAttribute(Attributes.BIRTH_DATE);
         String phone = (String) request.getAttribute(Attributes.PHONE);
         String email = (String) request.getAttribute(Attributes.EMAIL);
-        UserDataHolder.Builder builder;
+        User.Builder builder;
         if (origin.isPresent()) {
             User user = origin.get();
-            builder = new UserDataHolder.Builder(user);
+            builder = new User.Builder(user);
         } else {
-            builder = new UserDataHolder.Builder();
+            builder = new User.Builder();
         }
 
         return builder.setLogin(login)

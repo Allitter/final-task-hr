@@ -1,6 +1,8 @@
 package com.epam.hr.data.dao;
 
 import com.epam.hr.data.dao.factory.DaoFactory;
+import com.epam.hr.data.pool.ConnectionPool;
+import com.epam.hr.domain.model.Entity;
 import com.epam.hr.exception.DaoException;
 
 import java.sql.Connection;
@@ -10,14 +12,14 @@ import java.util.List;
 
 public class TransactionHelper implements AutoCloseable {
     private final Connection connection;
-    private final List<AbstractDao> registeredDaos;
+    private final List<AbstractDao<? extends Entity>> registeredDaos;
 
-    public TransactionHelper(Connection connection) {
-        this.connection = connection;
+    public TransactionHelper() {
+        this.connection = ConnectionPool.getInstance().getConnection();
         registeredDaos = new ArrayList<>();
     }
 
-    public <T extends AbstractDao> T addDao(DaoFactory<T> factory) {
+    public <T extends AbstractDao<? extends Entity>> T addDao(DaoFactory<T> factory) {
         T dao = factory.create(connection);
         registeredDaos.add(dao);
         return dao;

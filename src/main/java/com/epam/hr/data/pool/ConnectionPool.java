@@ -14,30 +14,32 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-;
-
-public final class ConnectionPool {
+public class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Lock INSTANCE_LOCK = new ReentrantLock();
     private static final int MAX_CONNECTION_WAIT_TIME_IN_SECONDS = 10;
-    private static ConnectionPool instance;
-    private final BlockingQueue<ProxyConnection> availableConnections;
-    private final ConnectionFactory connectionFactory;
-    private AtomicInteger connectionsTotalCount;
 
-    /* package private access */
-    ConnectionPool() {
-        this(new ConnectionFactory());
+    private static ConnectionPool instance;
+
+    private final BlockingQueue<ProxyConnection> availableConnections;
+    private final AtomicInteger connectionsTotalCount;
+
+    private ConnectionPool() {
+        this(new MySQLConnectionFactory());
     }
 
-    /* package private access */
-    ConnectionPool(ConnectionFactory connectionFactory) {
+    private ConnectionPool(ConnectionFactory connectionFactory) {
         if (instance != null) {
             throw new DaoRuntimeException("Attempt to create second instance of connection pool");
         }
 
         this.availableConnections = new LinkedBlockingQueue<>();
-        this.connectionFactory = connectionFactory;
+
+        List<Connection> connections = connectionFactory.establishConnections();
+        connectionsTotalCount = new AtomicInteger(connections.size());
+        for (Connection connection : connections) {
+            availableConnections.add(new ProxyConnection(connection, this));
+        }
     }
 
     public Connection getConnection() {
@@ -60,7 +62,8 @@ public final class ConnectionPool {
         return connection;
     }
 
-    public void releaseConnection(Connection connection) {
+    /* package private access */
+    void releaseConnection(Connection connection) {
         if (!(connection instanceof ProxyConnection)) {
             return;
         }
@@ -76,7 +79,6 @@ public final class ConnectionPool {
             try {
                 if (instance == null) {
                     ConnectionPool pool = new ConnectionPool();
-                    pool.init();
                     instance = pool;
                 }
             } finally {
@@ -87,13 +89,21 @@ public final class ConnectionPool {
         return instance;
     }
 
-    private void init() {
-        List<Connection> connections = connectionFactory.establishConnections();
-        connectionsTotalCount = new AtomicInteger(connections.size());
-
-        for (Connection connection : connections) {
-            availableConnections.add(new ProxyConnection(connection, this));
+    /* package private, for test proposes only */
+    static ConnectionPool instantiateForTest(ConnectionFactory factory) {
+        if (instance == null) {
+            INSTANCE_LOCK.lock();
+            try {
+                if (instance == null) {
+                    ConnectionPool pool = new ConnectionPool(factory);
+                    instance = pool;
+                }
+            } finally {
+                INSTANCE_LOCK.unlock();
+            }
         }
+
+        return instance;
     }
 
     public void destroy() {
@@ -108,5 +118,15 @@ public final class ConnectionPool {
         } catch (SQLException | InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    /* package private for test */
+    int getAvailableConnectionsCount() {
+        return availableConnections.size();
+    }
+
+    /* package private for test */
+    int getTotalConnectionsCount() {
+        return availableConnections.size();
     }
 }

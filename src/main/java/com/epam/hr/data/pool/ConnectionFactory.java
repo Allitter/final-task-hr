@@ -11,14 +11,23 @@ import java.util.List;
 import java.util.Properties;
 
 /* package private access */
-class ConnectionFactory {
-    private static final String HEROKU_DATABASE_PROPERTIES_PATH = "dbheroku.properties";
+abstract class ConnectionFactory {
     private static final String CONNECTIONS_COUNT_PROPERTY = "connections.count";
     private static final String URL_PROPERTY = "url";
 
+    protected abstract String getPropertiesPath();
+    protected abstract void loadDriverIfNotLoaded();
+
     /* package private access */
     List<Connection> establishConnections() {
-        Properties properties = getConnectionProperties();
+        String path = getPropertiesPath();
+        return establishConnections(path);
+    }
+
+    /* package private access, for test proposes */
+    List<Connection> establishConnections(String propertiesPath) {
+        loadDriverIfNotLoaded();
+        Properties properties = getConnectionProperties(propertiesPath);
         return createConnections(properties);
     }
 
@@ -36,12 +45,12 @@ class ConnectionFactory {
         return connections;
     }
 
-    private Properties getConnectionProperties() {
+    private Properties getConnectionProperties(String propertiesPath) {
         ClassLoader classLoader = this.getClass().getClassLoader();
         Properties properties = new Properties();
 
         try {
-            properties.load(classLoader.getResourceAsStream(HEROKU_DATABASE_PROPERTIES_PATH));
+            properties.load(classLoader.getResourceAsStream(propertiesPath));
             return properties;
         } catch (IOException e) {
             throw new DaoRuntimeException("Incorrect db properties path");

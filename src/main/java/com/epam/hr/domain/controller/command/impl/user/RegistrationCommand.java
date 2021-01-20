@@ -4,7 +4,6 @@ import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserDataHolder;
 import com.epam.hr.domain.service.UserService;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
@@ -24,9 +23,9 @@ public class RegistrationCommand extends AbstractUserCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        UserDataHolder userDataHolder = buildUserDataHolderFromRequest(request);
+        User user = buildUserFromRequest(request);
         try {
-            User user = service.addUser(userDataHolder);
+            user = service.addUser(user);
             HttpSession session = request.getSession();
             session.setAttribute(Attributes.USER, user);
 

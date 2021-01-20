@@ -1,20 +1,18 @@
 package com.epam.hr.domain.model;
 
 import java.util.Date;
-import java.util.Objects;
 
-public class JobApplication {
-    private final long id;
+public final class JobApplication extends Entity {
     private final User user;
     private final Vacancy vacancy;
     private final Date date;
-    private final JobApplicationState state;
+    private final State state;
     private final String preliminaryInterviewNote;
     private final String technicalInterviewNote;
     private final String resumeText;
 
     public JobApplication(JobApplication.Builder builder) {
-        this.id = builder.id;
+        super(builder);
         this.user = builder.user;
         this.vacancy = builder.vacancy;
         this.date = builder.date;
@@ -32,7 +30,7 @@ public class JobApplication {
         return date;
     }
 
-    public JobApplicationState getState() {
+    public State getState() {
         return state;
     }
 
@@ -52,7 +50,7 @@ public class JobApplication {
         return user.getId();
     }
 
-    public UserRole geUserRole() {
+    public User.Role geUserRole() {
         return user.getRole();
     }
 
@@ -72,7 +70,7 @@ public class JobApplication {
         return user.getPatronymic();
     }
 
-    public Date getUserBirthDate() {
+    public String getUserBirthDate() {
         return user.getBirthDate();
     }
 
@@ -93,7 +91,7 @@ public class JobApplication {
     }
 
     public String getFormattedUserBirthDate() {
-        return user.getFormattedBirthDate();
+        return user.getBirthDate();
     }
 
     public long getIdVacancy() {
@@ -112,82 +110,42 @@ public class JobApplication {
         return vacancy.getDescription();
     }
 
-    @Override
-    public String toString() {
-        return "JobApplication{" +
-                "id=" + id +
-                ", user=" + user +
-                ", vacancy=" + vacancy +
-                ", date=" + date +
-                ", state=" + state +
-                ", preliminaryInterviewNote='" + preliminaryInterviewNote + '\'' +
-                ", technicalInterviewNote='" + technicalInterviewNote + '\'' +
-                ", resumeText='" + resumeText + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        JobApplication that = (JobApplication) o;
-        return id == that.id && Objects.equals(user, that.user)
-                && Objects.equals(vacancy, that.vacancy)
-                && Objects.equals(date, that.date)
-                && state == that.state
-                && Objects.equals(preliminaryInterviewNote, that.preliminaryInterviewNote)
-                && Objects.equals(technicalInterviewNote, that.technicalInterviewNote)
-                && Objects.equals(resumeText, that.resumeText);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, vacancy, date, state,
-                preliminaryInterviewNote, technicalInterviewNote, resumeText);
-    }
-
-    public static class Builder {
-        private static final int DEFAULT_ID = -1;
-        private static final Date DEFAULT_DATE = new Date();
-        private static final JobApplicationState DEFAULT_STATE = JobApplicationState.RECENTLY_CREATED;
+    public static class Builder extends Entity.Builder<JobApplication> {
+        private static final State DEFAULT_STATE = State.RECENTLY_CREATED;
         private static final String DEFAULT_PRELIMINARY_INTERVIEW_NOTE = "";
         private static final String DEFAULT_TECHNICAL_INTERVIEW_NOTE = "";
         private static final String DEFAULT_RESUME_TEXT = "";
 
-        private long id;
         private User user;
         private Vacancy vacancy;
         private Date date;
-        private JobApplicationState state;
+        private State state;
         private String preliminaryInterviewNote;
         private String technicalInterviewNote;
         private String resumeText;
 
         public Builder() {
-            id = DEFAULT_ID;
-            date = DEFAULT_DATE;
-            state = DEFAULT_STATE;
-            preliminaryInterviewNote = DEFAULT_PRELIMINARY_INTERVIEW_NOTE;
-            technicalInterviewNote = DEFAULT_TECHNICAL_INTERVIEW_NOTE;
-            resumeText = DEFAULT_RESUME_TEXT;
+            this(DEFAULT_ID);
+        }
+
+        public Builder(long id) {
+            super(id);
+            this.date = new Date();
+            this.state = DEFAULT_STATE;
+            this.preliminaryInterviewNote = DEFAULT_PRELIMINARY_INTERVIEW_NOTE;
+            this.technicalInterviewNote = DEFAULT_TECHNICAL_INTERVIEW_NOTE;
+            this.resumeText = DEFAULT_RESUME_TEXT;
         }
 
         public Builder(JobApplication jobApplication) {
-            this.id = jobApplication.getId();
+            super(jobApplication);
             this.date = jobApplication.getDate();
             this.state = jobApplication.getState();
             this.preliminaryInterviewNote = jobApplication.getPreliminaryInterviewNote();
             this.technicalInterviewNote = jobApplication.getTechnicalInterviewNote();
             this.resumeText = jobApplication.getResumeText();
-        }
-
-        public Builder setId(long id) {
-            this.id = id;
-            return this;
+            this.vacancy = jobApplication.vacancy;
+            this.user = jobApplication.user;
         }
 
         public Builder setUser(User user) {
@@ -205,7 +163,7 @@ public class JobApplication {
             return this;
         }
 
-        public Builder setState(JobApplicationState state) {
+        public Builder setState(State state) {
             this.state = state;
             return this;
         }
@@ -225,8 +183,18 @@ public class JobApplication {
             return this;
         }
 
-        public JobApplication build() {
+        @Override
+        public JobApplication build(boolean isValid) {
+            this.isValid = isValid;
             return new JobApplication(this);
         }
+    }
+
+    public enum State {
+        RECENTLY_CREATED,
+        PRELIMINARY_INTERVIEW,
+        TECHNICAL_INTERVIEW,
+        APPLIED,
+        BLOCKED
     }
 }

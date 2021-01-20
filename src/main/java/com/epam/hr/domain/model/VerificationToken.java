@@ -3,30 +3,33 @@ package com.epam.hr.domain.model;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
-public class VerificationToken {
-    private static final int EXPIRATION_TIME_IN_MINUTES = 60 * 24;
-
-    private final long id;
+public final class VerificationToken extends Entity {
     private final long idUser;
     private final String code;
     private final Date expirationDate;
 
     public VerificationToken(long idUser, String code) {
-        this.id = -1;
-
+        super(-1, true);
         this.idUser = idUser;
         this.code = code;
-        this.expirationDate = calculateExpirationDate();
+        this.expirationDate = Builder.calculateExpirationDate();
     }
 
     public VerificationToken(long id, long idUser, String code, Date expirationDate) {
-        this.id = id;
+        super(id, true);
         this.idUser = idUser;
         this.code = code;
         this.expirationDate = expirationDate;
     }
+
+    public VerificationToken(VerificationToken.Builder builder) {
+        super(builder);
+        this.idUser = builder.idUser;
+        this.code = builder.code;
+        this.expirationDate = builder.expirationDate;
+    }
+
 
     public long getId() {
         return id;
@@ -44,40 +47,52 @@ public class VerificationToken {
         return expirationDate;
     }
 
-    private Date calculateExpirationDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
-        calendar.add(Calendar.MINUTE, EXPIRATION_TIME_IN_MINUTES);
-        return new Date(calendar.getTime().getTime());
-    }
+    public static class Builder extends Entity.Builder<VerificationToken> {
+        private static final int EXPIRATION_TIME_IN_MINUTES = 60 * 24;
 
-    @Override
-    public String toString() {
-        return "VerificationToken{" +
-                "id=" + id +
-                ", idUser=" + idUser +
-                ", code='" + code + '\'' +
-                ", expirationDate=" + expirationDate +
-                '}';
-    }
+        private final long idUser;
+        private String code;
+        private Date expirationDate;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+        public Builder(long idUser, String code) {
+            this(DEFAULT_ID, idUser, code);
         }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        VerificationToken token = (VerificationToken) o;
-        return id == token.id
-                && idUser == token.idUser
-                && Objects.equals(code, token.code)
-                && Objects.equals(expirationDate, token.expirationDate);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, idUser, code, expirationDate);
+        public Builder(long id, long idUser, String code) {
+            super(id);
+            this.idUser = idUser;
+            this.code = code;
+            this.expirationDate = calculateExpirationDate();
+        }
+
+        public Builder(VerificationToken verificationToken) {
+            super(verificationToken);
+            this.idUser = verificationToken.idUser;
+            this.code = verificationToken.code;
+            this.expirationDate = verificationToken.expirationDate;
+        }
+
+        // todo remove static
+        private static Date calculateExpirationDate() {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+            calendar.add(Calendar.MINUTE, EXPIRATION_TIME_IN_MINUTES);
+            return new Date(calendar.getTime().getTime());
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public Builder setExpirationDate(Date expirationDate) {
+            this.expirationDate = expirationDate;
+            return this;
+        }
+
+        @Override
+        public VerificationToken build(boolean isValid) {
+            this.isValid = isValid;
+            return null;
+        }
     }
 }

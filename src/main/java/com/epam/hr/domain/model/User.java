@@ -1,15 +1,11 @@
 package com.epam.hr.domain.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
-public class User implements Serializable {
+public final class User  extends Entity implements Serializable {
     public static final User DEFAULT = new Builder().build();
-    private static final String FORMATTED_DATE_PATTERN = "yyyy-MM-dd";
-    private final long id;
-    private final UserRole role;
+    private final Role role;
     private final String login;
     private final String password;
     private final String name;
@@ -17,12 +13,12 @@ public class User implements Serializable {
     private final String patronymic;
     private final String email;
     private final String phone;
-    private final Date birthDate;
+    private final String birthDate;
     private final boolean isBanned;
     private final boolean enabled;
 
     private User(User.Builder builder) {
-        this.id = builder.id;
+        super(builder);
         this.role = builder.role;
         this.login = builder.login;
         this.password = builder.password;
@@ -36,11 +32,7 @@ public class User implements Serializable {
         this.enabled = builder.enabled;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public UserRole getRole() {
+    public Role getRole() {
         return role;
     }
 
@@ -64,7 +56,7 @@ public class User implements Serializable {
         return patronymic;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -84,76 +76,20 @@ public class User implements Serializable {
         return isBanned;
     }
 
-    public String getFormattedBirthDate() {
-        if (birthDate == null) {
-            return "";
-        }
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(FORMATTED_DATE_PATTERN);
-        return dateFormat.format(birthDate);
+    public User changeEnabled(boolean enabled) {
+        return new User.Builder(this).setEnabled(enabled).build();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", role=" + role +
-                ", login='" + login + '\'' +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", birthDate=" + birthDate +
-                ", isBanned=" + isBanned +
-                ", enabled=" + enabled +
-                '}';
+    public User changeBanned(boolean isBanned) {
+        return new User.Builder(this).setBanned(isBanned).build();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        User user = (User) o;
-        return id == user.id
-                && isBanned == user.isBanned
-                && enabled == user.enabled
-                && role == user.role
-                && Objects.equals(login, user.login)
-                && Objects.equals(name, user.name)
-                && Objects.equals(lastName, user.lastName)
-                && Objects.equals(patronymic, user.patronymic)
-                && Objects.equals(email, user.email)
-                && Objects.equals(phone, user.phone)
-                && Objects.equals(birthDate, user.birthDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, role, login, name, lastName,
-                patronymic, email, phone, birthDate, isBanned, enabled);
-    }
-
-    public static class Builder {
-        private static final int DEFAULT_ID = -1;
-        private static final UserRole DEFAULT_ROLE = UserRole.DEFAULT;
-        private static final String DEFAULT_LOGIN = "";
-        private static final String DEFAULT_PASSWORD = "";
-        private static final String DEFAULT_NAME = "";
-        private static final String DEFAULT_LAST_NAME = "";
-        private static final String DEFAULT_PATRONYMIC = "";
-        private static final String DEFAULT_EMAIL = "";
-        private static final String DEFAULT_PHONE = "";
-        private static final Date DEFAULT_BIRTH_DATE = new Date();
+    public static class Builder extends Entity.Builder<User> {
+        private static final Role DEFAULT_ROLE = Role.DEFAULT;
         private static final boolean DEFAULT_IS_BANNED = false;
         private static final boolean DEFAULT_ENABLED = true;
 
-        private long id;
-        private UserRole role;
+        private Role role;
         private String login;
         private String password;
         private String name;
@@ -161,27 +97,31 @@ public class User implements Serializable {
         private String patronymic;
         private String email;
         private String phone;
-        private Date birthDate;
+        private String birthDate;
         private boolean isBanned;
         private boolean enabled;
 
         public Builder() {
-            id = DEFAULT_ID;
+            this(DEFAULT_ID);
+        }
+
+        public Builder(long id) {
+            super(id);
             role = DEFAULT_ROLE;
-            login = DEFAULT_LOGIN;
-            password = DEFAULT_PASSWORD;
-            name = DEFAULT_NAME;
-            lastName = DEFAULT_LAST_NAME;
-            patronymic = DEFAULT_PATRONYMIC;
-            email = DEFAULT_EMAIL;
-            phone = DEFAULT_PHONE;
-            birthDate = DEFAULT_BIRTH_DATE;
+            login = DEFAULT_STRING_VALUE;
+            password = DEFAULT_STRING_VALUE;
+            name = DEFAULT_STRING_VALUE;
+            lastName = DEFAULT_STRING_VALUE;
+            patronymic = DEFAULT_STRING_VALUE;
+            email = DEFAULT_STRING_VALUE;
+            phone = DEFAULT_STRING_VALUE;
+            birthDate = new Date().toString();
             isBanned = DEFAULT_IS_BANNED;
             enabled = DEFAULT_ENABLED;
         }
 
         public Builder(User user) {
-            id = user.getId();
+            super(user);
             role = user.getRole();
             login = user.getLogin();
             password = user.getPassword();
@@ -195,27 +135,7 @@ public class User implements Serializable {
             enabled = user.isEnabled();
         }
 
-        public Builder(UserDataHolder userDataHolder) {
-            id = userDataHolder.getId();
-            role = userDataHolder.getRole();
-            login = userDataHolder.getLogin();
-            password = userDataHolder.getPassword();
-            name = userDataHolder.getName();
-            lastName = userDataHolder.getLastName();
-            patronymic = userDataHolder.getPatronymic();
-            email = userDataHolder.getEmail();
-            phone = userDataHolder.getPhone();
-            birthDate = DEFAULT_BIRTH_DATE;
-            isBanned = DEFAULT_IS_BANNED;
-            enabled = DEFAULT_ENABLED;
-        }
-
-        public Builder setId(long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setRole(UserRole role) {
+        public Builder setRole(Role role) {
             this.role = role;
             return this;
         }
@@ -255,7 +175,7 @@ public class User implements Serializable {
             return this;
         }
 
-        public Builder setBirthDate(Date birtDate) {
+        public Builder setBirthDate(String birtDate) {
             this.birthDate = birtDate;
             return this;
         }
@@ -270,8 +190,17 @@ public class User implements Serializable {
             return this;
         }
 
-        public User build() {
+        @Override
+        public User build(boolean isValid) {
+            this.isValid = isValid;
             return new User(this);
         }
+    }
+
+    public enum Role {
+        ADMINISTRATOR,
+        EMPLOYEE,
+        JOB_SEEKER,
+        DEFAULT
     }
 }

@@ -4,16 +4,15 @@ import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
 import com.epam.hr.domain.controller.command.impl.application.AbstractJobApplicationCommand;
-import com.epam.hr.domain.model.*;
+import com.epam.hr.domain.model.JobApplication;
+import com.epam.hr.domain.model.Page;
+import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.service.JobApplicationService;
-import com.epam.hr.domain.service.VacancyService;
 import com.epam.hr.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class JobApplicationsForSeekerCommand extends AbstractJobApplicationCommand {
     private static final int NUMBER_OF_RECORDS_PER_PAGE = 10;
@@ -32,7 +31,7 @@ public class JobApplicationsForSeekerCommand extends AbstractJobApplicationComma
         User user = (User) session.getAttribute(Attributes.USER);
         long idUser = user.getId();
 
-        if (!UserRole.JOB_SEEKER.equals(user.getRole())) {
+        if (!User.Role.JOB_SEEKER.equals(user.getRole())) {
             return Router.forward(Pages.ACCESS_DENIED);
         }
 

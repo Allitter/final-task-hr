@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>HR-ORG</title>
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
     <%@ include file="../head_common.jsp" %>
+    <title>HR-ORG</title>
 </head>
 
 <body>
@@ -18,10 +18,8 @@
 
     <main class="main item_edit">
         <div class="message">
-            <c:if test='${fails.contains("nameNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-            <c:if test='${fails.contains("nameRegexFail")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
-            <c:if test='${fails.contains("textNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.text"/> <fmt:message key="messages.cant_be_empty"/></c:if>
-            <c:if test='${fails.contains("textRegexFail")}'><p class="alert-text"><fmt:message key="messages.text"/> <fmt:message key="messages.incorrect"/></p></c:if>
+            <c:if test='${fails.contains("name")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
+            <c:if test='${fails.contains("text")}'><p class="alert-text"><fmt:message key="messages.text"/> <fmt:message key="messages.incorrect"/></p></c:if>
             <c:if test='${fails.contains("noMoreResumes")}'><p class="alert-text"><fmt:message key="messages.resume_limit_exceeded"/></p></c:if>
         </div>
 

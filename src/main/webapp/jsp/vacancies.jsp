@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>HR-ORG</title>
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
     <%@ include file="head_common.jsp"%>
+    <title>HR-ORG</title>
 </head>
 
 <body>
@@ -30,7 +30,13 @@
                     <div class="item">
                         <div class="item_info">
                             <div class="item_description">
-                                <h3 class="item_name">${vacancy.name}</h3>
+                                <h3 class="item_name">
+                                        ${vacancy.name}
+                                    <c:if test="${vacancy.isClosed()}">
+                                        <span style="color: var(--alert-text-color); font-size: 1rem;"><fmt:message key="messages.closed"/></span>
+                                    </c:if>
+                                </h3>
+
                                 <p class="item_short_desc">${vacancy.shortDescription}</p>
                             </div>
                         </div>

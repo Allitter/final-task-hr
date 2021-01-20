@@ -15,13 +15,9 @@
     <h2><fmt:message key="login.title" /></h2>
 
     <div class="message">
-        <c:choose>
-            <c:when test='${fails.contains("loginNullOrEmpty")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
-            <c:when test='${fails.contains("loginRegexFail")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
-            <c:when test='${fails.contains("passwordNullOrEmpty")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
-            <c:when test='${fails.contains("passwordRegexFail")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
-            <c:when test='${fails.contains("incorrectLoginOrPassword")}'><p class="alert-text"><fmt:message key="login.bad_credentials" /></p></c:when>
-        </c:choose>
+        <c:if test="${fails.contains('login') || fails.contains('password') || fails.contains('incorrectLoginOrPassword')}">
+            <span class="alert-text"><fmt:message key="login.bad_credentials"/></span>
+        </c:if>
     </div>
 
     <input type="hidden" name="command" value="login">

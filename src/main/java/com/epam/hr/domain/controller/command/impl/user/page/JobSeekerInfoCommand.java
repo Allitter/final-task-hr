@@ -4,6 +4,7 @@ import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
 import com.epam.hr.domain.controller.command.impl.user.AbstractUserCommand;
+import com.epam.hr.domain.model.Ban;
 import com.epam.hr.domain.model.Resume;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.service.ResumeService;
@@ -25,17 +26,16 @@ public class JobSeekerInfoCommand extends AbstractUserCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long userId = Long.parseLong((String)request.getAttribute(Attributes.USER_ID));
+        long idUser = Long.parseLong((String)request.getAttribute(Attributes.USER_ID));
 
-        Optional<User> optional = userService.findById(userId);
-        if (!optional.isPresent()) {
-            return Router.forward(Pages.PAGE_NOT_FOUND);
+        User user = userService.tryFindById(idUser);
+        if (user.isBanned()) {
+            Ban ban = userService.tryFindLastBan(idUser);
+            request.setAttribute(Attributes.BAN, ban);
         }
-
-        User user = optional.get();
         request.setAttribute(Attributes.JOB_SEEKER, user);
 
-        List<Resume> resumes = resumeService.findUserResumes(userId);
+        List<Resume> resumes = resumeService.findUserResumes(idUser);
         request.setAttribute(Attributes.RESUMES, resumes);
 
         return Router.forward(Pages.JOB_SEEKER_INFO);

@@ -24,9 +24,9 @@ public class AccountCommand extends AbstractUserCommand {
     public Router execute(HttpServletRequest request) throws ServiceException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Attributes.USER);
-        long userId = user.getId();
+        long idUser = user.getId();
 
-        List<Resume> resumes = service.findUserResumes(userId);
+        List<Resume> resumes = service.findUserResumes(idUser);
         request.setAttribute(Attributes.RESUMES, resumes);
 
         return Router.forward(Pages.ACCOUNT);

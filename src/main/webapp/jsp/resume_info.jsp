@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>HR-ORG</title>
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
     <%@ include file="head_common.jsp" %>
+    <title>HR-ORG</title>
 </head>
 
 <body>
@@ -20,7 +20,8 @@
             <div class="item_header_buttons">
                 <c:if test="${user.role.name() == 'JOB_SEEKER' && user.id == resume.idUser}">
                     <form action="${pageContext.request.contextPath}/controller" method="post">
-                        <input type="hidden" name="command" value="resume_remove">
+                        <input type="hidden" name="command" value="confirmation_page">
+                        <input type="hidden" name="target_command" value="resume_remove">
                         <input type="hidden" name="resume_id" value="${resume.id}">
                         <button class="btn" style="margin: 5px 10px;"><fmt:message key="button.remove"/></button>
                     </form>

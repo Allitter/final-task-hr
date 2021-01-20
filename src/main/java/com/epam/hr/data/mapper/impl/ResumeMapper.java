@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ResumeMapper implements Mapper<Resume> {
+    private static final String EMPTY_ATTRIBUTE_PREFIX = "";
     private static final String ATTRIBUTE_PREFIX = "r.";
     private static final String ID = "id";
     private static final String ID_USER = "id_user";
@@ -15,7 +16,7 @@ public class ResumeMapper implements Mapper<Resume> {
 
     @Override
     public Resume map(ResultSet resultSet) throws SQLException {
-        return map(resultSet, "");
+        return map(resultSet, EMPTY_ATTRIBUTE_PREFIX);
     }
 
     @Override
@@ -29,6 +30,9 @@ public class ResumeMapper implements Mapper<Resume> {
         String name = resultSet.getString(attributePrefix + NAME);
         String text = resultSet.getString(attributePrefix + TEXT);
 
-        return new Resume(id, idUser, name, text);
+        return new Resume.Builder(id, idUser)
+                .setText(text)
+                .setName(name)
+                .build(true);
     }
 }

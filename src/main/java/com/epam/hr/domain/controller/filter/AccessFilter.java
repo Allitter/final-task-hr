@@ -4,7 +4,6 @@ import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.CommandType;
 import com.epam.hr.domain.controller.command.Pages;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserRole;
 
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
@@ -24,7 +23,7 @@ public class AccessFilter extends HttpFilter {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute(Attributes.USER);
         CommandType commandType = (CommandType)request.getAttribute(Attributes.COMMAND);
-        UserRole role = user.getRole();
+        User.Role role = user.getRole();
 
         if (user.isBanned() && commandType != CommandType.LOGOUT) {
             String path = Pages.BAN_PAGE;

@@ -23,16 +23,22 @@ public class VacancyUpdateCommand extends AbstractVacancyCommand {
         long id = Long.parseLong((String) request.getAttribute(Attributes.VACANCY_ID));
         String name = (String) request.getAttribute(Attributes.VACANCY_NAME);
         String shortDescription = (String) request.getAttribute(Attributes.VACANCY_SHORT_DESCRIPTION);
-        String longDescription = (String) request.getAttribute(Attributes.LONG_DESCRIPTION);
+        String description = (String) request.getAttribute(Attributes.LONG_DESCRIPTION);
+
+        Vacancy vacancy = service.tryFindById(id);
+        vacancy = new Vacancy.Builder(vacancy)
+                .setName(name)
+                .setShortDescription(shortDescription)
+                .setDescription(description)
+                .build();
 
         try {
-            service.updateVacancy(id, name, shortDescription, longDescription);
+            service.saveVacancy(vacancy);
             String path = request.getContextPath() + request.getServletPath();
             return Router.redirect(path);
         } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();
             request.setAttribute(Attributes.FAILS, fails);
-            Vacancy vacancy = new Vacancy(id, name, shortDescription, longDescription);
             request.setAttribute(Attributes.VACANCY, vacancy);
             return Router.forward(Pages.VACANCY_UPDATE);
         }

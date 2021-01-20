@@ -3,7 +3,7 @@ package com.epam.hr.domain.controller;
 import com.epam.hr.data.pool.ConnectionPool;
 import com.epam.hr.domain.controller.command.*;
 import com.epam.hr.domain.service.SessionManager;
-import com.epam.hr.exception.LogicRuntimeException;
+import com.epam.hr.domain.service.impl.SessionManagerImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,25 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class Servlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public void init() {
-        // todo maybe move to connection pool init method
-        try {
-            super.init();
-            Driver driver = new com.mysql.cj.jdbc.Driver();
-            DriverManager.registerDriver(driver);
-        } catch (SQLException | ServletException e) {
-            throw new LogicRuntimeException(e);
-        }
-        
-        SessionManager sessionManager = new SessionManager();
+    public void init() throws ServletException {
+        super.init();
+        SessionManager sessionManager = new SessionManagerImpl();
         getServletContext().setAttribute(Attributes.SESSION_MANAGER, sessionManager);
     }
 

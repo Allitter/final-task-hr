@@ -2,13 +2,11 @@ package com.epam.hr.data.mapper.impl;
 
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserRole;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class UserMapper implements Mapper<User> {
+    private static final String EMPTY_ATTRIBUTE_PREFIX = "";
     private static final String ATTRIBUTE_PREFIX = "u.";
     private static final String ID = "id";
     private static final String LOGIN = "login";
@@ -24,7 +22,7 @@ public class UserMapper implements Mapper<User> {
 
     @Override
     public User map(ResultSet resultSet) throws SQLException {
-        return map(resultSet, "");
+        return map(resultSet, EMPTY_ATTRIBUTE_PREFIX);
     }
 
     @Override
@@ -40,15 +38,14 @@ public class UserMapper implements Mapper<User> {
         String patronymic = resultSet.getString(attributePrefix + PATRONYMIC);
         String email = resultSet.getString(attributePrefix + EMAIL);
         String phone = resultSet.getString(attributePrefix + PHONE);
-        Date birthDate = resultSet.getDate(attributePrefix + BIRTH_DATE);
+        String birthDate = resultSet.getString(attributePrefix + BIRTH_DATE);
         boolean isBanned = resultSet.getBoolean(attributePrefix + IS_BANNED);
         boolean enabled = resultSet.getBoolean(attributePrefix + ENABLED);
 
         String roleName = resultSet.getString(attributePrefix + ROLE);
-        UserRole role = UserRole.valueOf(roleName);
+        User.Role role = User.Role.valueOf(roleName);
 
-        return new User.Builder()
-                .setId(id)
+        return new User.Builder(id)
                 .setRole(role)
                 .setLogin(login)
                 .setName(name)
@@ -59,6 +56,6 @@ public class UserMapper implements Mapper<User> {
                 .setBirthDate(birthDate)
                 .setBanned(isBanned)
                 .setEnabled(enabled)
-                .build();
+                .build(true);
     }
 }

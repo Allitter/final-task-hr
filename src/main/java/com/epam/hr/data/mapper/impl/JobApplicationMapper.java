@@ -2,7 +2,6 @@ package com.epam.hr.data.mapper.impl;
 
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.domain.model.JobApplication;
-import com.epam.hr.domain.model.JobApplicationState;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.model.Vacancy;
 
@@ -11,10 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JobApplicationMapper implements Mapper<JobApplication> {
+    private static final String EMPTY_ATTRIBUTE_PREFIX = "";
     private static final String ATTRIBUTE_PREFIX = "ja.";
     private static final String ID = "id";
-    private static final String ID_USER = "id_user";
-    private static final String ID_VACANCY = "id_vacancy";
     private static final String STATE = "state";
     private static final String DATE = "date";
     private static final String PRELIMINARY_INTERVIEW_NOTE = "preliminary_interview_note";
@@ -30,7 +28,7 @@ public class JobApplicationMapper implements Mapper<JobApplication> {
 
     @Override
     public JobApplication map(ResultSet resultSet) throws SQLException {
-        return map(resultSet, "");
+        return map(resultSet, EMPTY_ATTRIBUTE_PREFIX);
     }
 
     @Override
@@ -46,13 +44,12 @@ public class JobApplicationMapper implements Mapper<JobApplication> {
         String resumeText = resultSet.getString(attributePrefix + RESUME_TEXT);
 
         String stateName = resultSet.getString(attributePrefix + STATE);
-        JobApplicationState state = JobApplicationState.valueOf(stateName);
+        JobApplication.State state = JobApplication.State.valueOf(stateName);
 
         User user = userMapper.mapForAnotherEntity(resultSet);
         Vacancy vacancy = vacancyMapper.mapForAnotherEntity(resultSet);
 
-        return new JobApplication.Builder()
-                .setId(id)
+        return new JobApplication.Builder(id)
                 .setUser(user)
                 .setVacancy(vacancy)
                 .setDate(date)
@@ -60,6 +57,6 @@ public class JobApplicationMapper implements Mapper<JobApplication> {
                 .setPreliminaryInterviewNote(preliminaryInterviewNote)
                 .setTechnicalInterviewNote(technicalInterviewNote)
                 .setResumeText(resumeText)
-                .build();
+                .build(true);
     }
 }

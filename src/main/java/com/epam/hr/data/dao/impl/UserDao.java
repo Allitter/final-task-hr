@@ -2,9 +2,7 @@ package com.epam.hr.data.dao.impl;
 
 import com.epam.hr.data.dao.AbstractDao;
 import com.epam.hr.data.mapper.Mapper;
-import com.epam.hr.data.mapper.impl.UserMapper;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserRole;
 import com.epam.hr.exception.DaoException;
 
 import java.sql.Connection;
@@ -43,12 +41,12 @@ public class UserDao extends AbstractDao<User> {
         executeNoResultQueryPrepared(UNBAN_USER_QUERY, id);
     }
 
-    public List<User> findAll(UserRole role, int start, int count) throws DaoException {
-        if (role != UserRole.EMPLOYEE && role != UserRole.JOB_SEEKER) {
+    public List<User> findAll(User.Role role, int start, int count) throws DaoException {
+        if (role != User.Role.EMPLOYEE && role != User.Role.JOB_SEEKER) {
             throw new DaoException("Incorrect role for query");
         }
 
-        String query = role == UserRole.EMPLOYEE ? ALL_EMPLOYEES : ALL_JOB_SEEKERS;
+        String query = role == User.Role.EMPLOYEE ? ALL_EMPLOYEES : ALL_JOB_SEEKERS;
 
         return executeQueryPrepared(query, mapper, start, count);
     }
@@ -77,12 +75,12 @@ public class UserDao extends AbstractDao<User> {
         return getRowCount(TABLE);
     }
 
-    public int findQuantity(UserRole role) throws DaoException {
-        if (role != UserRole.EMPLOYEE && role != UserRole.JOB_SEEKER) {
+    public int findQuantity(User.Role role) throws DaoException {
+        if (role != User.Role.EMPLOYEE && role != User.Role.JOB_SEEKER) {
             throw new DaoException("Incorrect role for query");
         }
 
-        String condition = role == UserRole.EMPLOYEE ? EMPLOYEE_CONDITION : JOB_SEEKER_CONDITION;
+        String condition = role == User.Role.EMPLOYEE ? EMPLOYEE_CONDITION : JOB_SEEKER_CONDITION;
         return getRowCount(TABLE, condition);
     }
 
@@ -94,10 +92,10 @@ public class UserDao extends AbstractDao<User> {
         String password = user.getPassword();
         String lastName = user.getLastName();
         String patronymic = user.getPatronymic();
-        String birthDate = user.getFormattedBirthDate();
+        String birthDate = user.getBirthDate();
         String email = user.getEmail();
         String phone = user.getPhone();
-        UserRole role = user.getRole();
+        User.Role role = user.getRole();
         String roleName = role.name();
         boolean enabled = user.isEnabled();
 

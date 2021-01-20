@@ -17,12 +17,14 @@ import com.epam.hr.domain.controller.command.impl.resume.page.ResumeInfoCommand;
 import com.epam.hr.domain.controller.command.impl.user.*;
 import com.epam.hr.domain.controller.command.impl.user.page.*;
 import com.epam.hr.domain.controller.command.impl.vacancy.VacancyAddAcceptCommand;
+import com.epam.hr.domain.controller.command.impl.vacancy.VacancyCloseCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.VacancyUpdateCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacanciesCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacancyAddCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacancyEditCommand;
 import com.epam.hr.domain.controller.command.impl.vacancy.page.VacancyInfoCommand;
 import com.epam.hr.domain.service.*;
+import com.epam.hr.domain.service.impl.*;
 import com.epam.hr.domain.util.VerificationCodeGenerator;
 import com.epam.hr.domain.validator.JobApplicationValidator;
 import com.epam.hr.domain.validator.ResumeValidator;
@@ -37,18 +39,19 @@ public final class CommandFactory {
     private static final JobApplicationDaoFactory JOB_APPLICATION_DAO_FACTORY = new JobApplicationDaoFactory(POOL);
     private static final ResumeDaoFactory RESUME_DAO_FACTORY = new ResumeDaoFactory(POOL);
     private static final VerificationTokenDaoFactory VERIFICATION_TOKEN_DAO_FACTORY = new VerificationTokenDaoFactory(POOL);
+    private static final BanDaoFactory BAN_DAO_FACTORY = new BanDaoFactory(POOL);
 
     private static final UserValidator USER_VALIDATOR = new UserValidator();
     private static final VacancyValidator VACANCY_VALIDATOR = new VacancyValidator();
     private static final JobApplicationValidator JOB_APPLICATION_VALIDATOR = new JobApplicationValidator();
     private static final ResumeValidator RESUME_VALIDATOR = new ResumeValidator();
 
-    private static final VacancyService VACANCY_SERVICE = new VacancyService(VACANCY_VALIDATOR, VACANCY_DAO_FACTORY);
-    private static final UserService USER_SERVICE = new UserService(USER_VALIDATOR, USER_DAO_FACTORY);
-    private static final JobApplicationService JOB_APPLICATION_SERVICE = new JobApplicationService(JOB_APPLICATION_VALIDATOR, JOB_APPLICATION_DAO_FACTORY);
-    private static final ResumeService RESUME_SERVICE = new ResumeService(RESUME_VALIDATOR, RESUME_DAO_FACTORY);
-    private static final MailingService MAILING_SERVICE = new MailingService();
-    private static final VerificationTokenService VERIFICATION_TOKEN_SERVICE = new VerificationTokenService(VERIFICATION_TOKEN_DAO_FACTORY);
+    private static final VacancyService VACANCY_SERVICE = new VacancyServiceImpl(VACANCY_VALIDATOR, VACANCY_DAO_FACTORY, JOB_APPLICATION_DAO_FACTORY);
+    private static final UserService USER_SERVICE = new UserServiceImpl(USER_VALIDATOR, USER_DAO_FACTORY, BAN_DAO_FACTORY);
+    private static final JobApplicationService JOB_APPLICATION_SERVICE = new JobApplicationServiceImpl(JOB_APPLICATION_VALIDATOR, JOB_APPLICATION_DAO_FACTORY);
+    private static final ResumeService RESUME_SERVICE = new ResumeServiceImpl(RESUME_VALIDATOR, RESUME_DAO_FACTORY);
+    private static final MailingService MAILING_SERVICE = new MailingServiceImpl();
+    private static final VerificationTokenService VERIFICATION_TOKEN_SERVICE = new VerificationTokenServiceImpl(VERIFICATION_TOKEN_DAO_FACTORY);
 
     private static final VerificationCodeGenerator VERIFICATION_CODE_GENERATOR = new VerificationCodeGenerator();
 
@@ -62,7 +65,7 @@ public final class CommandFactory {
             case VACANCIES :
                 return new VacanciesCommand(VACANCY_SERVICE);
             case VACANCY_INFO :
-                return new VacancyInfoCommand(VACANCY_SERVICE);
+                return new VacancyInfoCommand(VACANCY_SERVICE, JOB_APPLICATION_SERVICE);
             case VACANCY_EDIT :
                 return new VacancyEditCommand(VACANCY_SERVICE);
             case VACANCY_UPDATE :
@@ -75,6 +78,8 @@ public final class CommandFactory {
                 return new VacancyApplyCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE, VACANCY_SERVICE);
             case VACANCY_APPLY_ACCEPT :
                 return new VacancyApplyAcceptCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE, VACANCY_SERVICE);
+            case VACANCY_CLOSE:
+                return new VacancyCloseCommand(VACANCY_SERVICE);
             case RESUME_ADD :
                 return new ResumeAddCommand();
             case RESUME_ADD_ACCEPT :
@@ -132,7 +137,9 @@ public final class CommandFactory {
             case LOGOUT :
                 return new LogoutCommand();
             case CONFIRMATION_PAGE:
-                return new ConfirmationPageCommand();
+                return new ConfirmationPageCommand(false);
+            case CONFIRMATION_PAGE_WITH_MESSAGE:
+                return new ConfirmationPageCommand(true);
             case CONFIRMATION:
                 return new ConfirmationCommand(USER_SERVICE);
             case REGISTRATION_PAGE:

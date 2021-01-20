@@ -5,7 +5,6 @@ import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Command;
 import com.epam.hr.domain.controller.command.Pages;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserRole;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +17,7 @@ public class DefaultCommand implements Command {
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Attributes.USER);
-        UserRole role = user.getRole();
+        User.Role role = user.getRole();
 
         String path;
         switch (role) {

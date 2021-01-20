@@ -2,7 +2,6 @@ package com.epam.hr.data.dao.impl;
 
 import com.epam.hr.data.dao.AbstractDao;
 import com.epam.hr.data.mapper.Mapper;
-import com.epam.hr.data.mapper.impl.VacancyMapper;
 import com.epam.hr.domain.model.Vacancy;
 import com.epam.hr.exception.DaoException;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 
 public class VacancyDao extends AbstractDao<Vacancy> {
     private static final String TABLE = "vacancy";
-    private static final String UPDATE_QUERY = String.format("update %s set name = ?, short_description = ?, description = ? where id = ?;", TABLE);
+    private static final String UPDATE_QUERY = String.format("update %s set name = ?, short_description = ?, description = ?, closed = ?, removed = ? where id = ?;", TABLE);
     private static final String INSERT_QUERY = String.format("insert into %s (name, short_description, description) values (?, ?, ?);", TABLE);
     private final Mapper<Vacancy> mapper;
 
@@ -47,10 +46,12 @@ public class VacancyDao extends AbstractDao<Vacancy> {
         String name = vacancy.getName();
         String shortDescription = vacancy.getShortDescription();
         String description = vacancy.getDescription();
+        boolean closed = vacancy.isClosed();
+        boolean removed = vacancy.isRemoved();
 
         Optional<Vacancy> optional = findById(TABLE, mapper, id);
         if (optional.isPresent()) {
-            executeNoResultQueryPrepared(UPDATE_QUERY, name, shortDescription, description, id);
+            executeNoResultQueryPrepared(UPDATE_QUERY, name, shortDescription, description, closed, removed, id);
         } else {
             executeNoResultQueryPrepared(INSERT_QUERY, name, shortDescription, description);
         }

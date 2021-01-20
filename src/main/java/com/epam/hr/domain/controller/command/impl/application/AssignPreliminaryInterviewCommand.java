@@ -3,7 +3,6 @@ package com.epam.hr.domain.controller.command.impl.application;
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.model.JobApplication;
-import com.epam.hr.domain.model.JobApplicationState;
 import com.epam.hr.domain.service.JobApplicationService;
 import com.epam.hr.exception.ServiceException;
 
@@ -21,7 +20,7 @@ public class AssignPreliminaryInterviewCommand extends AbstractJobApplicationCom
         long idJobApplication = Long.parseLong((String) request.getAttribute(Attributes.JOB_APPLICATION_ID));
 
         JobApplication jobApplication = jobApplicationService.tryFindById(idJobApplication);
-        jobApplicationService.updateState(jobApplication, JobApplicationState.PRELIMINARY_INTERVIEW);
+        jobApplicationService.updateState(jobApplication, JobApplication.State.PRELIMINARY_INTERVIEW);
 
         String path = request.getHeader(Attributes.REFERER);
         return Router.redirect(path);

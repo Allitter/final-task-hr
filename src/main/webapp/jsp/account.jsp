@@ -2,12 +2,12 @@
 <html>
 
 <head>
-    <title>HR-ORG</title>
+
+    <%@ include file="head_common.jsp"%>
+    <title><fmt:message key="title.account" /></title>
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/login.css">
-
-    <%@ include file="head_common.jsp"%>
 </head>
 
 <body>
@@ -20,26 +20,16 @@
         <form class="form" action="${pageContext.request.contextPath}/controller" method="post" style="border-radius: 2rem; margin: 10px 0; width: 100%; box-sizing: border-box; border: 2px solid var(--secondary-color)">
             <input type="hidden" name="command" value="account_update">
 
-            <h2><!--<fmt:message key="registration.title" />--></h2>
+            <h2><fmt:message key="title.account" /></h2>
 
-            <div class="message">
-                <c:if test='${fails.contains("loginNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-                <c:if test='${fails.contains("loginRegexFail")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("loginNotUnique")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.not_unique"/></c:if>
-                <c:if test='${fails.contains("nameNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-                <c:if test='${fails.contains("nameRegexFail")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("lastNameNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.lastName"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-                <c:if test='${fails.contains("lastNameRegexfail")}'><p class="alert-text"><fmt:message key="messages.lastName"/> <fmt:message key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("patronymicNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-                <c:if test='${fails.contains("patronymicRegexFail")}'><p class="alert-text"><fmt:message key="messages.patronymic"/> <fmt:message key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("emailNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-                <c:if test='${fails.contains("emailRegexFail")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("emailOutOfBounds")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.out_of_bounds"/></p></c:if>
-                <c:if test='${fails.contains("phoneNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.phone"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-                <c:if test='${fails.contains("phoneRegexFail")}'><p class="alert-text"><fmt:message key="messages.phone"/> <fmt:message key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("birthDateNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-                <c:if test='${fails.contains("birthDateRegexFail")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("birthDateOutOfBounds")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.out_of_bounds"/></p></c:if>
+            <div class="signin_message">
+                <c:if test='${fails.contains("login")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.incorrect"/></p></c:if>
+                <c:if test='${fails.contains("name")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
+                <c:if test='${fails.contains("last")}'><p class="alert-text"><fmt:message key="messages.lastName"/> <fmt:message key="messages.incorrect"/></p></c:if>
+                <c:if test='${fails.contains("patronymic")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.incorrect"/></p></c:if>
+                <c:if test='${fails.contains("email")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.incorrect"/></p></c:if>
+                <c:if test='${fails.contains("phone")}'><p class="alert-text"><fmt:message key="messages.phone"/> <fmt:message key="messages.incorrect"/></p></c:if>
+                <c:if test='${fails.contains("birthDate")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.incorrect"/></p></c:if>
             </div>
 
             <input type="text" required maxlength="15" pattern="[_0-9A-Za-z]{3,}"
@@ -60,7 +50,7 @@
                    name="phone" maxlength="15" placeholder="<fmt:message key="registration.phone.placeholder" />" value="${user.phone}">
 
             <label for="birth_date"><fmt:message key="registration.birth_date.label" /></label>
-            <input type="date" required name="birth_date" id="birth_date" value="${user.getFormattedBirthDate()}" min="1950-01-01" max="2007-12-31">
+            <input type="date" required name="birth_date" id="birth_date" value="${user.birthDate}" min="1950-01-01" max="2007-12-31">
 
             <div class="form_actions" style="justify-content: center;">
                 <input class="btn shadow-none shadow-hov-small" type="submit" value="<fmt:message key="button.save" />" style="margin: 0; background-color: var(--accept-btn-color)">

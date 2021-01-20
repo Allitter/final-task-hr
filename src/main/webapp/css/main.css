@@ -250,6 +250,7 @@ body * {
 }
 
 .item_name {
+    margin-top: 10px;
 }
 
 .item_short_desc {
@@ -311,6 +312,7 @@ body * {
 
 .user_info_top {
     display: flex;
+    flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
     margin: 30px 10px 50px;
@@ -372,7 +374,7 @@ body * {
     height: 13px;
 }
 
-.item_body_top, .resume, .notes>form {
+.item_body_top, .resume, .notes>form, .vacancy_description {
     border: 2px solid var(--secondary-color);
     border-radius: 2rem;
     padding-left: 30px;
@@ -397,6 +399,11 @@ body * {
 
 .message {
     margin-top: 20px;
+}
+
+.ban_info {
+    margin-top: 10px;
+    font-size: 1.2rem;
 }
 
 /*  ------------------------------------------------------main---------------------------------------------------- */

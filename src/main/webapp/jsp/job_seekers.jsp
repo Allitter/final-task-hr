@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>HR-ORG</title>
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
     <%@ include file="head_common.jsp" %>
+    <title>HR-ORG</title>
 </head>
 
 <body>

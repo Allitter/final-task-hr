@@ -37,12 +37,12 @@ public class VacancyApplyCommand extends AbstractJobApplicationCommand {
         User user = (User) session.getAttribute(Attributes.USER);
         long idUser = user.getId();
 
-        if (jobApplicationService.isAlreadyApplied(idUser, idVacancy)) {
+        Vacancy vacancy = vacancyService.tryFindById(idVacancy);
+        if (vacancy.isClosed() || jobApplicationService.isAlreadyApplied(idUser, idVacancy)) {
             String path = request.getHeader(Attributes.REFERER);
             return Router.redirect(path);
         }
 
-        Vacancy vacancy = vacancyService.tryFindById(idVacancy);
         request.setAttribute(Attributes.VACANCY, vacancy);
 
         List<Resume> resumes = resumeService.findUserResumes(idUser);

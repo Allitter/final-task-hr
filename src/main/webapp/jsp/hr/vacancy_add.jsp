@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>HR-ORG</title>
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
     <%@ include file="../head_common.jsp" %>
+    <title>HR-ORG</title>
 </head>
 
 <body>
@@ -18,12 +18,9 @@
 
     <main class="main item_edit">
         <div class="message">
-            <c:if test='${fails.contains("nameNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-            <c:if test='${fails.contains("nameRegexFail")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
-            <c:if test='${fails.contains("shortDescriptionNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.shortDescription"/> <fmt:message key="messages.cant_be_empty"/></c:if>
-            <c:if test='${fails.contains("shortDescriptionRegexFail")}'><p class="alert-text"><fmt:message key="messages.shortDescription"/> <fmt:message key="messages.incorrect"/></p></c:if>
-            <c:if test='${fails.contains("descriptionNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.description"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-            <c:if test='${fails.contains("descriptionRgexFail")}'><p class="alert-text"><fmt:message key="messages.description"/> <fmt:message key="messages.incorrect"/></c:if>
+            <c:if test='${fails.contains("name")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
+            <c:if test='${fails.contains("shortDescription")}'><p class="alert-text"><fmt:message key="messages.shortDescription"/> <fmt:message key="messages.incorrect"/></p></c:if>
+            <c:if test='${fails.contains("description")}'><p class="alert-text"><fmt:message key="messages.description"/> <fmt:message key="messages.incorrect"/></c:if>
         </div>
 
         <form action="${pageContext.request.contextPath}/controller" method="POST">

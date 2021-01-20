@@ -5,7 +5,6 @@ import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
 import com.epam.hr.domain.model.Resume;
 import com.epam.hr.domain.model.User;
-import com.epam.hr.domain.model.UserDataHolder;
 import com.epam.hr.domain.service.ResumeService;
 import com.epam.hr.domain.service.UserService;
 import com.epam.hr.exception.ServiceException;
@@ -28,17 +27,17 @@ public class AccountUpdateCommand extends AbstractUserCommand {
     public Router execute(HttpServletRequest request) throws ServiceException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Attributes.USER);
-        UserDataHolder userDataHolder = buildUserDataHolderFromRequest(request, user);
+        User updatedUser = buildUserFromRequest(request, user);
 
         try {
-            user = service.updateUser(userDataHolder);
-            session.setAttribute(Attributes.USER, user);
+            service.updateUser(updatedUser);
+            session.setAttribute(Attributes.USER, updatedUser);
 
             String path = request.getHeader(Attributes.REFERER);
             return Router.redirect(path);
         } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();
-            List<Resume> resumes = resumeService.findUserResumes(user.getId());
+            List<Resume> resumes = resumeService.findUserResumes(updatedUser.getId());
             request.setAttribute(Attributes.RESUMES, resumes);
             request.setAttribute(Attributes.FAILS, fails);
             return Router.forward(Pages.ACCOUNT);

@@ -2,7 +2,6 @@ package com.epam.hr.data.dao.impl;
 
 import com.epam.hr.data.dao.AbstractDao;
 import com.epam.hr.data.mapper.Mapper;
-import com.epam.hr.data.mapper.impl.VerificationTokenMapper;
 import com.epam.hr.domain.model.VerificationToken;
 import com.epam.hr.exception.DaoException;
 
@@ -29,8 +28,8 @@ public class VerificationTokenDao extends AbstractDao<VerificationToken> {
         return super.findById(TABLE, mapper, id);
     }
 
-    public List<VerificationToken> findByUserId(long userId) throws DaoException {
-        return executeQueryPrepared(TOKENS_BY_USER_ID, mapper, userId);
+    public List<VerificationToken> findByUserId(long idUser) throws DaoException {
+        return executeQueryPrepared(TOKENS_BY_USER_ID, mapper, idUser);
     }
 
     @Override

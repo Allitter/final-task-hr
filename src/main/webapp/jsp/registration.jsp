@@ -17,26 +17,14 @@
     <h2><fmt:message key="registration.title" /></h2>
 
     <div class="signin_message">
-        <c:if test='${fails.contains("loginNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("loginRegexFail")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("loginNotUnique")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.not_unique"/></c:if>
-        <c:if test='${fails.contains("passwordNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("passwordRegexFail")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("passwordTooWeak")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.too_weak"/></p></c:if>
-        <c:if test='${fails.contains("nameNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("nameRegexFail")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("lastNameNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.lastName"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("lastNameRegexfail")}'><p class="alert-text"><fmt:message key="messages.lastName"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("patronymicNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("patronymicRegexFail")}'><p class="alert-text"><fmt:message key="messages.patronymic"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("emailNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("emailRegexFail")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("emailOutOfBounds")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.out_of_bounds"/></p></c:if>
-        <c:if test='${fails.contains("phoneNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.phone"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("phoneRegexFail")}'><p class="alert-text"><fmt:message key="messages.phone"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("birthDateNullOrEmpty")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.cant_be_empty"/></p></c:if>
-        <c:if test='${fails.contains("birthDateRegexFail")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("birthDateOutOfBounds")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.out_of_bounds"/></p></c:if>
+        <c:if test='${fails.contains("login")}'><p class="alert-text"><fmt:message key="messages.login"/> <fmt:message key="messages.incorrect"/></p></c:if>
+        <c:if test='${fails.contains("password")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.incorrect"/></p></c:if>
+        <c:if test='${fails.contains("name")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
+        <c:if test='${fails.contains("last")}'><p class="alert-text"><fmt:message key="messages.lastName"/> <fmt:message key="messages.incorrect"/></p></c:if>
+        <c:if test='${fails.contains("patronymic")}'><p class="alert-text"><fmt:message key="messages.password"/> <fmt:message key="messages.incorrect"/></p></c:if>
+        <c:if test='${fails.contains("email")}'><p class="alert-text"><fmt:message key="messages.email"/> <fmt:message key="messages.incorrect"/></p></c:if>
+        <c:if test='${fails.contains("phone")}'><p class="alert-text"><fmt:message key="messages.phone"/> <fmt:message key="messages.incorrect"/></p></c:if>
+        <c:if test='${fails.contains("birthDate")}'><p class="alert-text"><fmt:message key="messages.birthDate"/> <fmt:message key="messages.incorrect"/></p></c:if>
     </div>
 
     <input type="text" required maxlength="15" pattern="[_0-9A-Za-z]{3,}"

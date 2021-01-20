@@ -1,13 +1,13 @@
 package com.epam.hr.domain.controller.command;
 
-import com.epam.hr.domain.model.UserRole;
+import com.epam.hr.domain.model.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.epam.hr.domain.model.UserRole.*;
+import static com.epam.hr.domain.model.User.Role.*;
 
 public enum CommandType {
     DEFAULT_COMMAND(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
@@ -23,6 +23,7 @@ public enum CommandType {
     ACCOUNT_UPDATE(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     RESUME_INFO(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     CONFIRMATION_PAGE(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
+    CONFIRMATION_PAGE_WITH_MESSAGE(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     CONFIRMATION(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
 
     VACANCIES(JOB_SEEKER, EMPLOYEE),
@@ -46,8 +47,9 @@ public enum CommandType {
     VACANCY_UPDATE(EMPLOYEE),
     VACANCY_ADD(EMPLOYEE),
     VACANCY_ADD_ACCEPT(EMPLOYEE),
+    VACANCY_CLOSE(EMPLOYEE),
     JOB_APPLICATIONS_FOR_VACANCY(EMPLOYEE),
-    JOB_APPLICATION_INFO(EMPLOYEE),
+    JOB_APPLICATION_INFO(JOB_SEEKER, EMPLOYEE),
     ASSIGN_PRELIMINARY_INTERVIEW(EMPLOYEE),
     ASSIGN_TECHNICAL_INTERVIEW(EMPLOYEE),
     ASSIGN_FOR_JOB(EMPLOYEE),
@@ -60,7 +62,7 @@ public enum CommandType {
     USER_BAN(ADMINISTRATOR),
     USER_UNBAN(ADMINISTRATOR);
 
-    private final List<UserRole> permittedRoles;
+    private final List<User.Role> permittedRoles;
 
     public static Optional<CommandType> getCommand(String name) {
         if (name == null) {
@@ -74,12 +76,12 @@ public enum CommandType {
         return Optional.ofNullable(command);
     }
 
-    CommandType(UserRole... roles) {
+    CommandType(User.Role... roles) {
         this.permittedRoles = new ArrayList<>();
         permittedRoles.addAll(Arrays.asList(roles));
     }
 
-    public boolean hasAccessToCommand(UserRole role) {
+    public boolean hasAccessToCommand(User.Role role) {
         return permittedRoles.contains(role);
     }
 }

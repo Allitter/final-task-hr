@@ -24,16 +24,21 @@ public class VacancyAddAcceptCommand extends AbstractVacancyCommand {
         String name = (String) request.getAttribute(Attributes.VACANCY_NAME);
         String shortDescription = (String) request.getAttribute(Attributes.VACANCY_SHORT_DESCRIPTION);
         String description = (String) request.getAttribute(Attributes.LONG_DESCRIPTION);
+        Vacancy vacancy = new Vacancy.Builder()
+                .setName(name)
+                .setShortDescription(shortDescription)
+                .setDescription(description)
+                .build();
 
         try {
-            service.addVacancy(name, shortDescription, description);
+            service.saveVacancy(vacancy);
 
             String path = request.getContextPath() + request.getServletPath();
             return Router.redirect(path);
         } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();
             request.setAttribute(Attributes.FAILS, fails);
-            Vacancy vacancy = new Vacancy(DEFAULT_VACANCY_ID, name, shortDescription, description);
+
             request.setAttribute(Attributes.VACANCY, vacancy);
             return Router.forward(Pages.VACANCY_ADD);
         }

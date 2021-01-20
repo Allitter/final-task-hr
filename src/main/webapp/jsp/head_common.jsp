@@ -1,6 +1,5 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=2.0, minimum-scale=0.86">
-
 <!--favicon-->
 <link rel="shortcut icon" href="favicon.ico" type="image/png">
 

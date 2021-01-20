@@ -8,11 +8,14 @@ import com.epam.hr.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class ConfirmationPageCommand extends AbstractCommand {
+    private static final int FIRST_ELEMENT_INDEX = 0;
+    private final boolean hasMessage;
 
-    public static final int FIRST_ELEMENT = 0;
+    public ConfirmationPageCommand(boolean hasMessage) {
+        this.hasMessage = hasMessage;
+    }
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
@@ -27,11 +30,12 @@ public class ConfirmationPageCommand extends AbstractCommand {
                 continue;
             }
 
-            String value = ((String[]) map.get(key))[FIRST_ELEMENT];
+            String value = ((String[]) map.get(key))[FIRST_ELEMENT_INDEX];
             parameters.put(keyValue, value);
         }
 
         request.setAttribute(Attributes.PARAMETERS, parameters);
+        request.setAttribute(Attributes.SHOW_MESSAGE, hasMessage);
         return Router.forward(Pages.CONFIRMATION);
     }
 }

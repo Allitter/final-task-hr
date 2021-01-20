@@ -2,7 +2,6 @@ package com.epam.hr.data.dao.impl;
 
 import com.epam.hr.data.dao.AbstractDao;
 import com.epam.hr.data.mapper.Mapper;
-import com.epam.hr.data.mapper.impl.ResumeMapper;
 import com.epam.hr.domain.model.Resume;
 import com.epam.hr.exception.DaoException;
 
@@ -27,8 +26,8 @@ public class ResumeDao extends AbstractDao<Resume> {
         return super.findById(TABLE, mapper, id);
     }
 
-    public List<Resume> findByUserId(long userId) throws DaoException {
-        return executeQueryPrepared(RESUMES_BY_USER_ID, mapper, userId);
+    public List<Resume> findByUserId(long idUser) throws DaoException {
+        return executeQueryPrepared(RESUMES_BY_USER_ID, mapper, idUser);
     }
 
     @Override

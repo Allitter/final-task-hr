@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class VerificationTokenMapper implements Mapper<VerificationToken> {
+    private static final String EMPTY_ATTRIBUTE_PREFIX = "";
     private static final String ATTRIBUTE_PREFIX = "vt.";
     private static final String ID = "id";
     private static final String ID_USER = "id_user";
@@ -16,7 +17,7 @@ public class VerificationTokenMapper implements Mapper<VerificationToken> {
 
     @Override
     public VerificationToken map(ResultSet resultSet) throws SQLException {
-        return map(resultSet, "");
+        return map(resultSet, EMPTY_ATTRIBUTE_PREFIX);
     }
 
     @Override
@@ -30,7 +31,9 @@ public class VerificationTokenMapper implements Mapper<VerificationToken> {
         String code = resultSet.getString(attributePrefix + CODE);
         Date expirationDate = resultSet.getDate(attributePrefix + EXPIRATION_DATE);
 
-        return new VerificationToken(id, idUser, code, expirationDate);
+        return new VerificationToken.Builder(id, idUser, code)
+                .setExpirationDate(expirationDate)
+                .build(true);
     }
 
 }
