@@ -17,7 +17,7 @@ public class VacancyCloseCommand extends AbstractVacancyCommand {
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
         long idVacancy = Long.parseLong((String) request.getAttribute(Attributes.VACANCY_ID));
-        vacancyService.close(idVacancy);
+        vacancyService.closeVacancy(idVacancy);
 
         String path = request.getHeader(Attributes.REFERER);
         return Router.redirect(path);

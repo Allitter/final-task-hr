@@ -1,7 +1,8 @@
 package com.epam.hr.data.dao.factory.impl;
 
+import com.epam.hr.data.dao.VerificationTokenDao;
 import com.epam.hr.data.dao.factory.DaoFactory;
-import com.epam.hr.data.dao.impl.VerificationTokenDao;
+import com.epam.hr.data.dao.impl.VerificationTokenDaoImpl;
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.data.mapper.impl.VerificationTokenMapper;
 import com.epam.hr.data.pool.ConnectionPool;
@@ -19,11 +20,11 @@ public class VerificationTokenDaoFactory implements DaoFactory<VerificationToken
 
     @Override
     public VerificationTokenDao create() {
-        return new VerificationTokenDao(pool.getConnection(), MAPPER);
+        return new VerificationTokenDaoImpl(pool.getConnection(), MAPPER);
     }
 
     @Override
     public VerificationTokenDao create(Connection connection) {
-        return new VerificationTokenDao(connection, MAPPER);
+        return new VerificationTokenDaoImpl(connection, MAPPER, false);
     }
 }

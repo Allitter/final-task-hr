@@ -2,6 +2,7 @@ package com.epam.hr.data.mapper.impl;
 
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.domain.model.Ban;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

@@ -11,7 +11,7 @@ public final class JobApplication extends Entity {
     private final String technicalInterviewNote;
     private final String resumeText;
 
-    public JobApplication(JobApplication.Builder builder) {
+    private JobApplication(JobApplication.Builder builder) {
         super(builder);
         this.user = builder.user;
         this.vacancy = builder.vacancy;
@@ -20,10 +20,6 @@ public final class JobApplication extends Entity {
         this.preliminaryInterviewNote = builder.preliminaryInterviewNote;
         this.technicalInterviewNote = builder.technicalInterviewNote;
         this.resumeText = builder.resumeText;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public Date getDate() {
@@ -80,6 +76,10 @@ public final class JobApplication extends Entity {
 
     public String getUserPhone() {
         return user.getPhone();
+    }
+
+    public String getUserAvatarPath() {
+        return user.getAvatarPath();
     }
 
     public boolean isUserEnabled() {

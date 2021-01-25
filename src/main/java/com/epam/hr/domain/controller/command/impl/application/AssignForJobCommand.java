@@ -17,10 +17,9 @@ public class AssignForJobCommand extends AbstractJobApplicationCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long idJobApplication = Long.parseLong((String)request.getAttribute(Attributes.JOB_APPLICATION_ID));
+        long idJobApplication = Long.parseLong((String) request.getAttribute(Attributes.JOB_APPLICATION_ID));
 
-        JobApplication jobApplication = jobApplicationService.tryFindById(idJobApplication);
-        jobApplicationService.updateState(jobApplication, JobApplication.State.APPLIED);
+        jobApplicationService.updateState(idJobApplication, JobApplication.State.APPLIED);
 
         String path = request.getHeader(Attributes.REFERER);
         return Router.redirect(path);

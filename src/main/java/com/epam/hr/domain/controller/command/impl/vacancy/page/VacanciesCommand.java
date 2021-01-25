@@ -24,7 +24,7 @@ public class VacanciesCommand extends AbstractVacancyCommand {
     public Router execute(HttpServletRequest request) throws ServiceException {
         String pageParameter = (String) request.getAttribute(Attributes.PAGE);
         int queriedPage = pageParameter != null ? Integer.parseInt(pageParameter) : 0;
-        int totalQuantity = vacancyService.findQuantity();
+        int totalQuantity = vacancyService.getVacanciesCount();
         Page page = getClosestExistingPage(queriedPage, totalQuantity);
 
         int from = page.getCurrentPage() * NUMBER_OF_RECORDS_PER_PAGE;

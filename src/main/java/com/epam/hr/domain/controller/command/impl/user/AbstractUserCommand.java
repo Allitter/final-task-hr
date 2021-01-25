@@ -6,16 +6,8 @@ import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.service.SessionManager;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 public abstract class AbstractUserCommand extends AbstractCommand {
-
-    protected void renewUserInHisSession(Optional<User> optionalUser, HttpServletRequest request) {
-        if (optionalUser.isPresent()) {
-           User user = optionalUser.get();
-           renewUserInHisSession(user, request);
-        }
-    }
 
     protected void renewUserInHisSession(User user, HttpServletRequest request) {
         SessionManager sessionManager = (SessionManager) request.getSession()
@@ -24,14 +16,10 @@ public abstract class AbstractUserCommand extends AbstractCommand {
     }
 
     protected User buildUserFromRequest(HttpServletRequest request) {
-        return buildUserFromRequest(request, Optional.empty());
+        return buildUserFromRequest(request, User.DEFAULT);
     }
 
-    protected User buildUserFromRequest(HttpServletRequest request, User originUser) {
-        return buildUserFromRequest(request, Optional.of(originUser));
-    }
-
-    private User buildUserFromRequest(HttpServletRequest request, Optional<User> origin) {
+    protected User buildUserFromRequest(HttpServletRequest request, User user) {
         String password = (String) request.getAttribute(Attributes.PASSWORD);
         password = password == null ? "" : password;
         String login = (String) request.getAttribute(Attributes.LOGIN);
@@ -41,15 +29,9 @@ public abstract class AbstractUserCommand extends AbstractCommand {
         String birthDateString = (String) request.getAttribute(Attributes.BIRTH_DATE);
         String phone = (String) request.getAttribute(Attributes.PHONE);
         String email = (String) request.getAttribute(Attributes.EMAIL);
-        User.Builder builder;
-        if (origin.isPresent()) {
-            User user = origin.get();
-            builder = new User.Builder(user);
-        } else {
-            builder = new User.Builder();
-        }
 
-        return builder.setLogin(login)
+        return new User.Builder(user)
+                .setLogin(login)
                 .setPassword(password)
                 .setName(name)
                 .setLastName(lastName)
@@ -59,4 +41,5 @@ public abstract class AbstractUserCommand extends AbstractCommand {
                 .setBirthDate(birthDateString)
                 .build();
     }
+
 }

@@ -1,16 +1,19 @@
 package com.epam.hr.domain.service.impl;
 
-import com.epam.hr.data.dao.TransactionHelper;
+import com.epam.hr.data.dao.DaoManager;
+import com.epam.hr.data.dao.JobApplicationDao;
+import com.epam.hr.data.dao.VacancyDao;
 import com.epam.hr.data.dao.factory.impl.JobApplicationDaoFactory;
 import com.epam.hr.data.dao.factory.impl.VacancyDaoFactory;
-import com.epam.hr.data.dao.impl.JobApplicationDao;
-import com.epam.hr.data.dao.impl.VacancyDao;
+import com.epam.hr.data.dao.impl.DaoManagerImpl;
 import com.epam.hr.domain.model.Vacancy;
 import com.epam.hr.domain.service.VacancyService;
 import com.epam.hr.domain.validator.VacancyValidator;
 import com.epam.hr.exception.DaoException;
+import com.epam.hr.exception.EntityNotFoundException;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,32 +25,33 @@ public class VacancyServiceImpl implements VacancyService {
     public VacancyServiceImpl(VacancyValidator vacancyValidator,
                               VacancyDaoFactory vacancyDaoFactory,
                               JobApplicationDaoFactory jobApplicationDaoFactory) {
+
         this.vacancyValidator = vacancyValidator;
         this.vacancyDaoFactory = vacancyDaoFactory;
         this.jobApplicationDaoFactory = jobApplicationDaoFactory;
     }
 
     @Override
-    public List<Vacancy> findVacancies(int start, int end) throws ServiceException {
+    public List<Vacancy> findVacancies(int start, int count) throws ServiceException {
         try (VacancyDao dao = vacancyDaoFactory.create()) {
-            return dao.findAll(start, end);
+            return dao.findAll(start, count);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public Optional<Vacancy> findById(long id) throws ServiceException {
+    public Optional<Vacancy> findById(long idVacancy) throws ServiceException {
         try (VacancyDao dao = vacancyDaoFactory.create()) {
-            return dao.findById(id);
+            return dao.findById(idVacancy);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public Vacancy tryFindById(long id) throws ServiceException {
-        Optional<Vacancy> optionalVacancy = findById(id);
+    public Vacancy tryFindById(long idVacancy) throws ServiceException {
+        Optional<Vacancy> optionalVacancy = findById(idVacancy);
         if (!optionalVacancy.isPresent()) {
             throw new ServiceException("Vacancy doesn't exist");
         }
@@ -56,7 +60,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public int findQuantity() throws ServiceException {
+    public int getVacanciesCount() throws ServiceException {
         try (VacancyDao dao = vacancyDaoFactory.create()) {
             return dao.getRowCount();
         } catch (DaoException e) {
@@ -64,7 +68,6 @@ public class VacancyServiceImpl implements VacancyService {
         }
     }
 
-    // todo change parameters to vacancy
     @Override
     public void saveVacancy(Vacancy vacancy) throws ServiceException {
         validateVacancy(vacancy);
@@ -77,24 +80,30 @@ public class VacancyServiceImpl implements VacancyService {
         }
     }
 
-    public void close(long idVacancy) throws ServiceException {
-        // find vacancy
-        // find attached job application
-        // set blocked status to all non-applied job applications
+    public void closeVacancy(long idVacancy) throws ServiceException {
+        try (DaoManager daoManager = new DaoManagerImpl()) {
+            VacancyDao vacancyDao = daoManager.addDao(vacancyDaoFactory);
+            JobApplicationDao jobApplicationDao = daoManager.addDao(jobApplicationDaoFactory);
 
-        Vacancy vacancy = tryFindById(idVacancy);
-        try (TransactionHelper transactionHelper = new TransactionHelper()) {
-            VacancyDao vacancyDao = transactionHelper.addDao(vacancyDaoFactory);
-            JobApplicationDao jobApplicationDao = transactionHelper.addDao(jobApplicationDaoFactory);
-
-            transactionHelper.beginTransaction();
+            daoManager.beginTransaction();
 
             jobApplicationDao.blockNonAppliedJobApplicationsByVacancyId(idVacancy);
+            Optional<Vacancy> optionalVacancy = vacancyDao.findById(idVacancy);
+            Vacancy vacancy = optionalVacancy.orElseThrow(EntityNotFoundException::new);
             vacancy = vacancy.changeClosed(true);
             vacancyDao.save(vacancy);
 
-            transactionHelper.commit();
+            daoManager.commit();
 
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void remove(long idVacancy) throws ServiceException {
+        try (VacancyDao vacancyDao = vacancyDaoFactory.create()) {
+            vacancyDao.removeById(idVacancy);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

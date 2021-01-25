@@ -1,33 +1,42 @@
-package com.epam.hr.data.dao;
+package com.epam.hr.data.dao.impl;
 
+import com.epam.hr.data.dao.Dao;
+import com.epam.hr.data.dao.DaoManager;
 import com.epam.hr.data.dao.factory.DaoFactory;
 import com.epam.hr.data.pool.ConnectionPool;
 import com.epam.hr.domain.model.Entity;
 import com.epam.hr.exception.DaoException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionHelper implements AutoCloseable {
+public class DaoManagerImpl implements DaoManager {
+    private static final Logger LOGGER = LogManager.getLogger();
     private final Connection connection;
-    private final List<AbstractDao<? extends Entity>> registeredDaos;
+    private final List<Dao<? extends Entity>> registeredDaos;
+    private boolean autocommit;
 
-    public TransactionHelper() {
+    public DaoManagerImpl() {
         this.connection = ConnectionPool.getInstance().getConnection();
         registeredDaos = new ArrayList<>();
+        autocommit = true;
     }
 
-    public <T extends AbstractDao<? extends Entity>> T addDao(DaoFactory<T> factory) {
+    public <T extends Dao<? extends Entity>> T addDao(DaoFactory<T> factory) {
         T dao = factory.create(connection);
         registeredDaos.add(dao);
         return dao;
     }
 
+    @Override
     public void beginTransaction() throws DaoException {
         try {
             connection.setAutoCommit(false);
+            autocommit = false;
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -36,12 +45,13 @@ public class TransactionHelper implements AutoCloseable {
     void endTransaction() throws DaoException {
         try {
             connection.setAutoCommit(true);
-            connection.close();
+            autocommit = true;
         } catch (SQLException e) {
             throw new DaoException(e);
         }
     }
 
+    @Override
     public void commit() throws DaoException {
         try {
             connection.commit();
@@ -60,8 +70,15 @@ public class TransactionHelper implements AutoCloseable {
 
     @Override
     public void close() throws DaoException {
-        registeredDaos.forEach(AbstractDao::eraseConnection);
-        rollback();
-        endTransaction();
+        if (!autocommit) {
+            rollback();
+            endTransaction();
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new DaoException();
+        }
     }
 }

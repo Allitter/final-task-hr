@@ -1,5 +1,8 @@
 package com.epam.hr.domain.validator;
 
+/**
+ * Names of fields to validate
+ */
 public final class ValidationFieldNames {
     public static final String PRELIMINARY_INTERVIEW_NOTE = "preliminaryInterviewNote";
     public static final String TECHNICAL_INTERVIEW_NOTE = "technicalInterviewNote";

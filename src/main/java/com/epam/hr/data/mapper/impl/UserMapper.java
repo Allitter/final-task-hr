@@ -2,6 +2,7 @@ package com.epam.hr.data.mapper.impl;
 
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.domain.model.User;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,6 +19,7 @@ public class UserMapper implements Mapper<User> {
     private static final String IS_BANNED = "banned";
     private static final String PHONE = "phone";
     private static final String EMAIL = "email";
+    private static final String AVATAR = "avatar";
     private static final String ENABLED = "enabled";
 
     @Override
@@ -30,7 +32,7 @@ public class UserMapper implements Mapper<User> {
         return map(resultSet, ATTRIBUTE_PREFIX);
     }
 
-    public User map(ResultSet resultSet, String attributePrefix) throws SQLException {
+    private User map(ResultSet resultSet, String attributePrefix) throws SQLException {
         long id = resultSet.getLong(attributePrefix + ID);
         String login = resultSet.getString(attributePrefix + LOGIN);
         String name = resultSet.getString(attributePrefix + NAME);
@@ -39,6 +41,7 @@ public class UserMapper implements Mapper<User> {
         String email = resultSet.getString(attributePrefix + EMAIL);
         String phone = resultSet.getString(attributePrefix + PHONE);
         String birthDate = resultSet.getString(attributePrefix + BIRTH_DATE);
+        String avatarPath = resultSet.getString(attributePrefix + AVATAR);
         boolean isBanned = resultSet.getBoolean(attributePrefix + IS_BANNED);
         boolean enabled = resultSet.getBoolean(attributePrefix + ENABLED);
 
@@ -56,6 +59,7 @@ public class UserMapper implements Mapper<User> {
                 .setBirthDate(birthDate)
                 .setBanned(isBanned)
                 .setEnabled(enabled)
+                .setAvatarPath(avatarPath)
                 .build(true);
     }
 }

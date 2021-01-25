@@ -22,7 +22,7 @@
                         <c:forEach var="seeker" items="${users}">
                             <div class="item">
                                 <div class="item_info">
-                                    <div class="avatar" style="background-image: url(images/2577247.jpg);">
+                                    <div class="avatar" style="background-image: url(${pageContext.request.contextPath}/download/${seeker.avatarPath});">
                                     </div>
                                     <div class="item_description">
                                         <h3 class="item_name" style="display: inline;">${seeker.name}</h3>

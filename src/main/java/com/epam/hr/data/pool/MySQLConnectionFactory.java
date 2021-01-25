@@ -7,8 +7,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /* package private access */
-class MySQLConnectionFactory extends ConnectionFactory {
-    private static final String HEROKU_DATABASE_PROPERTIES_PATH = "dbheroku.properties";
+class MySQLConnectionFactory extends AbstractConnectionFactory {
+    private static final String HEROKU_DATABASE_PROPERTIES_PATH = "properties/app.properties";
 
     @Override
     protected String getPropertiesPath() {
@@ -18,7 +18,7 @@ class MySQLConnectionFactory extends ConnectionFactory {
     @Override
     protected void loadDriverIfNotLoaded() {
         try {
-            Driver driver = new com.mysql.cj.jdbc.Driver();
+            Driver driver = new com.mysql.jdbc.Driver();
             DriverManager.registerDriver(driver);
         } catch (SQLException e) {
             throw new DaoRuntimeException(e);

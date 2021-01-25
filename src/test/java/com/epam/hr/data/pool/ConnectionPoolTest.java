@@ -1,7 +1,7 @@
 package com.epam.hr.data.pool;
 
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -13,13 +13,13 @@ class ConnectionPoolTest {
     private static final int EXPECTED_CONNECTIONS_COUNT_AFTER_DESTROY = 0;
 
     /* prevents using default connection factory */
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
-        ConnectionFactory connectionFactory = getConnectionFactoryMockCreatingOneConnection();
+        AbstractConnectionFactory connectionFactory = getConnectionFactoryMockCreatingOneConnection();
         ConnectionPool.instantiateForTest(connectionFactory);
     }
 
-    private static ConnectionFactory getConnectionFactoryMockCreatingOneConnection() {
+    private static AbstractConnectionFactory getConnectionFactoryMockCreatingOneConnection() {
         Connection connection = Mockito.mock(Connection.class);
         MySQLConnectionFactory connectionFactory = Mockito.mock(MySQLConnectionFactory.class);
         Mockito.when(connectionFactory.establishConnections())

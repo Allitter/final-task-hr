@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * Class to prevent closing connections from dao
+ */
 /* package private access */
 class ProxyConnection implements Connection {
     private final Connection connection;
@@ -15,10 +18,18 @@ class ProxyConnection implements Connection {
         this.pool = pool;
     }
 
+    /**
+     * Closes connection
+     *
+     * @throws SQLException if sql error occurs
+     */
     public void destroy() throws SQLException {
         connection.close();
     }
 
+    /**
+     * returns connection to the pool
+     */
     @Override
     public void close() {
         pool.releaseConnection(this);

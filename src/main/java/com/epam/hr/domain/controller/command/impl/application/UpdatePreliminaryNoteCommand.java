@@ -20,15 +20,15 @@ public class UpdatePreliminaryNoteCommand extends AbstractJobApplicationCommand 
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long idJobApplication = Long.parseLong((String)request.getAttribute(Attributes.JOB_APPLICATION_ID));
-        String preliminaryInterviewNote = (String)request.getAttribute(Attributes.PRELIMINARY_INTERVIEW_NOTE);
+        long idJobApplication = Long.parseLong((String) request.getAttribute(Attributes.JOB_APPLICATION_ID));
+        String preliminaryInterviewNote = (String) request.getAttribute(Attributes.PRELIMINARY_INTERVIEW_NOTE);
 
         try {
             jobApplicationService.updatePreliminaryInterviewNote(idJobApplication, preliminaryInterviewNote);
 
             String path = request.getHeader(Attributes.REFERER);
             return Router.redirect(path);
-        }  catch (ValidationException e) {
+        } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();
             request.setAttribute(Attributes.FAILS, fails);
             JobApplication jobApplication = jobApplicationService.tryFindById(idJobApplication);

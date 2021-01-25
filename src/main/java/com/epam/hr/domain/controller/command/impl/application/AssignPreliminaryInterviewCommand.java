@@ -19,8 +19,7 @@ public class AssignPreliminaryInterviewCommand extends AbstractJobApplicationCom
     public Router execute(HttpServletRequest request) throws ServiceException {
         long idJobApplication = Long.parseLong((String) request.getAttribute(Attributes.JOB_APPLICATION_ID));
 
-        JobApplication jobApplication = jobApplicationService.tryFindById(idJobApplication);
-        jobApplicationService.updateState(jobApplication, JobApplication.State.PRELIMINARY_INTERVIEW);
+        jobApplicationService.updateState(idJobApplication, JobApplication.State.PRELIMINARY_INTERVIEW);
 
         String path = request.getHeader(Attributes.REFERER);
         return Router.redirect(path);

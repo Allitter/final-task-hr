@@ -21,14 +21,11 @@ public class VerificationPageCommand extends AbstractUserCommand {
 
     private final MailingService mailingService;
     private final VerificationTokenService verificationTokenService;
-    private final VerificationCodeGenerator verificationCodeGenerator;
 
     public VerificationPageCommand(MailingService mailingService,
-                                   VerificationTokenService verificationTokenService,
-                                   VerificationCodeGenerator verificationCodeGenerator) {
+                                   VerificationTokenService verificationTokenService) {
         this.mailingService = mailingService;
         this.verificationTokenService = verificationTokenService;
-        this.verificationCodeGenerator = verificationCodeGenerator;
     }
 
     @Override
@@ -41,8 +38,8 @@ public class VerificationPageCommand extends AbstractUserCommand {
         verificationTokenService.removeExpiredTokens(idUser);
         List<VerificationToken> tokens = verificationTokenService.findUserTokens(idUser);
         if (tokens.isEmpty()) {
-            String code = verificationCodeGenerator.generate();
-            VerificationToken token = new VerificationToken(idUser, code);
+            String code = VerificationCodeGenerator.generate();
+            VerificationToken token = new VerificationToken.Builder(idUser, code).build(true);
             verificationTokenService.save(token);
 
             mailingService.sendMessageTo(MESSAGE_SUBJECT, MESSAGE_TEXT + code, email);

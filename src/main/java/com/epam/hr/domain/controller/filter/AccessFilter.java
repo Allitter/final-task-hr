@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Checks if user can access particular command
+ */
 public class AccessFilter extends HttpFilter {
 
     @Override
@@ -21,8 +24,8 @@ public class AccessFilter extends HttpFilter {
                             FilterChain chain) throws IOException, ServletException {
 
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute(Attributes.USER);
-        CommandType commandType = (CommandType)request.getAttribute(Attributes.COMMAND);
+        User user = (User) session.getAttribute(Attributes.USER);
+        CommandType commandType = (CommandType) request.getAttribute(Attributes.COMMAND);
         User.Role role = user.getRole();
 
         if (user.isBanned() && commandType != CommandType.LOGOUT) {

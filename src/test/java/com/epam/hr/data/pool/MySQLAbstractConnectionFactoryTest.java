@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.util.List;
 
-class MySQLConnectionFactoryTest {
+class MySQLAbstractConnectionFactoryTest {
     private static final String PROPERTIES_PATH = "testdbconnection.properties";
     private static final int EXPECTED_CONNECTIONS_COUNT = 2;
 

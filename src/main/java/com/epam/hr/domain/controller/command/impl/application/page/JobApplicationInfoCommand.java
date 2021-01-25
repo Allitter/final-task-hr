@@ -24,7 +24,7 @@ public class JobApplicationInfoCommand extends AbstractJobApplicationCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long idJobApplication =  Long.parseLong((String)request.getAttribute(Attributes.JOB_APPLICATION_ID));
+        long idJobApplication = Long.parseLong((String) request.getAttribute(Attributes.JOB_APPLICATION_ID));
 
         JobApplication jobApplication = jobApplicationService.tryFindById(idJobApplication);
         request.setAttribute(Attributes.JOB_APPLICATION, jobApplication);

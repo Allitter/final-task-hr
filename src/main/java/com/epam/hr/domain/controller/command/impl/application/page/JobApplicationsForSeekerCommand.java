@@ -15,8 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class JobApplicationsForSeekerCommand extends AbstractJobApplicationCommand {
-    private static final int NUMBER_OF_RECORDS_PER_PAGE = 10;
-
     private final JobApplicationService jobApplicationService;
 
     public JobApplicationsForSeekerCommand(JobApplicationService jobApplicationService) {
@@ -37,9 +35,8 @@ public class JobApplicationsForSeekerCommand extends AbstractJobApplicationComma
 
         int totalQuantity = jobApplicationService.countUserJobApplications(idUser);
         Page page = getClosestExistingPage(queriedPage, totalQuantity);
-
-        int from = page.getCurrentPage() * NUMBER_OF_RECORDS_PER_PAGE;
-        List<JobApplication> jobApplications = jobApplicationService.findUserApplications(idUser, from, NUMBER_OF_RECORDS_PER_PAGE);
+        int from = page.getFirstRecordNumber();
+        List<JobApplication> jobApplications = jobApplicationService.findUserApplications(idUser, from, DEFAULT_NUMBER_OF_RECORDS_PER_PAGE);
         request.setAttribute(Attributes.JOB_APPLICATIONS, jobApplications);
         request.setAttribute(Attributes.PAGE, page);
 

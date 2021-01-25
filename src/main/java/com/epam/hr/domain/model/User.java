@@ -1,9 +1,10 @@
 package com.epam.hr.domain.model;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.epam.hr.domain.util.DateUtils;
 
-public final class User  extends Entity implements Serializable {
+import java.io.Serializable;
+
+public final class User extends Entity implements Serializable {
     public static final User DEFAULT = new Builder().build();
     private final Role role;
     private final String login;
@@ -14,6 +15,7 @@ public final class User  extends Entity implements Serializable {
     private final String email;
     private final String phone;
     private final String birthDate;
+    private final String avatarPath;
     private final boolean isBanned;
     private final boolean enabled;
 
@@ -28,6 +30,7 @@ public final class User  extends Entity implements Serializable {
         this.email = builder.email;
         this.phone = builder.phone;
         this.birthDate = builder.birthDate;
+        this.avatarPath = builder.avatarPath;
         this.isBanned = builder.isBanned;
         this.enabled = builder.enabled;
     }
@@ -68,6 +71,10 @@ public final class User  extends Entity implements Serializable {
         return phone;
     }
 
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -77,11 +84,7 @@ public final class User  extends Entity implements Serializable {
     }
 
     public User changeEnabled(boolean enabled) {
-        return new User.Builder(this).setEnabled(enabled).build();
-    }
-
-    public User changeBanned(boolean isBanned) {
-        return new User.Builder(this).setBanned(isBanned).build();
+        return new User.Builder(this).setEnabled(enabled).build(isValid);
     }
 
     public static class Builder extends Entity.Builder<User> {
@@ -98,6 +101,7 @@ public final class User  extends Entity implements Serializable {
         private String email;
         private String phone;
         private String birthDate;
+        private String avatarPath;
         private boolean isBanned;
         private boolean enabled;
 
@@ -115,7 +119,8 @@ public final class User  extends Entity implements Serializable {
             patronymic = DEFAULT_STRING_VALUE;
             email = DEFAULT_STRING_VALUE;
             phone = DEFAULT_STRING_VALUE;
-            birthDate = new Date().toString();
+            birthDate = DateUtils.currentDate().toString();
+            avatarPath = DEFAULT_STRING_VALUE;
             isBanned = DEFAULT_IS_BANNED;
             enabled = DEFAULT_ENABLED;
         }
@@ -133,6 +138,7 @@ public final class User  extends Entity implements Serializable {
             birthDate = user.getBirthDate();
             isBanned = user.isBanned();
             enabled = user.isEnabled();
+            avatarPath = user.getAvatarPath();
         }
 
         public Builder setRole(Role role) {
@@ -177,6 +183,11 @@ public final class User  extends Entity implements Serializable {
 
         public Builder setBirthDate(String birtDate) {
             this.birthDate = birtDate;
+            return this;
+        }
+
+        public Builder setAvatarPath(String avatarPath) {
+            this.avatarPath = avatarPath;
             return this;
         }
 

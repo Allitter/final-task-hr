@@ -20,7 +20,7 @@ public class EmployeeInfoCommand extends AbstractUserCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long idUser = Long.parseLong((String)request.getAttribute(Attributes.USER_ID));
+        long idUser = Long.parseLong((String) request.getAttribute(Attributes.USER_ID));
 
         User user = userService.tryFindById(idUser);
         if (user.isBanned()) {

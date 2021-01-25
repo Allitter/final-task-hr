@@ -1,7 +1,8 @@
 package com.epam.hr.data.dao.factory.impl;
 
+import com.epam.hr.data.dao.VacancyDao;
 import com.epam.hr.data.dao.factory.DaoFactory;
-import com.epam.hr.data.dao.impl.VacancyDao;
+import com.epam.hr.data.dao.impl.VacancyDaoImpl;
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.data.mapper.impl.VacancyMapper;
 import com.epam.hr.data.pool.ConnectionPool;
@@ -19,11 +20,11 @@ public class VacancyDaoFactory implements DaoFactory<VacancyDao> {
 
     @Override
     public VacancyDao create() {
-        return new VacancyDao(pool.getConnection(), MAPPER);
+        return new VacancyDaoImpl(pool.getConnection(), MAPPER);
     }
 
     @Override
     public VacancyDao create(Connection connection) {
-        return new VacancyDao(connection, MAPPER);
+        return new VacancyDaoImpl(connection, MAPPER, false);
     }
 }

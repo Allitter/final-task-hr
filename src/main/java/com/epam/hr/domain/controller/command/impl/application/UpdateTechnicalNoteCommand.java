@@ -20,7 +20,7 @@ public class UpdateTechnicalNoteCommand extends AbstractJobApplicationCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long idJobApplication = Long.parseLong((String)request.getAttribute(Attributes.JOB_APPLICATION_ID));
+        long idJobApplication = Long.parseLong((String) request.getAttribute(Attributes.JOB_APPLICATION_ID));
         String technicalInterviewNote = (String) request.getAttribute(Attributes.TECHNICAL_INTERVIEW_NOTE);
 
         try {
@@ -28,7 +28,7 @@ public class UpdateTechnicalNoteCommand extends AbstractJobApplicationCommand {
 
             String path = request.getHeader(Attributes.REFERER);
             return Router.redirect(path);
-        }  catch (ValidationException e) {
+        } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();
             request.setAttribute(Attributes.FAILS, fails);
             JobApplication jobApplication = jobApplicationService.tryFindById(idJobApplication);

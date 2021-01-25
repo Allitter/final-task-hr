@@ -6,6 +6,7 @@ import com.epam.hr.domain.controller.command.impl.AbstractCommand;
 import com.epam.hr.domain.model.Vacancy;
 import com.epam.hr.domain.service.VacancyService;
 import com.epam.hr.exception.ServiceException;
+
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractVacancyCommand extends AbstractCommand {

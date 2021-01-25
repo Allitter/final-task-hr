@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
+<Configuration status="WARN">
+    <Properties>
+        <Property name="console_pattern">
+            %d{HH:mm:ss.SSS} %-5level %logger{1} - %msg%n
+        </Property>
+        <Property name="file_pattern">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
+        </Property>
+    </Properties>
+
     <Appenders>
-        <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout>
-                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
-            </PatternLayout>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${console_pattern}"/>
         </Console>
-        <File name="file" fileName="../hr/log/log.txt" append="false">
-            <PatternLayout>
-                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{5} - %msg%n</pattern>
-            </PatternLayout>
+        <File name="FileAppender" fileName="/../hr/log/log.txt" append="false">
+            <PatternLayout pattern="${file_pattern}"/>
         </File>
     </Appenders>
 
     <Loggers>
-        <Root level="trace">
-            <AppenderRef ref="console" level="warn"/>
-            <AppenderRef ref="file" level="trace"/>
+        <Root level="debug">
+            <appender-ref ref="ConsoleAppender" level="warn"/>
+            <appender-ref ref="FileAppender" level="debug"/>
         </Root>
     </Loggers>
 </Configuration>

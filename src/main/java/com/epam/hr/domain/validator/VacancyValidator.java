@@ -8,11 +8,20 @@ import java.util.Map;
 
 import static com.epam.hr.domain.validator.ValidationFieldNames.*;
 
+/**
+ * The type Vacancy validator.
+ */
 public class VacancyValidator extends AbstractValidator {
-    private static final String NAME_REGEX = "(?s).{3,30}";
+    private static final String NAME_REGEX = "(?s).{3,120}";
     private static final String SHORT_DESCRIPTION_REGEX = "(?s).{3,140}";
-    private static final String DESCRIPTION_REGEX = "(?s).{3,2048}";
+    private static final String DESCRIPTION_REGEX = "(?s).{3,4096}";
 
+    /**
+     * Validate.
+     *
+     * @param vacancy the vacancy
+     * @return validation results
+     */
     public Map<String, Boolean> validate(Vacancy vacancy) {
         String name = vacancy.getName();
         String shortDescription = vacancy.getShortDescription();
@@ -25,19 +34,45 @@ public class VacancyValidator extends AbstractValidator {
         return result;
     }
 
+    /**
+     * Gets validation fails.
+     *
+     * @param vacancy the vacancy
+     * @return the validation fails
+     */
     public List<String> getValidationFails(Vacancy vacancy) {
         return filterFails(validate(vacancy));
     }
 
+    /**
+     * Validate name.
+     *
+     * @param name the name
+     * @return true if valid
+     */
     public boolean validateName(String name) {
-        return nullOrEmptyAndRegexCheck(name, NAME_REGEX);
+        return nullOrEmptyCheck(name) && regexCheck(name, NAME_REGEX);
     }
 
+    /**
+     * Validate short description.
+     *
+     * @param shortDescription the short description
+     * @return true if valid
+     */
     public boolean validateShortDescription(String shortDescription) {
-        return nullOrEmptyAndRegexCheck(shortDescription, SHORT_DESCRIPTION_REGEX);
+        return nullOrEmptyCheck(shortDescription)
+                && regexCheck(shortDescription, SHORT_DESCRIPTION_REGEX);
     }
 
+    /**
+     * Validate description.
+     *
+     * @param description the description
+     * @return true if valid
+     */
     public boolean validateDescription(String description) {
-        return nullOrEmptyAndRegexCheck(description, DESCRIPTION_REGEX);
+        return nullOrEmptyCheck(description)
+                && regexCheck(description, DESCRIPTION_REGEX);
     }
 }

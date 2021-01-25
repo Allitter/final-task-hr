@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
-    <%@ include file="../head_common.jsp"%>
+    <%@ include file="../head_common.jsp" %>
     <title>HR-ORG</title>
 </head>
 
@@ -16,38 +16,71 @@
     <%@ include file="../navigation.jsp" %>
 
     <main class="main">
+        <h2><fmt:message key="navigation.job_applications"/></h2>
         <c:choose>
             <c:when test="${job_applications.size() > 0}">
                 <div class="items">
 
-                    <c:forEach var="applicationDto" items="${job_applications}">
+                    <c:forEach var="application" items="${job_applications}">
                         <div class="item">
                             <div class="item_info">
                                 <div class="item_description">
+                                    <h3>
+                                        <a href="${pageContext.request.contextPath}/controller?command=vacancy_info&vacancy_id=${application.idVacancy}">${application.vacancyName}</a>
+                                    </h3>
+                                    <p>
+                                        <fmt:message key="label.status"/>:
+                                        <span style="margin-left: 10px; color: var(--accept-btn-color)"><fmt:message
+                                                key="enum.job_application_state.${application.state.name()}"/></span>
+                                    </p>
+                                    <p>
+                                        <fmt:message key="label.creation_date"/>:
+                                        <span style="margin-left: 10px; color: var(--main-bg-color)"><fmt:formatDate
+                                                value="${application.date}"
+                                                pattern="${dateFormat}"/></span>
+                                    </p>
 
-                                    <h3 class="item_name" style="display: inline;">${applicationDto.vacancyName}</h3>
-                                    <span style="margin-left: 10px; color: var(--accept-btn-color)"><fmt:message key="enum.job_application_state.${applicationDto.state.name()}"/></span>
-                                    <span style="margin-left: 10px; color: var(--main-bg-color)">${applicationDto.date}</span>
-                                    <p class="item_short_desc">${applicationDto.vacancyShortDescription}</p>
+                                    <c:if test="${user.role.name() == 'EMPLOYEE'}">
+                                        <p>
+                                            <fmt:message
+                                                    key="label.job_seeker"/>:
+                                            <span>${application.userName}</span>
+                                            <span style="margin-left: 10px;">${application.userLastName}</span>
+                                            <span style="margin-left: 10px;">${application.userPatronymic}</span>
+                                        </p>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="actions">
-                                <form action="${pageContext.request.contextPath}/controller" METHOD="get">
-                                    <input type="hidden" name="command" value="vacancy_info">
-                                    <input type="hidden" name="vacancy_id" value="${applicationDto.idVacancy}">
-                                    <button class="btn"><fmt:message key="button.vacancy" /></button>
+                                <form action="${pageContext.request.contextPath}/controller"
+                                      METHOD="get">
+                                    <input type="hidden" name="command"
+                                           value="job_application_info">
+                                    <input type="hidden" name="job_application_id"
+                                           value="${application.id}">
+                                    <button class="single_action">
+                                        <img src="images/open.png"
+                                             alt="<fmt:message key="button.edit"/>">
+                                    </button>
                                 </form>
                             </div>
                         </div>
+
                     </c:forEach>
                 </div>
             </c:when>
             <c:otherwise>
-                <h3><fmt:message key="messages.no_job_applications" /></h3>
+                <h3 style="margin-top: 20px">
+                    <fmt:message key="messages.no_job_applications"/>
+                    <br>
+                    <a class="underling_href italic" href="${pageContext.request.contextPath}/controller?command=vacancies">
+                        <fmt:message key="messages.browse_vacancies"/>
+                    </a>
+                </h3>
             </c:otherwise>
         </c:choose>
 
-        <hrt:page-bar page="${page}" command="job_applications" />
+        <hrt:page-bar page="${page}" command="job_applications_for_seeker"/>
     </main>
 </div>
 </body>

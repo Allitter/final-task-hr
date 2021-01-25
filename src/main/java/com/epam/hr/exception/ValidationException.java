@@ -11,7 +11,7 @@ public class ValidationException extends ServiceException {
         this.validationFails = Collections.unmodifiableList(validationFails);
     }
 
-    public ValidationException(String...fails) {
+    public ValidationException(String... fails) {
         this.validationFails = Arrays.asList(fails);
     }
 

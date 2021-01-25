@@ -14,12 +14,12 @@ public class VacancyMapper implements Mapper<Vacancy> {
     private static final String SHORT_DESCRIPTION = "short_description";
     private static final String DESCRIPTION = "description";
     private static final String CLOSED = "closed";
-    private static final String REMOVED = "removed";
 
     @Override
     public Vacancy map(ResultSet resultSet) throws SQLException {
         return map(resultSet, EMPTY_ATTRIBUTE_PREFIX);
     }
+
     @Override
     public Vacancy mapForAnotherEntity(ResultSet resultSet) throws SQLException {
         return map(resultSet, ATTRIBUTE_PREFIX);
@@ -31,14 +31,12 @@ public class VacancyMapper implements Mapper<Vacancy> {
         String shortDescription = resultSet.getString(attributePrefix + SHORT_DESCRIPTION);
         String description = resultSet.getString(attributePrefix + DESCRIPTION);
         boolean closed = resultSet.getBoolean(attributePrefix + CLOSED);
-        boolean removed = resultSet.getBoolean(attributePrefix + REMOVED);
 
         return new Vacancy.Builder(id)
                 .setName(name)
                 .setShortDescription(shortDescription)
                 .setDescription(description)
                 .setClosed(closed)
-                .setRemoved(removed)
                 .build(true);
     }
 }

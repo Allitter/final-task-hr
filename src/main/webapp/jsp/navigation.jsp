@@ -6,7 +6,7 @@
     <ul>
         <c:if test="${user.role.name() == 'JOB_SEEKER'}">
             <li>
-                <a href="${pageContext.request.contextPath}/controller?command=job_applications_for_seeker&page=0">
+                <a class="underling_href" href="${pageContext.request.contextPath}/controller?command=job_applications_for_seeker&page=0">
                     <fmt:message key="navigation.job_applications" />
                 </a>
             </li>
@@ -14,23 +14,31 @@
 
         <c:if test="${user.role.name() == 'EMPLOYEE' || user.role.name() == 'JOB_SEEKER'}">
             <li>
-                <a href="${pageContext.request.contextPath}/controller?command=vacancies&page=0">
+                <a class="underling_href" href="${pageContext.request.contextPath}/controller?command=vacancies&page=0">
                     <fmt:message key="navigation.vacancies" />
-                </a>
-            </li>
-        </c:if>
-
-        <c:if test="${user.role.name() == 'EMPLOYEE' || user.role.name() == 'ADMINISTRATOR'}">
-            <li>
-                <a href="${pageContext.request.contextPath}/controller?command=job_seekers&page=0">
-                    <fmt:message key="navigation.job_seekers" />
                 </a>
             </li>
         </c:if>
 
         <c:if test="${user.role.name() == 'ADMINISTRATOR'}">
             <li>
-                <a href="${pageContext.request.contextPath}/controller?command=employees&page=0">
+                <a class="underling_href" href="${pageContext.request.contextPath}/controller?command=job_seekers&page=0">
+                    <fmt:message key="navigation.job_seekers" />
+                </a>
+            </li>
+        </c:if>
+
+        <c:if test="${user.role.name() == 'EMPLOYEE'}">
+            <li>
+                <a class="underling_href" href="${pageContext.request.contextPath}/controller?command=job_applications&page=0">
+                    <fmt:message key="navigation.job_applications" />
+                </a>
+            </li>
+        </c:if>
+
+        <c:if test="${user.role.name() == 'ADMINISTRATOR'}">
+            <li>
+                <a class="underling_href" href="${pageContext.request.contextPath}/controller?command=employees&page=0">
                     <fmt:message key="navigation.employees" />
                 </a>
             </li>

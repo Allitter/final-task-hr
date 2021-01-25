@@ -6,12 +6,29 @@
          version="4.0">
   <servlet>
     <servlet-name>controller</servlet-name>
-    <servlet-class>com.epam.hr.domain.controller.Servlet</servlet-class>
+    <servlet-class>com.epam.hr.domain.controller.Controller</servlet-class>
+    <multipart-config>
+      <max-file-size>10485760</max-file-size>
+      <max-request-size>10485760</max-request-size>
+      <file-size-threshold>10485760</file-size-threshold>
+    </multipart-config>
   </servlet>
+  <servlet>
+    <servlet-name>download-servlet</servlet-name>
+    <servlet-class>com.epam.hr.domain.controller.FileDownloadServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>controller</servlet-name>
     <url-pattern>/controller</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>download-servlet</servlet-name>
+    <url-pattern>/download/*</url-pattern>
+  </servlet-mapping>
+
+
+
 
   <!-- Filters -->
   <filter>

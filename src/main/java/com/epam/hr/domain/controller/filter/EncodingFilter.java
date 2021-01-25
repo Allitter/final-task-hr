@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Sets encoding defined in the web.xml config to request and response
+ */
 public class EncodingFilter extends HttpFilter {
     private static final String ENCODING_PARAMETER_NAME = "encoding";
     private String encoding;

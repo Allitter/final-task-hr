@@ -28,25 +28,28 @@ public class ConnectionPool {
         this(new MySQLConnectionFactory());
     }
 
-    private ConnectionPool(ConnectionFactory connectionFactory) {
-        if (instance != null) {
-            throw new DaoRuntimeException("Attempt to create second instance of connection pool");
+    private ConnectionPool(AbstractConnectionFactory connectionFactory) {
+        if (instance != null) { // Preventing second instantiation
+            throw new DaoRuntimeException("Attempt to create second instance of the ConnectionP ool");
         }
-
-        this.availableConnections = new LinkedBlockingQueue<>();
 
         List<Connection> connections = connectionFactory.establishConnections();
         connectionsTotalCount = new AtomicInteger(connections.size());
+        if (connectionsTotalCount.get() < 1) { // Preventing init mistake
+            throw new DaoRuntimeException("Pool contains no connections");
+        }
+
+        this.availableConnections = new LinkedBlockingQueue<>();
         for (Connection connection : connections) {
             availableConnections.add(new ProxyConnection(connection, this));
         }
     }
 
+    /**
+     * @return sql connection
+     * @throws DaoRuntimeException if connection wasn't provided within 10 seconds
+     */
     public Connection getConnection() {
-        if (connectionsTotalCount.get() < 1) {
-            throw new DaoRuntimeException("Pool contains no connections");
-        }
-
         ProxyConnection connection = null;
         try {
             LOGGER.debug("attempt to get connection {}", Thread.currentThread().getName());
@@ -73,29 +76,15 @@ public class ConnectionPool {
         availableConnections.add(proxyConnection);
     }
 
+    /**
+     * @return instance of the connection pool
+     */
     public static ConnectionPool getInstance() {
         if (instance == null) {
             INSTANCE_LOCK.lock();
             try {
                 if (instance == null) {
                     ConnectionPool pool = new ConnectionPool();
-                    instance = pool;
-                }
-            } finally {
-                INSTANCE_LOCK.unlock();
-            }
-        }
-
-        return instance;
-    }
-
-    /* package private, for test proposes only */
-    static ConnectionPool instantiateForTest(ConnectionFactory factory) {
-        if (instance == null) {
-            INSTANCE_LOCK.lock();
-            try {
-                if (instance == null) {
-                    ConnectionPool pool = new ConnectionPool(factory);
                     instance = pool;
                 }
             } finally {
@@ -117,6 +106,21 @@ public class ConnectionPool {
             LOGGER.info("All connections destroyed, available connections {}", connectionsTotalCount);
         } catch (SQLException | InterruptedException e) {
             Thread.currentThread().interrupt();
+        }
+    }
+
+    /* package private, for test proposes only */
+    static void instantiateForTest(AbstractConnectionFactory factory) {
+        if (instance == null) {
+            INSTANCE_LOCK.lock();
+            try {
+                if (instance == null) {
+                    ConnectionPool pool = new ConnectionPool(factory);
+                    instance = pool;
+                }
+            } finally {
+                INSTANCE_LOCK.unlock();
+            }
         }
     }
 

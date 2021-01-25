@@ -1,5 +1,8 @@
 package com.epam.hr.domain.controller.command;
 
+/**
+ * This <strong>constant class</strong> defines local paths for project's pages
+ */
 public final class Pages {
     public static final String LOGIN = "jsp/login.jsp";
     public static final String REGISTRATION = "jsp/registration.jsp";
@@ -17,7 +20,7 @@ public final class Pages {
     public static final String JOB_SEEKERS = "jsp/job_seekers.jsp";
     public static final String JOB_SEEKER_INFO = "jsp/job_seeker_info.jsp";
 
-    public static final String JOB_APPLICATIONS= "jsp/seeker/job_applications.jsp";
+    public static final String JOB_APPLICATIONS = "jsp/seeker/job_applications.jsp";
     public static final String JOB_APPLICATIONS_VACANCY = "jsp/hr/job_applications_for_vacancy.jsp";
     public static final String JOB_APPLICATION_INFO = "jsp/job_application_info.jsp";
 
@@ -32,6 +35,6 @@ public final class Pages {
     public static final String SERVER_ERROR = "jsp/error/500error.jsp";
     public static final String PAGE_NOT_FOUND = "jsp/error/404error.jsp";
 
-    private Pages () {
+    private Pages() {
     }
 }

@@ -36,7 +36,7 @@ public class JobApplicationMapper implements Mapper<JobApplication> {
         return map(resultSet, ATTRIBUTE_PREFIX);
     }
 
-    public JobApplication map(ResultSet resultSet, String attributePrefix) throws SQLException {
+    private JobApplication map(ResultSet resultSet, String attributePrefix) throws SQLException {
         long id = resultSet.getLong(attributePrefix + ID);
         Date date = resultSet.getDate(attributePrefix + DATE);
         String preliminaryInterviewNote = resultSet.getString(attributePrefix + PRELIMINARY_INTERVIEW_NOTE);

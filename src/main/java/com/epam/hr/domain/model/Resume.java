@@ -5,14 +5,6 @@ public final class Resume extends Entity {
     private final String name;
     private final String text;
 
-    // todo remove
-    public Resume(long id, long idUser, String name, String text) {
-        super(id, true);
-        this.idUser = idUser;
-        this.name = name;
-        this.text = text;
-    }
-
     private Resume(Resume.Builder builder) {
         super(builder);
         this.idUser = builder.idUser;
@@ -24,10 +16,6 @@ public final class Resume extends Entity {
         return name;
     }
 
-    public long getId() {
-        return id;
-    }
-
     public long getIdUser() {
         return idUser;
     }
@@ -36,13 +24,6 @@ public final class Resume extends Entity {
         return text;
     }
 
-    public Resume changeName(String name) {
-        return new Resume.Builder(this).setName(name).build();
-    }
-
-    public Resume changeText(String text) {
-        return new Resume.Builder(this).setText(text).build();
-    }
 
     public static class Builder extends Entity.Builder<Resume> {
         private final long idUser;

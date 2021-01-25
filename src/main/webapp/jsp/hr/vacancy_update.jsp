@@ -31,13 +31,13 @@
             <input type="hidden" name="vacancy_id" value="${vacancy.id}">
 
             <label for="vacancy_name" style="text-align: left; margin: 10px 0;"><fmt:message key="label.name" /></label>
-            <input name="vacancy_name" pattern=".{3,}" maxlength="30" id="vacancy_name" class="item_name" type="text" value="${vacancy.name}">
+            <input name="vacancy_name" pattern=".{3,}" maxlength="120" id="vacancy_name" class="item_name" type="text" value="${vacancy.name}">
             <br>
             <label for="item_short_desc" style="text-align: left; margin: 10px 0;"><fmt:message key="label.short_description" /></label>
             <textarea class="item_short_desc" minlength="3" maxlength="140" id="item_short_desc" name="item_short_desc" style="width: auto; height: 105px; resize: none;">${vacancy.shortDescription}</textarea>
             <br>
             <label for="item_long_desc" style="text-align: left; margin: 10px 0;"><fmt:message key="label.description" /></label>
-            <textarea class="item_long_desc" minlength="3" maxlength="2048" id="item_long_desc" name="item_long_desc" style="width: auto; height: 600px; resize: none;">${vacancy.description}</textarea>
+            <textarea class="item_long_desc" minlength="3" maxlength="3076" id="item_long_desc" name="item_long_desc" style="width: auto; height: 600px; resize: none;">${vacancy.description}</textarea>
             <br>
 
             <div class="item_edit_actions">

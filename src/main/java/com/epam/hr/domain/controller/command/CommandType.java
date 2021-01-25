@@ -9,11 +9,17 @@ import java.util.Optional;
 
 import static com.epam.hr.domain.model.User.Role.*;
 
+/**
+ * This enum represents all command available to user requests
+ * every command type contains {@link User.Role user roles} that can access it
+ */
 public enum CommandType {
     DEFAULT_COMMAND(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
-    AUTHENTICATION(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     CHANGE_LANGUAGE(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
+    SERVER_ERROR(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
+    PAGE_NOT_FOUND(DEFAULT, JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
 
+    LOGIN_PAGE(DEFAULT),
     LOGIN(DEFAULT),
     REGISTRATION_PAGE(DEFAULT),
     REGISTRATION(DEFAULT),
@@ -21,6 +27,7 @@ public enum CommandType {
     LOGOUT(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     ACCOUNT(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     ACCOUNT_UPDATE(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
+    UPLOAD_FILE(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     RESUME_INFO(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     CONFIRMATION_PAGE(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
     CONFIRMATION_PAGE_WITH_MESSAGE(JOB_SEEKER, EMPLOYEE, ADMINISTRATOR),
@@ -28,6 +35,7 @@ public enum CommandType {
 
     VACANCIES(JOB_SEEKER, EMPLOYEE),
     VACANCY_INFO(JOB_SEEKER, EMPLOYEE),
+    JOB_APPLICATION_INFO(JOB_SEEKER, EMPLOYEE),
 
     VERIFICATION_PAGE(JOB_SEEKER),
     VERIFICATION(JOB_SEEKER),
@@ -48,8 +56,9 @@ public enum CommandType {
     VACANCY_ADD(EMPLOYEE),
     VACANCY_ADD_ACCEPT(EMPLOYEE),
     VACANCY_CLOSE(EMPLOYEE),
+    VACANCY_REMOVE(EMPLOYEE),
+    JOB_APPLICATIONS(EMPLOYEE),
     JOB_APPLICATIONS_FOR_VACANCY(EMPLOYEE),
-    JOB_APPLICATION_INFO(JOB_SEEKER, EMPLOYEE),
     ASSIGN_PRELIMINARY_INTERVIEW(EMPLOYEE),
     ASSIGN_TECHNICAL_INTERVIEW(EMPLOYEE),
     ASSIGN_FOR_JOB(EMPLOYEE),
@@ -64,6 +73,12 @@ public enum CommandType {
 
     private final List<User.Role> permittedRoles;
 
+    /**
+     * Provides a convenient way to get command type
+     *
+     * @param name is a name of a particular command
+     * @return optional with command type in case that name is correct or empty optional
+     */
     public static Optional<CommandType> getCommand(String name) {
         if (name == null) {
             return Optional.empty();

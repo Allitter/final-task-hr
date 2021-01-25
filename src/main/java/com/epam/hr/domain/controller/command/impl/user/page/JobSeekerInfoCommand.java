@@ -13,7 +13,6 @@ import com.epam.hr.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 
 public class JobSeekerInfoCommand extends AbstractUserCommand {
     private final UserService userService;
@@ -26,7 +25,7 @@ public class JobSeekerInfoCommand extends AbstractUserCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long idUser = Long.parseLong((String)request.getAttribute(Attributes.USER_ID));
+        long idUser = Long.parseLong((String) request.getAttribute(Attributes.USER_ID));
 
         User user = userService.tryFindById(idUser);
         if (user.isBanned()) {

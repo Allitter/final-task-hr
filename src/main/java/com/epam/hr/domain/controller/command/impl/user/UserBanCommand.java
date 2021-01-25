@@ -5,6 +5,7 @@ import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.service.UserService;
+import com.epam.hr.exception.EntityNotFoundException;
 import com.epam.hr.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +28,12 @@ public class UserBanCommand extends AbstractUserCommand {
         }
 
         long idAdministrant = user.getId();
-        long idTarget = Long.parseLong((String)request.getAttribute(Attributes.USER_ID));
+        long idTarget = Long.parseLong((String) request.getAttribute(Attributes.USER_ID));
         String message = (String) request.getAttribute(Attributes.MESSAGE);
 
         Optional<User> optionalUser = service.banUser(idTarget, idAdministrant, message);
-        renewUserInHisSession(optionalUser, request);
+        user = optionalUser.orElseThrow(EntityNotFoundException::new);
+        renewUserInHisSession(user, request);
 
         String previousPage = (String) request.getAttribute(Attributes.PREVIOUS_PAGE);
         String path = previousPage != null ? previousPage : request.getHeader(Attributes.REFERER);

@@ -16,65 +16,62 @@
     <%@ include file="navigation.jsp" %>
 
     <main class="main item_more">
-        <div class="item_header"
-             style="display: flex; justify-content: flex-end;">
-            <div class="item_header_buttons">
-                <a class="btn"
-                   href="${pageContext.request.getHeader("referer")}"><fmt:message
-                        key="button.back"/></a>
-                <c:if test="${job_application.state.name() == 'RECENTLY_CREATED'
+        <div class="control_set">
+            <a class="btn"
+               href="${pageContext.request.getHeader("referer")}"><fmt:message
+                    key="button.back"/></a>
+            <c:if test="${job_application.state.name() == 'RECENTLY_CREATED'
                         && user.role.name() == 'EMPLOYEE'}">
-                    <form action="${pageContext.request.contextPath}/controller"
-                          method="post">
-                        <input type="hidden" name="command"
-                               value="assign_preliminary_interview">
-                        <input type="hidden" name="job_application_id"
-                               value="${job_application.id}">
-                        <button class="btn"><fmt:message
-                                key="button.assign_preliminary_interview"/></button>
-                    </form>
-                </c:if>
+                <form action="${pageContext.request.contextPath}/controller"
+                      method="post">
+                    <input type="hidden" name="command"
+                           value="assign_preliminary_interview">
+                    <input type="hidden" name="job_application_id"
+                           value="${job_application.id}">
+                    <button class="btn"><fmt:message
+                            key="button.assign_preliminary_interview"/></button>
+                </form>
+            </c:if>
 
-                <c:if test="${job_application.state.name() == 'PRELIMINARY_INTERVIEW'
+            <c:if test="${job_application.state.name() == 'PRELIMINARY_INTERVIEW'
                         && user.role.name() == 'EMPLOYEE'}">
-                    <form action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command"
-                               value="assign_technical_interview" method="post">
-                        <input type="hidden" name="job_application_id"
-                               value="${job_application.id}">
-                        <button class="btn"><fmt:message
-                                key="button.assign_technical_interview"/></button>
-                    </form>
-                </c:if>
+                <form action="${pageContext.request.contextPath}/controller">
+                    <input type="hidden" name="command"
+                           value="assign_technical_interview" method="post">
+                    <input type="hidden" name="job_application_id"
+                           value="${job_application.id}">
+                    <button class="btn"><fmt:message
+                            key="button.assign_technical_interview"/></button>
+                </form>
+            </c:if>
 
-                <c:if test="${job_application.state.name() == 'TECHNICAL_INTERVIEW'
+            <c:if test="${job_application.state.name() == 'TECHNICAL_INTERVIEW'
                         && user.role.name() == 'EMPLOYEE'}">
-                    <form action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command"
-                               value="assign_for_job" method="post">
-                        <input type="hidden" name="job_application_id"
-                               value="${job_application.id}">
-                        <button class="btn"><fmt:message
-                                key="button.assign_for_job"/></button>
-                    </form>
-                </c:if>
+                <form action="${pageContext.request.contextPath}/controller">
+                    <input type="hidden" name="command"
+                           value="assign_for_job" method="post">
+                    <input type="hidden" name="job_application_id"
+                           value="${job_application.id}">
+                    <button class="btn"><fmt:message
+                            key="button.assign_for_job"/></button>
+                </form>
+            </c:if>
 
-                <c:if test="${job_application.state.name() != 'APPLIED'
+            <c:if test="${job_application.state.name() != 'APPLIED'
                         && job_application.state.name() != 'BLOCKED'
                         && user.role.name() == 'EMPLOYEE'}">
-                    <form action="${pageContext.request.contextPath}/controller"
-                          method="post">
-                        <input type="hidden" name="command"
-                               value="confirmation_page">
-                        <input type="hidden" name="target_command"
-                               value="block_job_application">
-                        <input type="hidden" name="job_application_id"
-                               value="${job_application.id}">
-                        <button class="btn alert"><fmt:message
-                                key="button.block"/></button>
-                    </form>
-                </c:if>
-            </div>
+                <form action="${pageContext.request.contextPath}/controller"
+                      method="post">
+                    <input type="hidden" name="command"
+                           value="confirmation_page">
+                    <input type="hidden" name="target_command"
+                           value="block_job_application">
+                    <input type="hidden" name="job_application_id"
+                           value="${job_application.id}">
+                    <button class="btn alert"><fmt:message
+                            key="button.block"/></button>
+                </form>
+            </c:if>
         </div>
 
         <div class="item_body" style="text-align: start; white-space: normal;">
@@ -100,9 +97,9 @@
             <div class="item_body_top">
                 <div class="user_info_top">
                     <div class="avatar"
-                         style="background-image: url(/hr/images/2577247.jpg); min-width: 100px; min-height: 100px;">
+                         style="background-image: url(${pageContext.request.contextPath}/download/${job_application.userAvatarPath}); min-width: 150px; min-height: 150px;">
                     </div>
-                    <h2 style="margin-left: 20px;" class="item_name">
+                    <h2 style="margin-left: 20px;" class="user_name">
                         ${seeker.name} ${seeker.patronymic} ${seeker.lastName}
                     </h2>
                     <h3 style="color: var(--accept-btn-color); margin-left: 20px">

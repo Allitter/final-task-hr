@@ -2,16 +2,15 @@ package com.epam.hr.domain.controller.command.impl;
 
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
-import com.epam.hr.domain.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class ChangeLanguageCommand implements Command {
+public class ChangeLanguageCommand extends AbstractCommand {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        String newLanguage = (String)request.getAttribute(Attributes.LANGUAGE);
+        String newLanguage = (String) request.getAttribute(Attributes.LANGUAGE);
 
         HttpSession session = request.getSession();
         session.removeAttribute(Attributes.LANGUAGE);

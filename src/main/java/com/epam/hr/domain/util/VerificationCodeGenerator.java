@@ -2,11 +2,17 @@ package com.epam.hr.domain.util;
 
 import java.util.Random;
 
+/**
+ * Provides verification codes
+ */
 public class VerificationCodeGenerator {
     private static final String CODE_ALLOWED_CHARACTERS = "0123456789@.,)(*%&$abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final Random RANDOM = new Random();
     private static final int LENGTH = 6;
 
+    /**
+     * @return verification code
+     */
     public static String generate() {
         StringBuilder code = new StringBuilder();
 

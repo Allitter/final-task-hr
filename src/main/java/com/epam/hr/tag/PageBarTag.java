@@ -25,7 +25,7 @@ public class PageBarTag extends TagSupport {
     private static final int FIRST_PAGE = 0;
     private static final int PAGE_NUMBER_BIAS = 1;
     private static final String LAST_PAGE_CAPTION = ">>";
-    private static final String START_PAGE_CAPTION = "<<";
+    private static final String FIRST_PAGE_CAPTION = "<<";
 
     private int numberOfPages;
     private int currentPage;
@@ -52,7 +52,7 @@ public class PageBarTag extends TagSupport {
             String pageReference;
             if (numberOfPages > SIDE_BUTTONS_MINIMAL_PAGES_AMOUNT) {
                 pageReference = getPageReference(FIRST_PAGE);
-                out.println(String.format(SIDE_BUTTON_TAG, pageReference, START_PAGE_CAPTION));
+                out.println(String.format(SIDE_BUTTON_TAG, pageReference, FIRST_PAGE_CAPTION));
             }
 
             for (int i = currentPage - PAGES_FROM_SIDES; i <= currentPage + PAGES_FROM_SIDES; i++) {

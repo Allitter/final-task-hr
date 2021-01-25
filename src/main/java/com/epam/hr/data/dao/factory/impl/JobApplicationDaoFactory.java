@@ -1,7 +1,8 @@
 package com.epam.hr.data.dao.factory.impl;
 
+import com.epam.hr.data.dao.JobApplicationDao;
 import com.epam.hr.data.dao.factory.DaoFactory;
-import com.epam.hr.data.dao.impl.JobApplicationDao;
+import com.epam.hr.data.dao.impl.JobApplicationDaoImpl;
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.data.mapper.impl.JobApplicationMapper;
 import com.epam.hr.data.mapper.impl.UserMapper;
@@ -21,11 +22,11 @@ public class JobApplicationDaoFactory implements DaoFactory<JobApplicationDao> {
 
     @Override
     public JobApplicationDao create() {
-        return new JobApplicationDao(pool.getConnection(), MAPPER);
+        return new JobApplicationDaoImpl(pool.getConnection(), MAPPER);
     }
 
     @Override
     public JobApplicationDao create(Connection connection) {
-        return new JobApplicationDao(connection, MAPPER);
+        return new JobApplicationDaoImpl(connection, MAPPER, false);
     }
 }

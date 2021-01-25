@@ -11,6 +11,9 @@ import java.util.Map;
 
 import static com.epam.hr.domain.validator.ValidationFieldNames.*;
 
+/**
+ * The type User validator.
+ */
 public class UserValidator extends AbstractValidator {
     private static final String LOGIN_REGEX = "\\w{3,15}";
     private static final String PASSWORD_REGEX = "[_*$()%0-9A-Za-z]{8,32}";
@@ -20,17 +23,46 @@ public class UserValidator extends AbstractValidator {
     private static final int EMAIL_MAX_LENGTH = 320;
     private static final String PHONE_REGEX = "[+][0-9]{7,14}";
     private static final String BIRTH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
-    private static final String MIN_BIRTH_DATE = "1950-01-01";
-    private static final String MAX_BIRTH_DATE = "2007-12-31";
+    private static final String MIN_BIRTH_DATE = "1970-12-31";
+    private static final String MAX_BIRTH_DATE = "2008-01-01";
 
+    /**
+     * Validate login and password.
+     *
+     * @param login    the login
+     * @param password the password
+     * @return true if valid
+     */
+    public boolean validateLoginAndPassword(String login, String password) {
+        return validateLogin(login) && validatePassword(password);
+    }
+
+    /**
+     * Gets validation fails for update.
+     *
+     * @param user the user
+     * @return the validation fails for update
+     */
     public List<String> getValidationFailsForUpdate(User user) {
         return filterFails(validateForUpdate(user));
     }
 
+    /**
+     * Gets validation fails for register.
+     *
+     * @param user the user
+     * @return the validation fails for register
+     */
     public List<String> getValidationFailsForRegister(User user) {
         return filterFails(validateForRegister(user));
     }
 
+    /**
+     * Validate for register.
+     *
+     * @param user the user
+     * @return validation results
+     */
     public Map<String, Boolean> validateForRegister(User user) {
         Map<String, Boolean> result = validateForUpdate(user);
         String password = user.getPassword();
@@ -39,6 +71,12 @@ public class UserValidator extends AbstractValidator {
         return result;
     }
 
+    /**
+     * Validate for update.
+     *
+     * @param user the user
+     * @return validation results
+     */
     public Map<String, Boolean> validateForUpdate(User user) {
         String login = user.getLogin();
         String name = user.getName();
@@ -50,7 +88,7 @@ public class UserValidator extends AbstractValidator {
 
         Map<String, Boolean> result = new HashMap<>();
         result.put(LOGIN, validateLogin(login));
-        result.put(NAME ,validateName(name));
+        result.put(NAME, validateName(name));
         result.put(LAST_NAME, validateLastName(lastName));
         result.put(PATRONYMIC, validatePatronymic(patronymic));
         result.put(EMAIL, validateEmail(email));
@@ -59,39 +97,91 @@ public class UserValidator extends AbstractValidator {
         return result;
     }
 
+    /**
+     * Validate login.
+     *
+     * @param login the login
+     * @return true if valid
+     */
     public boolean validateLogin(String login) {
-        return nullOrEmptyAndRegexCheck(login, LOGIN_REGEX);
+        return nullOrEmptyCheck(login) && regexCheck(login, LOGIN_REGEX);
     }
 
+    /**
+     * Validate password.
+     *
+     * @param password the password
+     * @return true if valid
+     */
     public boolean validatePassword(String password) {
-        boolean isValid = nullOrEmptyAndRegexCheck(password, PASSWORD_REGEX);
-        return isValid && password.length() >= PASSWORD_MIN_LENGTH;
+        return nullOrEmptyCheck(password)
+                && regexCheck(password, PASSWORD_REGEX)
+                && password.length() >= PASSWORD_MIN_LENGTH;
     }
 
+    /**
+     * Validate name.
+     *
+     * @param name the name
+     * @return true if valid
+     */
     public boolean validateName(String name) {
-        return nullOrEmptyAndRegexCheck(name, NAME_REGEX);
+        return nullOrEmptyCheck(name)
+                && regexCheck(name, NAME_REGEX);
     }
 
+    /**
+     * Validate last name.
+     *
+     * @param lastName the last name
+     * @return true if valid
+     */
     public boolean validateLastName(String lastName) {
-        return nullOrEmptyAndRegexCheck(lastName, NAME_REGEX);
+        return nullOrEmptyCheck(lastName)
+                && regexCheck(lastName, NAME_REGEX);
     }
 
+    /**
+     * Validate patronymic.
+     *
+     * @param patronymic the patronymic
+     * @return true if valid
+     */
     public boolean validatePatronymic(String patronymic) {
-        return nullOrEmptyAndRegexCheck(patronymic, NAME_REGEX);
+        return !nullOrEmptyCheck(patronymic)
+                || regexCheck(patronymic, NAME_REGEX);
     }
 
+    /**
+     * Validate email.
+     *
+     * @param email the email
+     * @return true if valid
+     */
     public boolean validateEmail(String email) {
-        boolean isValid = nullOrEmptyAndRegexCheck(email, EMAIL_REGEX);
-        return isValid && email.length() <= EMAIL_MAX_LENGTH;
+        return nullOrEmptyCheck(email)
+                && regexCheck(email, EMAIL_REGEX)
+                && email.length() <= EMAIL_MAX_LENGTH;
     }
 
+    /**
+     * Validate phone.
+     *
+     * @param phone the phone
+     * @return true if valid
+     */
     public boolean validatePhone(String phone) {
-        return nullOrEmptyAndRegexCheck(phone, PHONE_REGEX);
+        return nullOrEmptyCheck(phone) && regexCheck(phone, PHONE_REGEX);
     }
 
+    /**
+     * Validate birth date.
+     *
+     * @param date the date
+     * @return true if valid
+     */
     public boolean validateBirthDate(String date) {
-        boolean isValid = nullOrEmptyAndRegexCheck(date, BIRTH_DATE_REGEX);
-        if (!isValid) {
+        if (!nullOrEmptyCheck(date) || !regexCheck(date, BIRTH_DATE_REGEX)) {
             return false;
         }
 

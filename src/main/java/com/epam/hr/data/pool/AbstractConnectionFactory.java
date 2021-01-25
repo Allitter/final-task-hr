@@ -10,12 +10,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * provides skeletal implementation for connection factories
+ * subclass has to implement {@link AbstractConnectionFactory#getPropertiesPath()}
+ * and {@link AbstractConnectionFactory#loadDriverIfNotLoaded()} methods
+ */
 /* package private access */
-abstract class ConnectionFactory {
+abstract class AbstractConnectionFactory {
     private static final String CONNECTIONS_COUNT_PROPERTY = "connections.count";
     private static final String URL_PROPERTY = "url";
 
+    /**
+     * @return path to database properties
+     */
     protected abstract String getPropertiesPath();
+
+    /**
+     * Should load driver if not loaded
+     */
     protected abstract void loadDriverIfNotLoaded();
 
     /* package private access */

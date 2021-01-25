@@ -24,7 +24,7 @@ public class ResumeMapper implements Mapper<Resume> {
         return map(resultSet, ATTRIBUTE_PREFIX);
     }
 
-    public Resume map(ResultSet resultSet, String attributePrefix) throws SQLException {
+    private Resume map(ResultSet resultSet, String attributePrefix) throws SQLException {
         long id = resultSet.getLong(attributePrefix + ID);
         long idUser = resultSet.getLong(attributePrefix + ID_USER);
         String name = resultSet.getString(attributePrefix + NAME);

@@ -19,8 +19,7 @@ public class AssignTechnicalInterviewCommand extends AbstractJobApplicationComma
     public Router execute(HttpServletRequest request) throws ServiceException {
         long idJobApplication = Long.parseLong((String) request.getAttribute(Attributes.JOB_APPLICATION_ID));
 
-        JobApplication jobApplication = jobApplicationService.tryFindById(idJobApplication);
-        jobApplicationService.updateState(jobApplication, JobApplication.State.TECHNICAL_INTERVIEW);
+        jobApplicationService.updateState(idJobApplication, JobApplication.State.TECHNICAL_INTERVIEW);
 
         String path = request.getHeader(Attributes.REFERER);
         return Router.redirect(path);

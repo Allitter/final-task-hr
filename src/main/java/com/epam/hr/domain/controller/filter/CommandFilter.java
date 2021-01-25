@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Resets request's command attribute string value with connected {@link CommandType command type}
+ */
 public class CommandFilter extends HttpFilter {
 
     @Override
@@ -18,14 +21,10 @@ public class CommandFilter extends HttpFilter {
                             FilterChain chain) throws IOException, ServletException {
 
         String command = (String) request.getAttribute(Attributes.COMMAND);
-        Optional<CommandType> optional = CommandType.getCommand(command);
 
-        if (optional.isPresent()) {
-            CommandType commandType = optional.get();
-            request.setAttribute(Attributes.COMMAND, commandType);
-        } else {
-            request.setAttribute(Attributes.COMMAND, CommandType.DEFAULT_COMMAND);
-        }
+        Optional<CommandType> optional = CommandType.getCommand(command);
+        CommandType commandType = optional.orElse(CommandType.DEFAULT_COMMAND);
+        request.setAttribute(Attributes.COMMAND, commandType);
 
         chain.doFilter(request, response);
     }

@@ -1,12 +1,18 @@
 package com.epam.hr.domain.controller.command;
 
+/**
+ * This <strong>constant class</strong> defines attribute names
+ * for request, session and servlet context stored values
+ */
 public final class Attributes {
     public static final String COMMAND = "command";
     public static final String TARGET_COMMAND = "target_command";
     public static final String ALREADY_APPLIED_FOR_VACANCY = "already_applied";
     public static final String PREVIOUS_PAGE = "previous_page";
     public static final String PARAMETERS = "parameters";
+    public static final String FILE = "file";
     public static final String MESSAGE = "message";
+    public static final String CAN_CHANGE_AVATAR = "can_change_avatar";
     public static final String BAN = "ban";
     public static final String SHOW_MESSAGE = "show_message";
     public static final String SESSION_MANAGER = "session_manager";
@@ -34,7 +40,6 @@ public final class Attributes {
     public static final String LONG_DESCRIPTION = "item_long_desc";
     public static final String VACANCY_ID = "vacancy_id";
     public static final String PAGE = "page";
-    public static final String NUMBER_OF_PAGES = "number_of_pages";
     public static final String USER_ID = "user_id";
     public static final String JOB_SEEKER = "seeker";
     public static final String EMPLOYEE = "employee";

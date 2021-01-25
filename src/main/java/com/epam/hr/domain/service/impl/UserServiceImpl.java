@@ -1,28 +1,38 @@
 package com.epam.hr.domain.service.impl;
 
-import com.epam.hr.data.dao.TransactionHelper;
+import com.epam.hr.data.dao.BanDao;
+import com.epam.hr.data.dao.DaoManager;
+import com.epam.hr.data.dao.UserDao;
 import com.epam.hr.data.dao.factory.impl.BanDaoFactory;
 import com.epam.hr.data.dao.factory.impl.UserDaoFactory;
-import com.epam.hr.data.dao.impl.BanDao;
-import com.epam.hr.data.dao.impl.UserDao;
+import com.epam.hr.data.dao.impl.DaoManagerImpl;
 import com.epam.hr.domain.model.Ban;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.service.UserService;
+import com.epam.hr.domain.util.DateUtils;
 import com.epam.hr.domain.validator.UserValidator;
 import com.epam.hr.exception.DaoException;
+import com.epam.hr.exception.EntityNotFoundException;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
+    private static final int AVATAR_CANT_CHANGE_OFFSET_IN_MINUTES = 60 * 24;
     private static final String LOGIN_NOT_UNIQUE_FAIL = "loginNotUnique";
+    private static final String CANT_CHANGE_AVATAR_FAIL = "cantChangeAvatar";
     private static final String INCORRECT_LOGIN_OR_PASSWORD = "incorrectLoginOrPassword";
     private final UserValidator userValidator;
     private final UserDaoFactory userDaoFactory;
     private final BanDaoFactory banDaoFactory;
 
-    public UserServiceImpl(UserValidator userValidator, UserDaoFactory userDaoFactory, BanDaoFactory banDaoFactory) {
+    public UserServiceImpl(UserValidator userValidator,
+                           UserDaoFactory userDaoFactory,
+                           BanDaoFactory banDaoFactory) {
+
         this.userValidator = userValidator;
         this.userDaoFactory = userDaoFactory;
         this.banDaoFactory = banDaoFactory;
@@ -30,13 +40,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User authenticateUser(String login, String password) throws ServiceException {
-        boolean isValid = userValidator.validateLogin(login)
-                && userValidator.validatePassword(password);
-        if (!isValid) {
+        if (!userValidator.validateLoginAndPassword(login, password)) {
             throw new ValidationException(INCORRECT_LOGIN_OR_PASSWORD);
         }
 
-        try(UserDao dao = userDaoFactory.create()) {
+        try (UserDao dao = userDaoFactory.create()) {
             Optional<User> optionalUser = dao.findUserByLoginAndPassword(login, password);
             if (!optionalUser.isPresent()) {
                 throw new ValidationException(INCORRECT_LOGIN_OR_PASSWORD);
@@ -49,23 +57,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> banUser(long idTarget, long idAdministrant, String message) throws ServiceException {
+    public Optional<User> banUser(long idTarget, long idAdministrant, String reason) throws ServiceException {
         Ban ban = new Ban.Builder()
-                .setReason(message)
+                .setReason(reason)
                 .setIdTarget(idTarget)
                 .setIdAdministrant(idAdministrant)
                 .build(true);
 
-        try(TransactionHelper transactionHelper = new TransactionHelper()) {
-            BanDao banDao = transactionHelper.addDao(banDaoFactory);
-            UserDao userDao = transactionHelper.addDao(userDaoFactory);
+        try (DaoManager daoManager = new DaoManagerImpl()) {
+            BanDao banDao = daoManager.addDao(banDaoFactory);
+            UserDao userDao = daoManager.addDao(userDaoFactory);
 
-            transactionHelper.beginTransaction();
+            daoManager.beginTransaction();
 
             banDao.save(ban);
             userDao.banUser(idTarget);
 
-            transactionHelper.commit();
+            daoManager.commit();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -74,17 +82,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> unbanUser(long id) throws ServiceException {
-        try(UserDao dao = userDaoFactory.create()) {
-            dao.unbanUser(id);
-            return dao.findById(id);
+    public Optional<User> unbanUser(long idUser) throws ServiceException {
+        try (UserDao dao = userDaoFactory.create()) {
+            dao.unbanUser(idUser);
+            return dao.findById(idUser);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     public Optional<Ban> findLastBan(long idUser) throws ServiceException {
-        try(BanDao dao = banDaoFactory.create()) {
+        try (BanDao dao = banDaoFactory.create()) {
             return dao.findLast(idUser);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -95,26 +103,26 @@ public class UserServiceImpl implements UserService {
     public Ban tryFindLastBan(long idUser) throws ServiceException {
         Optional<Ban> optional = findLastBan(idUser);
         if (!optional.isPresent()) {
-            throw new ServiceException("No ban records found");
+            throw new EntityNotFoundException("No ban records found");
         }
 
         return optional.get();
     }
 
     @Override
-    public Optional<User> findById(long id) throws ServiceException {
-        try(UserDao dao = userDaoFactory.create()) {
-            return dao.findById(id);
+    public Optional<User> findById(long idUser) throws ServiceException {
+        try (UserDao dao = userDaoFactory.create()) {
+            return dao.findById(idUser);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public User tryFindById(long id) throws ServiceException {
-        Optional<User> optionalUser = findById(id);
+    public User tryFindById(long idUser) throws ServiceException {
+        Optional<User> optionalUser = findById(idUser);
         if (!optionalUser.isPresent()) {
-            throw new ServiceException("User doesn't exist");
+            throw new EntityNotFoundException("User doesn't exist");
         }
 
         return optionalUser.get();
@@ -122,7 +130,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findEmployees(int start, int count) throws ServiceException {
-        try(UserDao dao = userDaoFactory.create()) {
+        try (UserDao dao = userDaoFactory.create()) {
             return dao.findAll(User.Role.EMPLOYEE, start, count);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -131,7 +139,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findJobSeekers(int start, int count) throws ServiceException {
-        try(UserDao dao = userDaoFactory.create()) {
+        try (UserDao dao = userDaoFactory.create()) {
             return dao.findAll(User.Role.JOB_SEEKER, start, count);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -140,8 +148,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int findEmployeesQuantity() throws ServiceException {
-        try(UserDao dao = userDaoFactory.create()) {
-            return dao.findQuantity(User.Role.EMPLOYEE);
+        try (UserDao dao = userDaoFactory.create()) {
+            return dao.getUsersCountByRole(User.Role.EMPLOYEE);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -149,8 +157,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int findJobSeekersQuantity() throws ServiceException {
-        try(UserDao dao = userDaoFactory.create()) {
-            return dao.findQuantity(User.Role.JOB_SEEKER);
+        try (UserDao dao = userDaoFactory.create()) {
+            return dao.getUsersCountByRole(User.Role.JOB_SEEKER);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -162,9 +170,9 @@ public class UserServiceImpl implements UserService {
         user = new User.Builder(user)
                 .setRole(User.Role.JOB_SEEKER)
                 .setEnabled(false)
-                .build();
+                .build(true);
 
-        try(UserDao dao = userDaoFactory.create()) {
+        try (UserDao dao = userDaoFactory.create()) {
             Optional<User> userOptional = dao.findByLogin(user.getLogin());
             if (userOptional.isPresent()) {
                 validationFails.add(LOGIN_NOT_UNIQUE_FAIL);
@@ -185,7 +193,11 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) throws ServiceException {
         List<String> validationFails = userValidator.getValidationFailsForUpdate(user);
 
-        try(UserDao dao = userDaoFactory.create()) {
+        try (UserDao dao = userDaoFactory.create()) {
+            if (!dao.findById(user.getId()).isPresent()) {
+                throw new EntityNotFoundException();
+            }
+
             Optional<User> userOptional = dao.findByLogin(user.getLogin());
             if (userOptional.isPresent()) {
                 User userByEmail = userOptional.get();
@@ -197,6 +209,8 @@ public class UserServiceImpl implements UserService {
                 throw new ValidationException(validationFails);
             }
 
+            user = new User.Builder(user).build(true);
+
             dao.save(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -204,20 +218,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User enable(long id) throws ServiceException {
-        try(UserDao dao = userDaoFactory.create()) {
-            Optional<User> optionalUser = dao.findById(id);
-            if (!optionalUser.isPresent()) {
-                throw new ServiceException("User not exists");
-            }
-            User user = optionalUser.get();
-            user = new User.Builder(user)
-                    .setEnabled(true)
-                    .build();
+    public User enable(long idUser) throws ServiceException {
+        try (UserDao dao = userDaoFactory.create()) {
+            Optional<User> optionalUser = dao.findById(idUser);
+            User user = optionalUser.orElseThrow(EntityNotFoundException::new);
+            user = user.changeEnabled(true);
 
             dao.save(user);
-
             return user;
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public User setAvatar(long idUser, String avatarPath) throws ServiceException {
+        if (!canChangeAvatar(idUser)) {
+            throw new ValidationException(CANT_CHANGE_AVATAR_FAIL);
+        }
+
+        try (UserDao dao = userDaoFactory.create()) {
+            dao.setAvatarPath(idUser, avatarPath);
+            Optional<User> userOptional = dao.findById(idUser);
+            return userOptional.orElseThrow(EntityNotFoundException::new);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public boolean canChangeAvatar(long idUser) throws ServiceException {
+        try (UserDao dao = userDaoFactory.create()) {
+            Date lastChangeDate = dao.getAvatarLastChangeDate(idUser);
+            Date canChangeAvatarDate = DateUtils.calculateOffsetDateInMinutes(
+                    lastChangeDate, AVATAR_CANT_CHANGE_OFFSET_IN_MINUTES);
+
+            return canChangeAvatarDate.before(DateUtils.currentDate());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

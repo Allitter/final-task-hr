@@ -1,7 +1,7 @@
 package com.epam.hr.domain.model;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
+import com.epam.hr.domain.util.DateUtils;
+
 import java.util.Date;
 
 public final class VerificationToken extends Entity {
@@ -9,30 +9,11 @@ public final class VerificationToken extends Entity {
     private final String code;
     private final Date expirationDate;
 
-    public VerificationToken(long idUser, String code) {
-        super(-1, true);
-        this.idUser = idUser;
-        this.code = code;
-        this.expirationDate = Builder.calculateExpirationDate();
-    }
-
-    public VerificationToken(long id, long idUser, String code, Date expirationDate) {
-        super(id, true);
-        this.idUser = idUser;
-        this.code = code;
-        this.expirationDate = expirationDate;
-    }
-
-    public VerificationToken(VerificationToken.Builder builder) {
+    private VerificationToken(VerificationToken.Builder builder) {
         super(builder);
         this.idUser = builder.idUser;
         this.code = builder.code;
         this.expirationDate = builder.expirationDate;
-    }
-
-
-    public long getId() {
-        return id;
     }
 
     public long getIdUser() {
@@ -62,7 +43,7 @@ public final class VerificationToken extends Entity {
             super(id);
             this.idUser = idUser;
             this.code = code;
-            this.expirationDate = calculateExpirationDate();
+            this.expirationDate = DateUtils.calculateOffsetDateInMinutes(EXPIRATION_TIME_IN_MINUTES);
         }
 
         public Builder(VerificationToken verificationToken) {
@@ -70,14 +51,6 @@ public final class VerificationToken extends Entity {
             this.idUser = verificationToken.idUser;
             this.code = verificationToken.code;
             this.expirationDate = verificationToken.expirationDate;
-        }
-
-        // todo remove static
-        private static Date calculateExpirationDate() {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Timestamp(calendar.getTime().getTime()));
-            calendar.add(Calendar.MINUTE, EXPIRATION_TIME_IN_MINUTES);
-            return new Date(calendar.getTime().getTime());
         }
 
         public void setCode(String code) {
@@ -92,7 +65,7 @@ public final class VerificationToken extends Entity {
         @Override
         public VerificationToken build(boolean isValid) {
             this.isValid = isValid;
-            return null;
+            return new VerificationToken(this);
         }
     }
 }

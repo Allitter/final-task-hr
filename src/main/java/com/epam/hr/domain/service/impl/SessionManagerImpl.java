@@ -6,6 +6,7 @@ import com.epam.hr.domain.service.SessionManager;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionManagerImpl implements SessionManager {
@@ -29,8 +30,8 @@ public class SessionManagerImpl implements SessionManager {
     }
 
     @Override
-    public HttpSession getSession(long idUser) {
-        return sessions.get(idUser);
+    public Optional<HttpSession> getSession(long idUser) {
+        return Optional.ofNullable(sessions.get(idUser));
     }
 
     @Override

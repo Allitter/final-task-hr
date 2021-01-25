@@ -44,8 +44,9 @@ public abstract class AbstractResumeEditCommand extends AbstractResumeCommand {
     protected Router validationFailDestination() {
         return Router.forward(Pages.SERVER_ERROR);
     }
+
     protected Router destination(HttpServletRequest request) {
-        String path = request.getHeader(Attributes.REFERER);
+        String path = request.getContextPath() + "/controller?command=account";
         return Router.redirect(path);
     }
 }

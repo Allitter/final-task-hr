@@ -37,7 +37,10 @@ public class ResumeAddAcceptCommand extends AbstractResumeCommand {
         } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();
             request.setAttribute(Attributes.FAILS, fails);
-            Resume resume = new Resume(DEFAULT_RESUME_ID, idUser, name, resumeText); // todo
+            Resume resume = new Resume.Builder(idUser)
+                    .setName(name)
+                    .setText(resumeText)
+                    .build();
             request.setAttribute(Attributes.RESUME, resume);
             return Router.forward(Pages.RESUME_ADD);
         }

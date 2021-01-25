@@ -6,7 +6,7 @@ public final class Ban extends Entity {
     private final long idAdministrant;
     private final String dateTime;
 
-    public Ban(Ban.Builder builder) {
+    private Ban(Ban.Builder builder) {
         super(builder);
         this.reason = builder.reason;
         this.idTarget = builder.idTarget;

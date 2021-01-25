@@ -1,7 +1,7 @@
 package com.epam.hr.data.dao.factory.impl;
 
 import com.epam.hr.data.dao.factory.DaoFactory;
-import com.epam.hr.data.dao.impl.BanDao;
+import com.epam.hr.data.dao.impl.BanDaoImpl;
 import com.epam.hr.data.mapper.Mapper;
 import com.epam.hr.data.mapper.impl.BanMapper;
 import com.epam.hr.data.pool.ConnectionPool;
@@ -9,7 +9,7 @@ import com.epam.hr.domain.model.Ban;
 
 import java.sql.Connection;
 
-public class BanDaoFactory implements DaoFactory<BanDao> {
+public class BanDaoFactory implements DaoFactory<BanDaoImpl> {
     private static final Mapper<Ban> mapper = new BanMapper();
     private final ConnectionPool pool;
 
@@ -18,12 +18,12 @@ public class BanDaoFactory implements DaoFactory<BanDao> {
     }
 
     @Override
-    public BanDao create() {
-        return new BanDao(pool.getConnection(), mapper);
+    public BanDaoImpl create() {
+        return new BanDaoImpl(pool.getConnection(), mapper);
     }
 
     @Override
-    public BanDao create(Connection connection) {
-        return new BanDao(connection, mapper);
+    public BanDaoImpl create(Connection connection) {
+        return new BanDaoImpl(connection, mapper, false);
     }
 }

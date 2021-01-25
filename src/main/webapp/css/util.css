@@ -34,7 +34,7 @@ a, a:hover, a:active, a:focus {
     outline: none;
 }
 
-a, button, a span, div {
+a, button, a span, div, .btn, .underling_href:after {
     -webkit-transition: 0.15s ease-in-out;
     -o-transition: 0.15s ease-in-out;
     transition: 0.15s ease-in-out;
@@ -157,13 +157,13 @@ form * {
 
 .btn {
     display: inline;
-    min-width: 90px;
+    min-width: 110px;
     box-sizing: border-box;
     padding: 6px 20px;
     border-radius: 20px;
     color: var(--main-font-color);
     font-size: 1rem;
-
+    text-align: center;
     background-color: var(--bottons-bg-color);
 }
 
@@ -187,7 +187,33 @@ form * {
 
 /* ------------------- button -----------------  */
 
-/* 
+/*
+    Hrefs
+*/
+
+.underling_href {
+    display: inline-block;
+    color: var(--main-font-color);
+    line-height: 2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.underling_href:after {
+    background-color: var(--main-font-color);
+    display: block;
+    content: "";
+    height: 2px;
+    width: 0;
+}
+
+.underling_href:hover:after, .underling_href:focus:after {
+    width: 100%;
+}
+
+/* ------------------- hrefs -----------------  */
+
+/*
     Shadow
 */
 
@@ -231,6 +257,10 @@ form * {
 
 .alert {
     background-color: var(--alert-text-color) !important;
+}
+
+.italic {
+    font-style: italic;
 }
 
 /* ------------------- Special classes -----------------  */

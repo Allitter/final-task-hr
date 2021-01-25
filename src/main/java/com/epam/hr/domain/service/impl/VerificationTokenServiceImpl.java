@@ -1,7 +1,7 @@
 package com.epam.hr.domain.service.impl;
 
+import com.epam.hr.data.dao.VerificationTokenDao;
 import com.epam.hr.data.dao.factory.impl.VerificationTokenDaoFactory;
-import com.epam.hr.data.dao.impl.VerificationTokenDao;
 import com.epam.hr.domain.model.VerificationToken;
 import com.epam.hr.domain.service.VerificationTokenService;
 import com.epam.hr.exception.DaoException;
@@ -26,10 +26,9 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
     @Override
-    public void remove(VerificationToken verificationToken) throws ServiceException {
+    public void remove(long idVerificationToken) throws ServiceException {
         try (VerificationTokenDao dao = verificationTokenDaoFactory.create()) {
-            long id = verificationToken.getId();
-            dao.removeById(id);
+            dao.removeById(idVerificationToken);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

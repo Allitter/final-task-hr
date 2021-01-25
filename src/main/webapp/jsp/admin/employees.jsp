@@ -19,25 +19,25 @@
             <c:choose>
                 <c:when test="${users.size() > 0}">
                     <div class="items">
-                        <c:forEach var="user" items="${users}">
+                        <c:forEach var="employee" items="${users}">
                             <div class="item">
                                 <div class="item_info">
-                                    <div class="avatar" style="background-image: url(images/test_hr.png);">
+                                    <div class="avatar" style="background-image: url(${pageContext.request.contextPath}/download/${employee.avatarPath});">
                                     </div>
                                     <div class="item_description">
-                                        <h3 class="item_name" style="display: inline;">${user.name}</h3>
-                                        <c:if test="${user.isBanned()}">
+                                        <h3 class="item_name" style="display: inline;">${employee.name}</h3>
+                                        <c:if test="${employee.isBanned()}">
                                             <span style="color: var(--alert-text-color)"><fmt:message key="messages.banned"/></span>
                                         </c:if>
                                         <br>
-                                        <p class="item_short_desc">${user.login}</p>
+                                        <p class="item_short_desc">${employee.login}</p>
                                     </div>
                                 </div>
 
                                 <div class="actions">
                                     <form action="${pageContext.request.contextPath}/controller" METHOD="get">
                                         <input type="hidden" name="command" value="employee_info">
-                                        <input type="hidden" name="user_id" value="${user.id}">
+                                        <input type="hidden" name="user_id" value="${employee.id}">
                                         <button class="single_action">
                                             <img src="images/open.png" alt="<fmt:message key="button.open"/>">
                                         </button>

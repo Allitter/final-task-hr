@@ -31,8 +31,7 @@ public class VacancyApplyCommand extends AbstractJobApplicationCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        String idString = (String) request.getAttribute(Attributes.VACANCY_ID);
-        long idVacancy = Long.parseLong(idString);
+        long idVacancy = Long.parseLong((String) request.getAttribute(Attributes.VACANCY_ID));
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Attributes.USER);
         long idUser = user.getId();

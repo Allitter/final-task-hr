@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class MailingServiceImpl implements MailingService {
-    private static final String MAIL_PROPERTIES_PATH = "properties/mail.properties";
+    private static final String MAIL_PROPERTIES_PATH = "properties/app.properties";
     private static final String HOST_MAIL_ADDRESS_PROPERTY = "mail.host.address";
     private static final String HOST_MAIL_USER_NAME_PROPERTY = "mail.host.user.name";
     private static final String HOST_MAIL_USER_PASSWORD_PROPERTY = "mail.host.user.password";
@@ -25,16 +25,9 @@ public class MailingServiceImpl implements MailingService {
     public MailingServiceImpl() {
         mailProperties = new Properties();
         try {
-            mailProperties.load(getClass()
-                    .getClassLoader()
-                    .getResourceAsStream(MAIL_PROPERTIES_PATH));
-        } catch (IOException e) {
-            throw new ServiceRuntimeException(e);
-        }
-
-        try {
+            mailProperties.load(getClass().getClassLoader().getResourceAsStream(MAIL_PROPERTIES_PATH));
             hostAddress = new InternetAddress(mailProperties.getProperty(HOST_MAIL_ADDRESS_PROPERTY));
-        } catch (AddressException e) {
+        } catch (IOException | AddressException e) {
             throw new ServiceRuntimeException(e);
         }
 

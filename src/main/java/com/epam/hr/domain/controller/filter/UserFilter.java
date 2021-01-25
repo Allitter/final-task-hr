@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Sets default user attribute to session for new users
+ */
 public class UserFilter extends HttpFilter {
 
     @Override
@@ -18,7 +21,7 @@ public class UserFilter extends HttpFilter {
                             FilterChain chain) throws IOException, ServletException {
 
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute(Attributes.USER);
+        User user = (User) session.getAttribute(Attributes.USER);
 
         if (user == null) {
             session.setAttribute(Attributes.USER, User.DEFAULT);
