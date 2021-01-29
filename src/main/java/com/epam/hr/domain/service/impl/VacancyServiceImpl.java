@@ -53,7 +53,7 @@ public class VacancyServiceImpl implements VacancyService {
     public Vacancy tryFindById(long idVacancy) throws ServiceException {
         Optional<Vacancy> optionalVacancy = findById(idVacancy);
         if (!optionalVacancy.isPresent()) {
-            throw new ServiceException("Vacancy doesn't exist");
+            throw new EntityNotFoundException("Vacancy doesn't exist");
         }
 
         return optionalVacancy.get();

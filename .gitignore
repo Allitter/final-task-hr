@@ -11,3 +11,7 @@ target
 log
 logs
 *.log
+
+#Other
+hr-final-7de32c2a3e56.json
+app.properties

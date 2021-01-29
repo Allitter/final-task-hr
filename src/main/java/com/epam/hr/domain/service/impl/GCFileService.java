@@ -2,15 +2,14 @@ package com.epam.hr.domain.service.impl;
 
 import com.epam.hr.domain.service.FileService;
 import com.epam.hr.domain.service.resource.BlobResource;
-import com.epam.hr.domain.service.resource.LocalResource;
 import com.epam.hr.domain.service.resource.Resource;
-import com.epam.hr.domain.util.IOUtils;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ServiceRuntimeException;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GCFileService implements FileService {
     private static final String BUCKET_NAME = "hr-final";

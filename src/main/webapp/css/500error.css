@@ -137,3 +137,10 @@ h1, h2 {
 .loading .gear.two {
     -webkit-animation: anticlockwise 3s linear infinite;
 }
+
+h6 {
+    position: absolute;
+    text-align: right;
+    bottom: 0%;
+    right: 10px;
+}

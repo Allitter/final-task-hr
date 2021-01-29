@@ -10,6 +10,7 @@
 </head>
 
 <body>
+<h6>Designed by <a href="https://codepen.io/gaiaayan/pen/QVVxaR">Gayane</a></h6>
 <h2><fmt:message key="error.unexpected_error" /> <b>:(</b></h2>
 <h2>
     <fmt:message key="error.go" />

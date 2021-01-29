@@ -5,15 +5,15 @@
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
-    <%@ include file="head_common.jsp" %>
+    <%@ include file="../head_common.jsp" %>
     <title>HR-ORG</title>
 </head>
 
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 
 <div class="nav-main">
-    <%@ include file="navigation.jsp" %>
+    <%@ include file="../navigation.jsp" %>
 
     <main class="main item_more">
         <div class="control_set">

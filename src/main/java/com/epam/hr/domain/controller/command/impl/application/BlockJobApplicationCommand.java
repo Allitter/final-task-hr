@@ -2,13 +2,14 @@ package com.epam.hr.domain.controller.command.impl.application;
 
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
+import com.epam.hr.domain.controller.command.impl.AbstractCommand;
 import com.epam.hr.domain.model.JobApplication;
 import com.epam.hr.domain.service.JobApplicationService;
 import com.epam.hr.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class BlockJobApplicationCommand extends AbstractJobApplicationCommand {
+public class BlockJobApplicationCommand extends AbstractCommand {
     private final JobApplicationService jobApplicationService;
 
     public BlockJobApplicationCommand(JobApplicationService jobApplicationService) {

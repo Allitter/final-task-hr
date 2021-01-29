@@ -2,7 +2,6 @@ package com.epam.hr.domain.validator;
 
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.util.DateUtils;
-import com.epam.hr.exception.UtilsException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ public class UserValidator extends AbstractValidator {
     private static final String EMAIL_REGEX = "^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final int EMAIL_MAX_LENGTH = 320;
     private static final String PHONE_REGEX = "[+][0-9]{7,14}";
-    private static final String BIRTH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
     private static final String MIN_BIRTH_DATE = "1970-12-31";
     private static final String MAX_BIRTH_DATE = "2008-01-01";
 
@@ -181,18 +179,14 @@ public class UserValidator extends AbstractValidator {
      * @return true if valid
      */
     public boolean validateBirthDate(String date) {
-        if (!nullOrEmptyCheck(date) || !regexCheck(date, BIRTH_DATE_REGEX)) {
+        if (!DateUtils.isValidDate(date)) {
             return false;
         }
 
-        try {
-            Date birthDate = DateUtils.tryParse(date);
-            Date minBirthDate = DateUtils.tryParse(MIN_BIRTH_DATE);
-            Date maxBirthDate = DateUtils.tryParse(MAX_BIRTH_DATE);
+        Date birthDate = DateUtils.tryParse(date);
+        Date minBirthDate = DateUtils.tryParse(MIN_BIRTH_DATE);
+        Date maxBirthDate = DateUtils.tryParse(MAX_BIRTH_DATE);
 
-            return birthDate.after(minBirthDate) && birthDate.before(maxBirthDate);
-        } catch (UtilsException e) {
-            return false;
-        }
+        return birthDate.after(minBirthDate) && birthDate.before(maxBirthDate);
     }
 }

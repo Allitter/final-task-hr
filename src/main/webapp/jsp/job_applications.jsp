@@ -5,15 +5,15 @@
     <link rel="stylesheet" href="css/util.css">
     <link rel="stylesheet" href="css/main.css">
 
-    <%@ include file="../head_common.jsp" %>
+    <%@ include file="head_common.jsp" %>
     <title>HR-ORG</title>
 </head>
 
 <body>
-<%@ include file="../header.jsp" %>
+<%@ include file="header.jsp" %>
 
 <div class="nav-main">
-    <%@ include file="../navigation.jsp" %>
+    <%@ include file="navigation.jsp" %>
 
     <main class="main">
         <h2><fmt:message key="navigation.job_applications"/></h2>
@@ -56,11 +56,12 @@
                                       METHOD="get">
                                     <input type="hidden" name="command"
                                            value="job_application_info">
-                                    <input type="hidden" name="job_application_id"
+                                    <input type="hidden"
+                                           name="job_application_id"
                                            value="${application.id}">
                                     <button class="single_action">
                                         <img src="images/open.png"
-                                             alt="<fmt:message key="button.edit"/>">
+                                             alt="<fmt:message key="button.open"/>">
                                     </button>
                                 </form>
                             </div>
@@ -73,7 +74,8 @@
                 <h3 style="margin-top: 20px">
                     <fmt:message key="messages.no_job_applications"/>
                     <br>
-                    <a class="underling_href italic" href="${pageContext.request.contextPath}/controller?command=vacancies">
+                    <a class="underling_href italic"
+                       href="${pageContext.request.contextPath}/controller?command=vacancies">
                         <fmt:message key="messages.browse_vacancies"/>
                     </a>
                 </h3>

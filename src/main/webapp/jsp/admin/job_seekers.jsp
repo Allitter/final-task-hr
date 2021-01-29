@@ -19,33 +19,31 @@
         <c:choose>
             <c:when test="${users.size() > 0}">
                 <div class="items">
-                    <c:forEach var="employee" items="${users}">
+                    <c:forEach var="seeker" items="${users}">
                         <div class="item">
                             <div class="item_info">
                                 <div class="avatar"
-                                     style="background-image: url(${pageContext.request.contextPath}/download/${employee.avatarPath});">
+                                     style="background-image: url(${pageContext.request.contextPath}/download/${seeker.avatarPath});">
                                 </div>
                                 <div class="item_description">
-                                    <a href="${pageContext.request.contextPath}/controller?command=employee_info&user_id=${employee.id}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=job_seeker_info&user_id=${seeker.id}">
                                         <h3 class="item_name"
-                                            style="display: inline;">${employee.name}</h3>
+                                            style="display: inline;">${seeker.name}</h3>
                                     </a>
-                                    <c:if test="${employee.isBanned()}">
+                                    <c:if test="${seeker.isBanned()}">
                                         <span style="color: var(--alert-text-color)"><fmt:message
                                                 key="messages.banned"/></span>
                                     </c:if>
                                     <br>
-                                    <p class="item_short_desc">${employee.login}</p>
+                                    <p class="item_short_desc">${seeker.login}</p>
                                 </div>
                             </div>
-
                             <div class="actions">
-                                <form action="${pageContext.request.contextPath}/controller"
-                                      METHOD="get">
+                                <form action="" METHOD="get">
                                     <input type="hidden" name="command"
-                                           value="employee_info">
+                                           value="job_seeker_info">
                                     <input type="hidden" name="user_id"
-                                           value="${employee.id}">
+                                           value="${seeker.id}">
                                     <button class="single_action">
                                         <img src="images/open.png"
                                              alt="<fmt:message key="button.open"/>">
@@ -57,11 +55,11 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <h3>No employees found</h3>
+                <h3><fmt:message key="messages.no_job_seekers_found"/></h3>
             </c:otherwise>
         </c:choose>
 
-        <hrt:page-bar page="${page}" command="employees"/>
+        <hrt:page-bar page="${page}" command="job_seekers"/>
     </main>
 </div>
 </body>

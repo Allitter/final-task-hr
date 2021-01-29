@@ -17,15 +17,15 @@ public final class Pages {
     public static final String VACANCY_ADD = "jsp/hr/vacancy_add.jsp";
     public static final String VACANCY_APPLY = "jsp/seeker/vacancy_apply.jsp";
 
-    public static final String JOB_SEEKERS = "jsp/job_seekers.jsp";
-    public static final String JOB_SEEKER_INFO = "jsp/job_seeker_info.jsp";
+    public static final String JOB_SEEKERS = "jsp/admin/job_seekers.jsp";
+    public static final String JOB_SEEKER_INFO = "jsp/admin/job_seeker_info.jsp";
 
-    public static final String JOB_APPLICATIONS = "jsp/seeker/job_applications.jsp";
+    public static final String JOB_APPLICATIONS = "jsp/job_applications.jsp";
     public static final String JOB_APPLICATIONS_VACANCY = "jsp/hr/job_applications_for_vacancy.jsp";
     public static final String JOB_APPLICATION_INFO = "jsp/job_application_info.jsp";
 
     public static final String EMPLOYEES = "jsp/admin/employees.jsp";
-    public static final String EMPLOYEE_INFO = "jsp/employee_info.jsp";
+    public static final String EMPLOYEE_INFO = "jsp/admin/employee_info.jsp";
 
     public static final String RESUME_ADD = "jsp/seeker/resume_add.jsp";
     public static final String RESUME_EDIT = "jsp/seeker/resume_edit.jsp";

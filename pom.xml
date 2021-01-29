@@ -95,6 +95,13 @@
             <artifactId>google-cloud-storage</artifactId>
         </dependency>
 
+        <!-- Apache Text -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.9</version>
+        </dependency>
+
         <!--  JUnit  -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -127,7 +134,6 @@
                     <artifactId>heroku-maven-plugin</artifactId>
                     <version>3.0.3</version>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>

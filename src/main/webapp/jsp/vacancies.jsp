@@ -30,12 +30,15 @@
                     <div class="item">
                         <div class="item_info">
                             <div class="item_description">
-                                <h3 class="item_name">
-                                        ${vacancy.name}
-                                    <c:if test="${vacancy.isClosed()}">
-                                        <span style="color: var(--alert-text-color); font-size: 1rem;"><fmt:message key="messages.closed"/></span>
-                                    </c:if>
-                                </h3>
+                                <a href="${pageContext.request.contextPath}/controller?command=vacancy_info&vacancy_id=${vacancy.id}">
+                                    <h3 class="item_name">
+                                            ${vacancy.name}
+                                        <c:if test="${vacancy.isClosed()}">
+                                            <span style="color: var(--alert-text-color); font-size: 1rem;"><fmt:message key="messages.closed"/></span>
+                                        </c:if>
+                                    </h3>
+                                </a>
+
 
                                 <p class="item_short_desc">${vacancy.shortDescription}</p>
                             </div>

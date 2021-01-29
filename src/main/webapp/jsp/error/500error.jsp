@@ -10,6 +10,8 @@
 </head>
 
 <body>
+<h6>Designed by <a href="https://codepen.io/gaiaayan/pen/QVVxaR">Gayane</a></h6>
+
 <h1>500</h1>
 <h2><fmt:message key="error.server_error"/><b>:(</b></h2>
 <h2>

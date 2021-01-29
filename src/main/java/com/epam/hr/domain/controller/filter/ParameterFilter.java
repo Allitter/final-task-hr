@@ -1,5 +1,7 @@
 package com.epam.hr.domain.controller.filter;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpFilter;
@@ -26,7 +28,9 @@ public class ParameterFilter extends HttpFilter {
             String[] parameterValues = request.getParameterValues(parameterKey);
 
             if (parameterValues.length == 1) {
-                request.setAttribute(parameterKey, parameterValues[0]);
+                String parameter = parameterValues[0];
+                parameter = StringEscapeUtils.escapeHtml4(parameter);
+                request.setAttribute(parameterKey, parameter);
             } else if (parameterValues.length > 1) {
                 request.setAttribute(parameterKey, new ArrayList<>(Arrays.asList(parameterValues)));
             }

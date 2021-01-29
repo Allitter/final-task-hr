@@ -3,7 +3,7 @@ package com.epam.hr.domain.controller.command.impl.application.page;
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
-import com.epam.hr.domain.controller.command.impl.application.AbstractJobApplicationCommand;
+import com.epam.hr.domain.controller.command.impl.AbstractCommand;
 import com.epam.hr.domain.model.JobApplication;
 import com.epam.hr.domain.model.Page;
 import com.epam.hr.domain.model.User;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class JobApplicationsForSeekerCommand extends AbstractJobApplicationCommand {
+public class JobApplicationsForSeekerCommand extends AbstractCommand {
     private final JobApplicationService jobApplicationService;
 
     public JobApplicationsForSeekerCommand(JobApplicationService jobApplicationService) {

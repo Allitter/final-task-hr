@@ -13,7 +13,7 @@
         <Console name="ConsoleAppender" target="SYSTEM_OUT">
             <PatternLayout pattern="${console_pattern}"/>
         </Console>
-        <File name="FileAppender" fileName="/../hr/log/log.txt" append="false">
+        <File name="FileAppender" fileName="/hr/log/log.txt" append="false">
             <PatternLayout pattern="${file_pattern}"/>
         </File>
     </Appenders>

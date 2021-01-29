@@ -3,6 +3,7 @@ package com.epam.hr.domain.controller.command.impl.application;
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
+import com.epam.hr.domain.controller.command.impl.AbstractCommand;
 import com.epam.hr.domain.model.JobApplication;
 import com.epam.hr.domain.service.JobApplicationService;
 import com.epam.hr.exception.ServiceException;
@@ -11,7 +12,7 @@ import com.epam.hr.exception.ValidationException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class UpdatePreliminaryNoteCommand extends AbstractJobApplicationCommand {
+public class UpdatePreliminaryNoteCommand extends AbstractCommand {
     private final JobApplicationService jobApplicationService;
 
     public UpdatePreliminaryNoteCommand(JobApplicationService jobApplicationService) {

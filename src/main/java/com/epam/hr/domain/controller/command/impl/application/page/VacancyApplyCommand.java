@@ -3,7 +3,7 @@ package com.epam.hr.domain.controller.command.impl.application.page;
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
 import com.epam.hr.domain.controller.command.Pages;
-import com.epam.hr.domain.controller.command.impl.application.AbstractJobApplicationCommand;
+import com.epam.hr.domain.controller.command.impl.AbstractCommand;
 import com.epam.hr.domain.model.Resume;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.model.Vacancy;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class VacancyApplyCommand extends AbstractJobApplicationCommand {
+public class VacancyApplyCommand extends AbstractCommand {
     private final JobApplicationService jobApplicationService;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;

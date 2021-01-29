@@ -7,7 +7,6 @@ import com.epam.hr.domain.util.DateUtils;
 import com.epam.hr.exception.DaoException;
 
 import java.sql.Connection;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

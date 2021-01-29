@@ -2,6 +2,7 @@ package com.epam.hr.domain.controller.command.impl.application;
 
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
+import com.epam.hr.domain.controller.command.impl.AbstractCommand;
 import com.epam.hr.domain.model.User;
 import com.epam.hr.domain.service.JobApplicationService;
 import com.epam.hr.domain.service.ResumeService;
@@ -11,7 +12,7 @@ import com.epam.hr.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class VacancyApplyAcceptCommand extends AbstractJobApplicationCommand {
+public class VacancyApplyAcceptCommand extends AbstractCommand {
     private static final String CONTROLLER_COMMAND_JOB_APPLICATIONS_FOR_SEEKER = "/controller?command=job_applications_for_seeker";
     private final JobApplicationService jobApplicationService;
     private final ResumeService resumeService;
