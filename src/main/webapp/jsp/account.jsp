@@ -26,22 +26,27 @@
 
             <c:choose>
                 <c:when test="${can_change_avatar}">
-                    <form method="post" action="${pageContext.request.contextPath}/controller?command=upload_file"
-                          enctype="multipart/form-data" class="form avatar_upload_form"
+                    <form method="post"
+                          action="${pageContext.request.contextPath}/controller?command=upload_file"
+                          enctype="multipart/form-data"
+                          class="form avatar_upload_form"
                           style="display: flex; justify-content: space-between; align-items: center; flex-direction: column;">
                         <label id="select_file_label" class="btn"
                                style="margin: 10px 0; text-align: center; background-color: var(--alert-text-color);
                         width: -moz-fit-content; width: fit-content;">
-                            <span>Select file</span>
-                            <input type="file" name="file" style="display: none" accept=".jpg, .jpeg, .png" content="">
+                            <span><fmt:message
+                                    key="messages.select_file" /></span>
+                            <input type="file" name="file" style="display: none"
+                                   accept=".jpg, .jpeg, .png" content="">
                         </label>
-                        <input style="display: none; width: -moz-fit-content; width: fit-content;" id="upload_submit" class="btn"
+                        <input style="display: none; width: -moz-fit-content; width: fit-content;"
+                               id="upload_submit" class="btn"
                                type="submit" value="upload">
                     </form>
                 </c:when>
                 <c:otherwise>
                     <p style="margin: 10px;">
-                        <fmt:message key="messages.cant_change_avatar" />
+                        <fmt:message key="messages.cant_change_avatar"/>
                     </p>
                 </c:otherwise>
             </c:choose>
@@ -66,7 +71,8 @@
                 <c:if test='${fails.contains("last")}'><p class="alert-text">
                     <fmt:message key="messages.lastName"/> <fmt:message
                         key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("patronymic")}'><p class="alert-text">
+                <c:if test='${fails.contains("patronymic")}'><p
+                        class="alert-text">
                     <fmt:message key="messages.patronymic"/> <fmt:message
                         key="messages.incorrect"/></p></c:if>
                 <c:if test='${fails.contains("email")}'><p class="alert-text">

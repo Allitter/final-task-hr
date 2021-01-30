@@ -70,7 +70,7 @@ public abstract class AbstractDao<E extends Entity> implements Dao<E> {
                 statement.setObject(i, params[i - 1]);
             }
 
-            statement.execute();
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
         }
