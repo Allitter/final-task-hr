@@ -11,7 +11,7 @@ import static com.epam.hr.domain.validator.ValidationFieldNames.TEXT;
  * The type Resume validator.
  */
 public class ResumeValidator extends AbstractValidator {
-    private static final String NAME_REGEX = "[A-Za-zА-ЯЁа-яё_0-9]{3,15}";
+    private static final String NAME_REGEX = "[A-Za-zА-ЯЁа-яё_0-9 ]{3,15}";
     private static final String TEXT_REGEX = "(?s).{3,2048}";
 
     /**

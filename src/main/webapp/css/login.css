@@ -13,7 +13,7 @@ form h2 {
     padding: 10px;
     margin: 10px 0;
     border-radius: 1rem;
-    color: var(--alert-text-color);
+    color: var(--danger-color);
 }
 
 .form {
@@ -25,12 +25,8 @@ form h2 {
     border-radius: 1rem;
 }
 
-.form * {
-    color: var(--main-font-color);
-}
-
 .form *:hover {
-    color: var(--main-font-color);
+    color: var(--font-main-color);
 }
 
 .form input[type=text], input[type=password],
@@ -39,31 +35,36 @@ input[type=date], input[type=email], input[type=tel], textarea {
     width: 90%;
     margin: 20px auto 10px;
     padding: 6px 10px;
-    background-color: var(--secondary-color);
+    background-color: var(--input-default-color);
     border-radius: 1rem;
+    box-shadow: var(--raised-little);
 }
 
 .login_form input[type=submit] {
     cursor: pointer;
     display: inline-block;
     margin-right: 11%;
-    background-color: var(--accept-btn-color);
+    background-color: var(--success-color);
+    color: var(--font-light-color);
     border-radius: 1rem;
     padding: 6px;
+    box-shadow: var(--raised-little);
 }
 
 .registration_form input[type=submit] {
     cursor: pointer;
     display: inline-block;
     margin-right: 17%;
-    background-color: var(--accept-btn-color);
+    background-color: var(--success-color);
     border-radius: 1rem;
     padding: 6px;
 }
 
 .form input:focus {
-    filter: brightness(130%);
-    color: #1b1b1b;
+    filter: brightness(115%);
+    background-color: var(--input-selected-color);
+    box-shadow: var(--raised);
+    color: inherit;
 }
 
 .form label {
@@ -84,6 +85,6 @@ input[type=date], input[type=email], input[type=tel], textarea {
     margin-right: 10%;
 }
 
-.signin_message {
+.message {
     margin-top: 20px;
 }

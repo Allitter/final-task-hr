@@ -31,7 +31,7 @@
                                             style="display: inline;">${employee.name}</h3>
                                     </a>
                                     <c:if test="${employee.isBanned()}">
-                                        <span style="color: var(--alert-text-color)"><fmt:message
+                                        <span style="color: var(--danger-color)"><fmt:message
                                                 key="messages.banned"/></span>
                                     </c:if>
                                     <br>

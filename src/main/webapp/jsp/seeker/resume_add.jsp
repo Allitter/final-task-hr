@@ -18,16 +18,14 @@
 
     <main class="main item_edit">
         <div class="message">
-            <c:if test='${fails.contains("name")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
-            <c:if test='${fails.contains("text")}'><p class="alert-text"><fmt:message key="messages.text"/> <fmt:message key="messages.incorrect"/></p></c:if>
-            <c:if test='${fails.contains("noMoreResumes")}'><p class="alert-text"><fmt:message key="messages.resume_limit_exceeded"/></p></c:if>
+            <%@ include file="../messages.jsp" %>
         </div>
 
         <form action="${pageContext.request.contextPath}/controller" method="POST">
             <input type="hidden" name="command" value="resume_add_accept">
 
             <label for="name" style="text-align: left; margin: 10px 0;"><fmt:message key="label.name" /></label>
-            <input name="resume_name" pattern="[A-Za-zА-ЯЁа-яё_0-9]{3,}" maxlength="15" id="name" class="item_name" type="text" value="${resume.name}">
+            <input name="resume_name" pattern="[A-Za-zА-ЯЁа-яё_0-9 ]{3,}" maxlength="15" id="name" class="item_name" type="text" value="${resume.name}">
             <br>
             <label for="item_long_desc" style="text-align: left; margin: 10px 0;"><fmt:message key="label.resume" /></label>
             <textarea class="item_long_desc" maxlength="2048" id="item_long_desc" name="item_long_desc" style="width: auto; height: 600px; resize: none;">${resume.text}</textarea>

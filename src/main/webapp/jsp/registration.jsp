@@ -11,37 +11,14 @@
 </head>
 
 <body>
-<form class="form registration_form shadow-medium"
+<form class="form registration_form raised"
       action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="registration">
 
     <h2><fmt:message key="registration.title"/></h2>
 
-    <div class="signin_message">
-        <c:if test='${fails.contains("login")}'><p class="alert-text">
-            <fmt:message key="messages.login"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("password")}'><p class="alert-text">
-            <fmt:message key="messages.password"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("name")}'><p class="alert-text">
-            <fmt:message key="messages.name"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("last")}'><p class="alert-text">
-            <fmt:message key="messages.lastName"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("patronymic")}'><p class="alert-text">
-            <fmt:message key="messages.patronymic"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("email")}'><p class="alert-text">
-            <fmt:message key="messages.email"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("phone")}'><p class="alert-text">
-            <fmt:message key="messages.phone"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
-        <c:if test='${fails.contains("birthDate")}'><p class="alert-text">
-            <fmt:message key="messages.birthDate"/> <fmt:message
-                key="messages.incorrect"/></p></c:if>
+    <div class="message">
+        <%@ include file="messages.jsp" %>
     </div>
 
     <input type="text" required maxlength="15" pattern="[_0-9A-Za-z]{3,}"
@@ -108,7 +85,7 @@
     <div class="form_actions">
         <input class="btn shadow-none shadow-hov-small" type="submit"
                value="<fmt:message key="registration.submit_button.caption" />">
-        <a href="${pageContext.request.contextPath}/controller"><fmt:message
+        <a class="underling_href" href="${pageContext.request.contextPath}/controller"><fmt:message
                 key="registration.login_suggestion"/></a>
     </div>
 </form>

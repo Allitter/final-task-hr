@@ -60,7 +60,7 @@
 
                 <c:if test="${employee.isBanned()}">
                     <div class="ban_info">
-                        <span style="color: var(--alert-text-color)"><fmt:message
+                        <span style="color: var(--danger-color)"><fmt:message
                                 key="messages.banned"/></span>
                         <c:if test="${user.role.name() == 'ADMINISTRATOR'}">
                             <span><fmt:message

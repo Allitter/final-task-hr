@@ -34,7 +34,7 @@
                                     <h3 class="item_name">
                                             ${vacancy.name}
                                         <c:if test="${vacancy.isClosed()}">
-                                            <span style="color: var(--alert-text-color); font-size: 1rem;"><fmt:message key="messages.closed"/></span>
+                                            <span style="color: var(--danger-color); font-size: 1rem;"><fmt:message key="messages.closed"/></span>
                                         </c:if>
                                     </h3>
                                 </a>

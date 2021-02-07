@@ -13,6 +13,6 @@ public class ServiceRuntimeException extends RuntimeException {
     }
 
     public ServiceRuntimeException(Throwable cause) {
-        super(cause);
+        super(cause.getMessage(), cause);
     }
 }

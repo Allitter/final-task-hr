@@ -14,6 +14,6 @@ public class EntityNotFoundException extends ServiceException {
     }
 
     public EntityNotFoundException(Throwable cause) {
-        super(cause);
+        super(cause.getMessage(), cause);
     }
 }

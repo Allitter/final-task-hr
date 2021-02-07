@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfirmationPageCommand extends AbstractCommand {
-    private static final int FIRST_ELEMENT_INDEX = 0;
     private final boolean hasMessage;
 
     public ConfirmationPageCommand(boolean hasMessage) {
@@ -30,7 +29,7 @@ public class ConfirmationPageCommand extends AbstractCommand {
                 continue;
             }
 
-            String value = ((String[]) map.get(key))[FIRST_ELEMENT_INDEX];
+            String value = request.getParameter(keyValue);
             parameters.put(keyValue, value);
         }
 

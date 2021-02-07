@@ -53,7 +53,7 @@ public class ResumeDaoImpl extends AbstractDao<Resume> implements ResumeDao {
 
     @Override
     public int getUserResumesCount(long idUser) throws DaoException {
-        return getRowCount(TABLE, USER_RESUMES_COUNT_CONDITION);
+        return getRowCount(TABLE, USER_RESUMES_COUNT_CONDITION, idUser);
     }
 
     @Override

@@ -54,13 +54,13 @@
                 <div class="avatar"
                      style="background-image: url(${pageContext.request.contextPath}/download/${seeker.avatarPath}); min-width: 150px; min-height: 150px; margin: 20px;">
                 </div>
-                <h2 style="margin-left: 20px;" class="user_name">
+                <h2 class="user_name">
                     ${seeker.name} ${seeker.patronymic} ${seeker.lastName}
                 </h2>
 
                 <c:if test="${seeker.isBanned()}">
                     <div class="ban_info">
-                        <span style="color: var(--alert-text-color)"><fmt:message
+                        <span style="color: var(--danger-color)"><fmt:message
                                 key="messages.banned"/></span>
                         <c:if test="${user.role.name() == 'ADMINISTRATOR'}">
                             <span><fmt:message

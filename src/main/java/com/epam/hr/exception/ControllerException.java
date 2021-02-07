@@ -13,6 +13,6 @@ public class ControllerException extends Exception {
     }
 
     public ControllerException(Throwable cause) {
-        super(cause);
+        super(cause.getMessage(), cause);
     }
 }

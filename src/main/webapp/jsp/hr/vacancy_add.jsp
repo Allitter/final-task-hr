@@ -18,9 +18,7 @@
 
     <main class="main item_edit">
         <div class="message">
-            <c:if test='${fails.contains("name")}'><p class="alert-text"><fmt:message key="messages.name"/> <fmt:message key="messages.incorrect"/></p></c:if>
-            <c:if test='${fails.contains("shortDescription")}'><p class="alert-text"><fmt:message key="messages.shortDescription"/> <fmt:message key="messages.incorrect"/></p></c:if>
-            <c:if test='${fails.contains("description")}'><p class="alert-text"><fmt:message key="messages.description"/> <fmt:message key="messages.incorrect"/></c:if>
+            <%@ include file="../messages.jsp" %>
         </div>
 
         <form action="${pageContext.request.contextPath}/controller" method="POST">

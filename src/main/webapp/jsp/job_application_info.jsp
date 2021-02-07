@@ -17,9 +17,6 @@
 
     <main class="main item_more">
         <div class="control_set">
-            <a class="btn"
-               href="${pageContext.request.getHeader("referer")}"><fmt:message
-                    key="button.back"/></a>
             <c:if test="${job_application.state.name() == 'RECENTLY_CREATED'
                         && user.role.name() == 'EMPLOYEE'}">
                 <form action="${pageContext.request.contextPath}/controller"
@@ -99,10 +96,10 @@
                     <div class="avatar"
                          style="background-image: url(${pageContext.request.contextPath}/download/${job_application.userAvatarPath}); min-width: 150px; min-height: 150px;">
                     </div>
-                    <h2 style="margin-left: 20px;" class="user_name">
+                    <h2 class="user_name">
                         ${seeker.name} ${seeker.patronymic} ${seeker.lastName}
                     </h2>
-                    <h3 style="color: var(--accept-btn-color); margin-left: 20px">
+                    <h3 style="color: var(--success-color);">
                         <fmt:message
                                 key="enum.job_application_state.${job_application.state.name()}"/></h3>
                 </div>

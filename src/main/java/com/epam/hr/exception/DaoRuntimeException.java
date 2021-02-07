@@ -13,6 +13,6 @@ public class DaoRuntimeException extends RuntimeException {
     }
 
     public DaoRuntimeException(Throwable cause) {
-        super(cause);
+        super(cause.getMessage(), cause);
     }
 }

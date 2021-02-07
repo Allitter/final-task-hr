@@ -70,7 +70,7 @@
                     <input type="hidden" name="vacancy_id"
                            value="${vacancy.id}">
                     <button class="btn"
-                            style="background-color: var(--alert-text-color)">
+                            style="background-color: var(--danger-color)">
                         <fmt:message key="button.close"/></button>
                 </form>
             </c:if>
@@ -80,7 +80,7 @@
         <div class="item_header">
             <h2 class="item_name">${vacancy.name}
                 <c:if test="${vacancy.isClosed()}">
-                    <span style="color: var(--alert-text-color); font-size: 1rem;"><fmt:message
+                    <span style="color: var(--danger-color); font-size: 1rem;"><fmt:message
                             key="messages.closed"/></span>
                 </c:if>
             </h2>

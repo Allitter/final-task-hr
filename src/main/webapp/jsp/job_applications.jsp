@@ -30,7 +30,7 @@
                                     </h3>
                                     <p>
                                         <fmt:message key="label.status"/>:
-                                        <span style="margin-left: 10px; color: var(--accept-btn-color)"><fmt:message
+                                        <span style="margin-left: 10px; color: var(--success-color)"><fmt:message
                                                 key="enum.job_application_state.${application.state.name()}"/></span>
                                     </p>
                                     <p>

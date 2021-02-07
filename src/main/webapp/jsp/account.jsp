@@ -18,7 +18,7 @@
     <%@ include file="navigation.jsp" %>
 
     <main class="main" style="width: 100%; text-align: left;">
-        <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; border-radius: 2rem; margin: 10px 0; width: 100%; box-sizing: border-box; border: 2px solid var(--secondary-color)">
+        <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; border-radius: 2rem; margin: 10px 0; width: 100%; box-sizing: border-box;">
             <div class="avatar"
                  style="background-image: url(${pageContext.request.contextPath}/download/${user.avatarPath});
                          min-width: 150px; min-height: 150px; margin: 20px">
@@ -30,18 +30,19 @@
                           action="${pageContext.request.contextPath}/controller?command=upload_file"
                           enctype="multipart/form-data"
                           class="form avatar_upload_form"
-                          style="display: flex; justify-content: space-between; align-items: center; flex-direction: column;">
+                          style="display: flex; justify-content: space-between; align-items: center; flex-direction: column; width: -moz-fit-content; width: fit-content;">
                         <label id="select_file_label" class="btn"
-                               style="margin: 10px 0; text-align: center; background-color: var(--alert-text-color);
+                               style="margin: 10px 0; text-align: center; background-color: var(--danger-color);
                         width: -moz-fit-content; width: fit-content;">
-                            <span><fmt:message
-                                    key="messages.select_file" /></span>
+                            <span style="color: var(--font-light-color);"><fmt:message
+                                    key="messages.select_file"/></span>
                             <input type="file" name="file" style="display: none"
                                    accept=".jpg, .jpeg, .png" content="">
                         </label>
                         <input style="display: none; width: -moz-fit-content; width: fit-content;"
                                id="upload_submit" class="btn"
-                               type="submit" value="upload">
+                               type="submit"
+                               value="<fmt:message key="button.upload"/>">
                     </form>
                 </c:when>
                 <c:otherwise>
@@ -56,35 +57,13 @@
         <form class="form"
               action="${pageContext.request.contextPath}/controller"
               method="post"
-              style="border-radius: 2rem; margin: 10px 0; width: 100%; box-sizing: border-box; border: 2px solid var(--secondary-color)">
+              style="border-radius: 2rem; margin: 10px 0; width: 100%; box-sizing: border-box;">
             <input type="hidden" name="command" value="account_update">
 
             <h2><fmt:message key="title.account"/></h2>
 
-            <div class="signin_message">
-                <c:if test='${fails.contains("login")}'><p class="alert-text">
-                    <fmt:message key="messages.login"/> <fmt:message
-                        key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("name")}'><p class="alert-text">
-                    <fmt:message key="messages.name"/> <fmt:message
-                        key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("last")}'><p class="alert-text">
-                    <fmt:message key="messages.lastName"/> <fmt:message
-                        key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("patronymic")}'><p
-                        class="alert-text">
-                    <fmt:message key="messages.patronymic"/> <fmt:message
-                        key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("email")}'><p class="alert-text">
-                    <fmt:message key="messages.email"/> <fmt:message
-                        key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("phone")}'><p class="alert-text">
-                    <fmt:message key="messages.phone"/> <fmt:message
-                        key="messages.incorrect"/></p></c:if>
-                <c:if test='${fails.contains("birthDate")}'><p
-                        class="alert-text"><fmt:message
-                        key="messages.birthDate"/> <fmt:message
-                        key="messages.incorrect"/></p></c:if>
+            <div class="message">
+                <%@ include file="messages.jsp" %>
             </div>
 
             <input type="text" required maxlength="15"
@@ -132,7 +111,7 @@
             <div class="form_actions" style="justify-content: center;">
                 <input class="btn shadow-none shadow-hov-small" type="submit"
                        value="<fmt:message key="button.save" />"
-                       style="margin: 0; background-color: var(--accept-btn-color)">
+                       style="margin: 0; background-color: var(--success-color)">
             </div>
         </form>
 
@@ -141,10 +120,12 @@
                 <h3><fmt:message key="header.resumes"/></h3>
                 <div class="resumes">
                     <c:forEach items="${resumes}" var="resume">
-                        <div class="single_resume_item">
-                            <a href="${pageContext.request.contextPath}/controller?command=resume_info&resume_id=${resume.id}"><span>${resume.name}</span></a>
+                        <div style="display: flex;align-items: center;flex-wrap: wrap;justify-content: left;">
+                            <a class="single_resume_item"
+                               style="text-align: center;"
+                               href="${pageContext.request.contextPath}/controller?command=resume_info&resume_id=${resume.id}"><span>${resume.name}</span></a>
                             <form action="${pageContext.request.contextPath}/controller"
-                                  method="post">
+                                  method="get">
                                 <input type="hidden" name="command"
                                        value="confirmation_page">
                                 <input type="hidden" name="target_command"
@@ -152,7 +133,8 @@
                                 <input type="hidden" name="resume_id"
                                        value="${resume.id}">
 
-                                <button class="single_action">
+                                <button class="single_action"
+                                        style="margin-left: 10px;padding: 4px;border-radius: 50%;border: 1px solid var(--dark-bg-color);">
                                     <img src="images/cross.png"
                                          alt="<fmt:message key="button.remove" />">
                                 </button>
@@ -167,7 +149,7 @@
                     <input class="btn shadow-none shadow-hov-small"
                            type="submit"
                            value="<fmt:message key="button.add" />"
-                           style="background-color: var(--accept-btn-color)">
+                           style="background-color: var(--success-color)">
                 </form>
             </div>
         </c:if>

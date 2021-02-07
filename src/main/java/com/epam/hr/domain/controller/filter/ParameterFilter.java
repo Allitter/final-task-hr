@@ -17,6 +17,8 @@ import java.util.Enumeration;
  * to change them during request handling
  */
 public class ParameterFilter extends HttpFilter {
+    private static final String LEFT_CHEVRON = "<";
+    private static final String LEFT_CHEVRON_REPLACEMENT = "&lt";
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response,
@@ -25,11 +27,12 @@ public class ParameterFilter extends HttpFilter {
         Enumeration parameters = request.getParameterNames();
         while (parameters.hasMoreElements()) {
             String parameterKey = (String) parameters.nextElement();
+            request.getParameter(parameterKey);
             String[] parameterValues = request.getParameterValues(parameterKey);
 
             if (parameterValues.length == 1) {
                 String parameter = parameterValues[0];
-                parameter = StringEscapeUtils.escapeHtml4(parameter);
+                parameter = parameter.replace(LEFT_CHEVRON, LEFT_CHEVRON_REPLACEMENT);
                 request.setAttribute(parameterKey, parameter);
             } else if (parameterValues.length > 1) {
                 request.setAttribute(parameterKey, new ArrayList<>(Arrays.asList(parameterValues)));

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<form class="login_form form shadow-medium"
+<form class="login_form form raised"
       action="${pageContext.request.contextPath}/controller"
       method="post">
     <h2>
@@ -34,9 +34,9 @@
 
     <div class="form_actions" style="justify-content: center;">
         <a class="btn"
-           style="background-color: var(--alert-text-color); margin: 5px 10px;"
+           style="margin: 5px 10px;"
            href="${previous_page}"><fmt:message key="button.cancel"/></a>
-        <input class="btn shadow-none shadow-hov-small" type="submit"
+        <input class="btn" type="submit"
                value="<fmt:message key="button.confirm" />"
                style="margin: 5px 10px;">
     </div>

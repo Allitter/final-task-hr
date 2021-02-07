@@ -10,7 +10,7 @@ body {
 }
 
 body * {
-    color: var(--main-font-color);
+    color: var(--font-main-color);
 }
 
 .nav-main {
@@ -39,7 +39,7 @@ body * {
     width: 90%;
     border-radius: 2rem;
     background-color: var(--main-bg-color);
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--raised);
 }
 
 .header_top {
@@ -84,6 +84,7 @@ body * {
     border-radius: 2rem;
     margin-right: 20px;
     width: 20%;
+    box-shadow: var(--raised);
 }
 
 /*  ------------------------------------------------------header---------------------------------------------------- */
@@ -98,7 +99,7 @@ body * {
     min-height: 700px;
     background-color: var(--main-bg-color);
     border-radius: 2rem;
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--raised);
 }
 
 .items {
@@ -118,8 +119,12 @@ body * {
     margin-top: 10px;
     margin-bottom: 10px;
     width: 86%;
-    background-color: var(--secondary-color);
+    background-color: var(--dark-bg-color);
     border-radius: 10px;
+}
+
+.item * {
+    color: var(--font-light-color);
 }
 
 .item_info {
@@ -139,6 +144,7 @@ body * {
     -moz-background-size: cover;
     background-size: cover;
     margin: auto 10px;
+    box-shadow: var(--raised);
 }
 
 .item_header {
@@ -167,7 +173,7 @@ body * {
 }
 
 .item_header_buttons a {
-    background-color: var(--bottons-bg-color);
+    background-color: var(--control-default-color);
     margin-right: 20px;
 }
 
@@ -196,19 +202,21 @@ body * {
 }
 
 .item_edit input[type=text], textarea {
-    background-color: var(--secondary-color);
     border: none;
     border-radius: 2rem;
     outline: none;
+    box-shadow: var(--raised-little);
 }
 
 .item_edit input[type=text] {
     padding: 10px 20px;
+    box-shadow: var(--raised-little);
 }
 
 .item_edit input[type=submit] {
     padding: 6px 10px;
-    background-color: var(--accept-btn-color);
+    background-color: var(--success-color);
+    box-shadow: var(--raised-little);
 }
 
 .item_edit textarea {
@@ -323,8 +331,14 @@ body * {
     width: max-content;
     margin: 10px 6px;
     padding: 6px 14px;
-    background-color: var(--secondary-color);
+    background-color: var(--dark-bg-color);
     border-radius: 1rem;
+    min-width: 120px;
+    text-align: center;
+}
+
+.single_resume_item * {
+    color: var(--font-light-color);
 }
 
 .account_resumes {
@@ -335,7 +349,6 @@ body * {
     margin: 10px 0;
     width: 100%;
     box-sizing: border-box;
-    border: 2px solid var(--secondary-color);
 }
 
 .account_resumes>* {
@@ -348,10 +361,6 @@ body * {
 }
 
 .account_resumes .single_resume_item {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: left;
     width: -moz-fit-content;
     width: fit-content;
 }
@@ -369,7 +378,6 @@ body * {
 }
 
 .item_body_top, .resume, .notes>form, .vacancy_description {
-    border: 2px solid var(--secondary-color);
     border-radius: 2rem;
     padding-left: 30px;
     padding-bottom: 20px;
@@ -383,12 +391,13 @@ body * {
     resize: none;
     margin-left: 5%;
     padding: 10px 10px 10px 20px;
+    box-shadow: var(--raised-little);
 }
 
 .interview_modify_btn {
     box-sizing: border-box;
     margin-left: 20px;
-    background-color: var(--accept-btn-color) !important;
+    background-color: var(--success-color) !important;
 }
 
 .message {
