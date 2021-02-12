@@ -6,13 +6,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -20,8 +19,7 @@ public class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Lock INSTANCE_LOCK = new ReentrantLock();
     private static final int MAX_CONNECTION_WAIT_TIME_IN_SECONDS = 10;
-
-    private static ConnectionPool instance;
+    private static final AtomicReference<ConnectionPool> INSTANCE = new AtomicReference<>();
 
     private final BlockingQueue<ProxyConnection> availableConnections;
     private final AtomicInteger connectionsTotalCount;
@@ -31,7 +29,7 @@ public class ConnectionPool {
     }
 
     private ConnectionPool(AbstractConnectionFactory connectionFactory) {
-        if (instance != null) { // Preventing second instantiation
+        if (INSTANCE.get() != null) { // Preventing second instantiation
             throw new DaoRuntimeException("Attempt to create second instance of the ConnectionP ool");
         }
 
@@ -82,19 +80,19 @@ public class ConnectionPool {
      * @return instance of the connection pool
      */
     public static ConnectionPool getInstance() {
-        if (instance == null) {
+        if (INSTANCE.get() == null) {
             INSTANCE_LOCK.lock();
             try {
-                if (instance == null) {
+                if (INSTANCE.get() == null) {
                     ConnectionPool pool = new ConnectionPool();
-                    instance = pool;
+                    INSTANCE.set(pool);
                 }
             } finally {
                 INSTANCE_LOCK.unlock();
             }
         }
 
-        return instance;
+        return INSTANCE.get();
     }
 
     public void destroy() {
@@ -113,12 +111,12 @@ public class ConnectionPool {
 
     /* package private, for test proposes only */
     static void instantiateForTest(AbstractConnectionFactory factory) {
-        if (instance == null) {
+        if (INSTANCE.get() == null) {
             INSTANCE_LOCK.lock();
             try {
-                if (instance == null) {
+                if (INSTANCE.get() == null) {
                     ConnectionPool pool = new ConnectionPool(factory);
-                    instance = pool;
+                    INSTANCE.set(pool);
                 }
             } finally {
                 INSTANCE_LOCK.unlock();
