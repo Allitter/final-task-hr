@@ -13,7 +13,7 @@ import static com.epam.hr.domain.validator.ValidationFieldNames.TECHNICAL_INTERV
  * The type Job application validator.
  */
 public class JobApplicationValidator extends AbstractValidator {
-    private static final String INTERVIEW_NOTE_REGEX = "(.|\\n|\\r){3,1048}";
+    private static final String INTERVIEW_NOTE_REGEX = "(?s).{3,1024}";
 
     /**
      * Validate map.

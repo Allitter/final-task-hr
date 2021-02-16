@@ -271,20 +271,12 @@ body * {
     background-color: transparent;
     cursor: pointer;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
 }
 
 .item>.actions img {
     display: block;
     margin: 6px auto;
     max-height: 17px;
-}
-
-.single_action:hover {
-    filter: brightness(125%);
-    background-color: rgba(253, 253, 253, 0.4);
 }
 
 .page_bar {

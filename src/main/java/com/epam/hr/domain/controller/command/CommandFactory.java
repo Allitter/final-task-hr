@@ -87,7 +87,7 @@ public final class CommandFactory {
             case VACANCY_APPLY:
                 return new VacancyApplyCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE, VACANCY_SERVICE);
             case VACANCY_APPLY_ACCEPT:
-                return new VacancyApplyAcceptCommand(JOB_APPLICATION_SERVICE, RESUME_SERVICE, VACANCY_SERVICE);
+                return new VacancyApplyAcceptCommand(JOB_APPLICATION_SERVICE);
             case VACANCY_CLOSE:
                 return new VacancyCloseCommand(VACANCY_SERVICE);
             case VACANCY_REMOVE:

@@ -34,6 +34,7 @@ public class RegistrationCommand extends AbstractUserCommand {
         } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();
             request.setAttribute(Attributes.FAILS, fails);
+            request.setAttribute(Attributes.USER, user);
             return Router.forward(Pages.REGISTRATION);
         }
     }

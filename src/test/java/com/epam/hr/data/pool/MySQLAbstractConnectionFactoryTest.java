@@ -1,10 +1,11 @@
 package com.epam.hr.data.pool;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MySQLAbstractConnectionFactoryTest {
     private static final String PROPERTIES_PATH = "testdbconnection.properties";
@@ -17,6 +18,6 @@ class MySQLAbstractConnectionFactoryTest {
         List<Connection> connections = connectionFactory.establishConnections(PROPERTIES_PATH);
 
         int actualCount = connections.size();
-        Assertions.assertEquals(EXPECTED_CONNECTIONS_COUNT, actualCount);
+        assertEquals(EXPECTED_CONNECTIONS_COUNT, actualCount);
     }
 }

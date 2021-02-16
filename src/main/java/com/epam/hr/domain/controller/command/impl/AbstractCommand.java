@@ -28,7 +28,7 @@ public abstract class AbstractCommand implements Command {
             page--;
         }
 
-        int fromRecord = page * DEFAULT_NUMBER_OF_RECORDS_PER_PAGE;
+        int fromRecord = page * getNumberOfRecordsPerPage();
 
         return new Page(page, numberOfPages, fromRecord);
     }

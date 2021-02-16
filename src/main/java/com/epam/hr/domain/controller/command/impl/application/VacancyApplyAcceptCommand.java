@@ -15,14 +15,10 @@ import javax.servlet.http.HttpSession;
 public class VacancyApplyAcceptCommand extends AbstractCommand {
     private static final String CONTROLLER_COMMAND_JOB_APPLICATIONS_FOR_SEEKER = "/controller?command=job_applications_for_seeker";
     private final JobApplicationService jobApplicationService;
-    private final ResumeService resumeService;
-    private final VacancyService vacancyService;
 
-    public VacancyApplyAcceptCommand(JobApplicationService jobApplicationService,
-                                     ResumeService resumeService, VacancyService vacancyService) {
+
+    public VacancyApplyAcceptCommand(JobApplicationService jobApplicationService) {
         this.jobApplicationService = jobApplicationService;
-        this.resumeService = resumeService;
-        this.vacancyService = vacancyService;
     }
 
     @Override

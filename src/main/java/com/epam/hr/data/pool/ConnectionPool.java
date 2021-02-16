@@ -68,6 +68,7 @@ public class ConnectionPool {
     /* package private access */
     void releaseConnection(Connection connection) {
         if (!(connection instanceof ProxyConnection)) {
+            LOGGER.warn("Attempt to add extra connection to the pool");
             return;
         }
 

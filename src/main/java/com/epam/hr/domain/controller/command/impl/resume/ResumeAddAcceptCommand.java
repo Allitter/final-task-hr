@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ResumeAddAcceptCommand extends AbstractResumeCommand {
-    private static final int DEFAULT_RESUME_ID = -1;
+    private static final String CONTROLLER_COMMAND_ACCOUNT = "/controller?command=account";
     private final ResumeService service;
 
     public ResumeAddAcceptCommand(ResumeService service) {
@@ -32,7 +32,7 @@ public class ResumeAddAcceptCommand extends AbstractResumeCommand {
         try {
             service.addResume(idUser, name, resumeText);
 
-            String path = request.getHeader(Attributes.REFERER);
+            String path = request.getContextPath() + CONTROLLER_COMMAND_ACCOUNT;
             return Router.redirect(path);
         } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class LogoutCommand extends AbstractUserCommand {
+
+
     @Override
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -19,6 +21,8 @@ public class LogoutCommand extends AbstractUserCommand {
         User user = (User) session.getAttribute(Attributes.USER);
         sessionManager.unbindSession(user.getId());
         session.invalidate();
-        return Router.forward(Pages.LOGIN);
+
+        String path = request.getContextPath() + request.getServletPath();
+        return Router.redirect(path);
     }
 }

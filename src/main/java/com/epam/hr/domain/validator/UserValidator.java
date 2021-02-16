@@ -19,6 +19,7 @@ public class UserValidator extends AbstractValidator {
     private static final int PASSWORD_MIN_LENGTH = 8;
     private static final String NAME_REGEX = "(^[А-ЯЁ][а-яё]{1,14}$)|(^[A-Z][a-z]{1,14}$)";
     private static final String EMAIL_REGEX = "^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+    private static final String MESSAGE_REGEX = "(?s).{3,240}";
     private static final int EMAIL_MAX_LENGTH = 320;
     private static final String PHONE_REGEX = "[+][0-9]{7,14}";
     private static final String MIN_BIRTH_DATE = "1970-12-31";
@@ -171,6 +172,17 @@ public class UserValidator extends AbstractValidator {
     public boolean validatePhone(String phone) {
         return nullOrEmptyCheck(phone) && regexCheck(phone, PHONE_REGEX);
     }
+
+    /**
+     * Validate message.
+     *
+     * @param message the message
+     * @return true if valid
+     */
+    public boolean validateMessage(String message) {
+        return nullOrEmptyCheck(message) && regexCheck(message, MESSAGE_REGEX);
+    }
+
 
     /**
      * Validate birth date.

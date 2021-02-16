@@ -17,7 +17,7 @@ public class ResumeRemoveCommand extends AbstractResumeEditCommand {
 
     @Override
     protected void afterCheckActions(HttpServletRequest request, Resume resume) throws ServiceException {
-        long id = Long.parseLong((String) request.getAttribute(Attributes.RESUME_ID));
+        long id = resume.getId();
         resumeService.remove(id);
     }
 

@@ -26,7 +26,6 @@ public class UploadPhotoCommand extends AbstractUserCommand {
         this.fileService = fileService;
     }
 
-    // todo add check for 1 photo change per day
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException, ControllerException {
         HttpSession session = request.getSession();

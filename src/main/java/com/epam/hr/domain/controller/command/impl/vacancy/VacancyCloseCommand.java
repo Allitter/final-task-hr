@@ -8,6 +8,7 @@ import com.epam.hr.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 
 public class VacancyCloseCommand extends AbstractVacancyCommand {
+    private static final String CONTROLLER_COMMAND_VACANCY_INFO = "/controller?command=vacancy_info&vacancy_id=%d";
     private final VacancyService vacancyService;
 
     public VacancyCloseCommand(VacancyService vacancyService) {
@@ -19,7 +20,7 @@ public class VacancyCloseCommand extends AbstractVacancyCommand {
         long idVacancy = Long.parseLong((String) request.getAttribute(Attributes.VACANCY_ID));
         vacancyService.closeVacancy(idVacancy);
 
-        String path = request.getHeader(Attributes.REFERER);
+        String path = request.getContextPath() + String.format(CONTROLLER_COMMAND_VACANCY_INFO, idVacancy);
         return Router.redirect(path);
     }
 

@@ -35,7 +35,7 @@ public class AccessFilter extends HttpFilter {
             return;
         }
 
-        if (!user.isEnabled() && commandType != CommandType.VERIFICATION) {
+        if (!user.isEnabled() && commandType != CommandType.VERIFICATION && commandType != CommandType.LOGOUT) {
             request.setAttribute(Attributes.COMMAND, CommandType.VERIFICATION_PAGE);
         }
 

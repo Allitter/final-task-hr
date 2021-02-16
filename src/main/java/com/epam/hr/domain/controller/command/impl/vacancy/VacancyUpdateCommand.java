@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class VacancyUpdateCommand extends AbstractVacancyCommand {
+    private static final String CONTROLLER_COMMAND_VACANCY_INFO = "/controller?command=vacancy_info&vacancy_id=%d";
     private final VacancyService service;
 
     public VacancyUpdateCommand(VacancyService service) {
@@ -20,12 +21,12 @@ public class VacancyUpdateCommand extends AbstractVacancyCommand {
 
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException {
-        long id = Long.parseLong((String) request.getAttribute(Attributes.VACANCY_ID));
+        long idVacancy = Long.parseLong((String) request.getAttribute(Attributes.VACANCY_ID));
         String name = (String) request.getAttribute(Attributes.VACANCY_NAME);
         String shortDescription = (String) request.getAttribute(Attributes.VACANCY_SHORT_DESCRIPTION);
         String description = (String) request.getAttribute(Attributes.LONG_DESCRIPTION);
 
-        Vacancy vacancy = service.tryFindById(id);
+        Vacancy vacancy = service.tryFindById(idVacancy);
         vacancy = new Vacancy.Builder(vacancy)
                 .setName(name)
                 .setShortDescription(shortDescription)
@@ -34,7 +35,7 @@ public class VacancyUpdateCommand extends AbstractVacancyCommand {
 
         try {
             service.saveVacancy(vacancy);
-            String path = request.getContextPath() + request.getServletPath();
+            String path = request.getContextPath() + String.format(CONTROLLER_COMMAND_VACANCY_INFO, idVacancy);
             return Router.redirect(path);
         } catch (ValidationException e) {
             List<String> fails = e.getValidationFails();

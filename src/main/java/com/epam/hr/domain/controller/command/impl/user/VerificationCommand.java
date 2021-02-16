@@ -10,9 +10,11 @@ import com.epam.hr.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.List;
 
 public class VerificationCommand extends AbstractUserCommand {
+    private static final String INCORRECT_CODE = "incorrectCode";
     private final VerificationTokenService verificationTokenService;
     private final UserService userService;
 
@@ -40,6 +42,7 @@ public class VerificationCommand extends AbstractUserCommand {
             }
         }
 
+        request.setAttribute(Attributes.FAILS, Collections.singletonList(INCORRECT_CODE));
         String path = request.getHeader(Attributes.REFERER);
         return Router.redirect(path);
     }

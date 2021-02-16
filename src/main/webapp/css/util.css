@@ -35,7 +35,7 @@ a, a:hover, a:active, a:focus {
     outline: none;
 }
 
-a, button, a span, div, .btn, .underling_href:after {
+a, button, a span, div, .btn, .reference:after {
     -webkit-transition: 0.15s ease-in-out;
     -o-transition: 0.15s ease-in-out;
     transition: 0.15s ease-in-out;
@@ -73,6 +73,7 @@ form * {
     --success-color: #7E9947;
     --warning-color: #FB890F;
     --info-color: #4C4551;
+    --reference-color: #144983;
 
     --input-default-color: var(--main-bg-color);
     --input-selected-color: var(--main-bg-color)07;
@@ -204,29 +205,33 @@ form * {
     box-shadow: var(--raised) !important;
 }
 
+.btn_icon {
+    width: 30px;
+}
+
 /* ------------------- button -----------------  */
 
 /*
     Hrefs
 */
 
-.underling_href {
+.reference {
     display: inline-block;
-    color: var(--font-main-color);
+    color: var(--reference-color);
     line-height: 2;
     text-decoration: none;
     cursor: pointer;
 }
 
-.underling_href:after {
-    background-color: var(--font-main-color);
+.reference:after {
+    background-color: currentColor;
     display: block;
     content: "";
     height: 2px;
     width: 0;
 }
 
-.underling_href:hover:after, .underling_href:focus:after {
+.reference:hover:after, .reference:focus:after {
     width: 100%;
 }
 

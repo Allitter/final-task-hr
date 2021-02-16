@@ -16,6 +16,7 @@ import com.epam.hr.exception.EntityNotFoundException;
 import com.epam.hr.exception.ServiceException;
 import com.epam.hr.exception.ValidationException;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private static final String LOGIN_NOT_UNIQUE_FAIL = "loginNotUnique";
     private static final String CANT_CHANGE_AVATAR_FAIL = "cantChangeAvatar";
     private static final String INCORRECT_LOGIN_OR_PASSWORD = "incorrectLoginOrPassword";
+    private static final String INVALID_BAN_REASON = "invalidReason";
     private final UserValidator userValidator;
     private final UserDaoFactory userDaoFactory;
     private final BanDaoFactory banDaoFactory;
@@ -58,6 +60,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> banUser(long idTarget, long idAdministrant, String reason) throws ServiceException {
+        if (!userValidator.validateMessage(reason)) {
+            throw new ValidationException(Collections.singletonList(INVALID_BAN_REASON));
+        }
+
         Ban ban = new Ban.Builder()
                 .setReason(reason)
                 .setIdTarget(idTarget)

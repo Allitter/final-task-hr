@@ -2,6 +2,7 @@ package com.epam.hr.domain.controller.command.impl.vacancy;
 
 import com.epam.hr.domain.controller.Router;
 import com.epam.hr.domain.controller.command.Attributes;
+import com.epam.hr.domain.model.Vacancy;
 import com.epam.hr.domain.service.VacancyService;
 import com.epam.hr.exception.ControllerException;
 import com.epam.hr.exception.ServiceException;
@@ -19,7 +20,12 @@ public class VacancyRemoveCommand extends AbstractVacancyCommand {
     @Override
     public Router execute(HttpServletRequest request) throws ServiceException, ControllerException {
         long idVacancy = Long.parseLong((String) request.getAttribute(Attributes.VACANCY_ID));
-        vacancyService.closeVacancy(idVacancy);
+
+        Vacancy vacancy = vacancyService.tryFindById(idVacancy);
+        if (!vacancy.isClosed()) {
+            vacancyService.closeVacancy(idVacancy);
+        }
+
         vacancyService.remove(idVacancy);
 
         String path = request.getContextPath() + CONTROLLER_COMMAND_VACANCIES;

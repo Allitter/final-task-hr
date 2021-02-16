@@ -1,7 +1,5 @@
 package com.epam.hr.domain.controller.filter;
 
-import org.apache.commons.text.StringEscapeUtils;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpFilter;

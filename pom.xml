@@ -114,6 +114,11 @@
             <version>1.5.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.3.2</version>
+        </dependency>
 
         <!--  Mockito  -->
         <dependency>
@@ -133,26 +138,9 @@
                     <groupId>com.heroku.sdk</groupId>
                     <artifactId>heroku-maven-plugin</artifactId>
                     <version>3.0.3</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals><goal>copy</goal></goals>
-                            <configuration>
-                                <artifactItems>
-                                    <artifactItem>
-                                        <groupId>com.heroku</groupId>
-                                        <artifactId>webapp-runner</artifactId>
-                                        <version>9.0.41.0</version>
-                                        <destFileName>webapp-runner.jar</destFileName>
-                                    </artifactItem>
-                                </artifactItems>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <configuration>
+                        <appName>hr-final</appName>
+                    </configuration>
                 </plugin>
 
                 <!-- tomcat deploy plugin  -->

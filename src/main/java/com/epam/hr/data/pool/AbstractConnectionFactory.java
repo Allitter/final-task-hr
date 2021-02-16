@@ -32,6 +32,7 @@ abstract class AbstractConnectionFactory {
 
     /* package private access */
     List<Connection> establishConnections() {
+        loadDriverIfNotLoaded();
         String path = getPropertiesPath();
         return establishConnections(path);
     }

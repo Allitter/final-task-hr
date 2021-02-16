@@ -17,7 +17,7 @@ public class ResumeEditAcceptCommand extends AbstractResumeEditCommand {
 
     @Override
     protected void afterCheckActions(HttpServletRequest request, Resume resume) throws ServiceException {
-        long id = Long.parseLong((String) request.getAttribute(Attributes.RESUME_ID));
+        long id = resume.getId();
         String name = (String) request.getAttribute(Attributes.RESUME_NAME);
         String resumeText = (String) request.getAttribute(Attributes.LONG_DESCRIPTION);
 

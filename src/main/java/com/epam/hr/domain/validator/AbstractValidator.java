@@ -58,11 +58,11 @@ public abstract class AbstractValidator {
 
     private Pattern getPattern(String regex) {
         Pattern pattern;
-        if (!patterns.containsKey(regex)) {
+        if (patterns.containsKey(regex)) {
+            pattern = patterns.get(regex);
+        } else {
             pattern = Pattern.compile(regex);
             patterns.put(regex, pattern);
-        } else {
-            pattern = patterns.get(regex);
         }
 
         return pattern;

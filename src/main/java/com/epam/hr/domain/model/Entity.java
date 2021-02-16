@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Super class for all programs' entities stored in database
+ * Super class for all program's entities stored in database
  * all entities have id and isValid fields, id stored in database,
  * while isValid not, it represents the ability of the entity to be stored in database
  * this class also contains static nested {@link Builder} class that provides ability
