@@ -1,0 +1,265 @@
+/* 
+    default decorations setup
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+p {
+    font-size: 0.9375rem;
+    word-wrap: anywhere;
+}
+
+html, body {
+    background-color: var(--page-bg-color);
+    width: 100%;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: 500;
+}
+
+img {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+a, a:hover, a:active, a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+a, button, a span, div, .btn, .reference:after {
+    -webkit-transition: 0.15s ease-in-out;
+    -o-transition: 0.15s ease-in-out;
+    transition: 0.15s ease-in-out;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul>li {
+    list-style: none;
+}
+
+form * {
+    outline: none !important;
+    border: none !important;
+}
+
+/*  --------------------------------------------default decorations setup----------------------------------------- */
+
+/*
+    Vars
+*/
+
+:root {
+    --dark-bg-color: #665871;
+    --dark-bg-font-color: #FFF;
+
+    --font-main-color: #665871;
+    --font-non-important-color: #66587107;
+    --font-light-color: #FFFFFF;
+    --font-light-non-important-color: #FFFFFF07;
+
+    --danger-color: #F44336;
+    --success-color: #7E9947;
+    --warning-color: #FB890F;
+    --info-color: #4C4551;
+    --reference-color: #144983;
+
+    --input-default-color: var(--main-bg-color);
+    --input-selected-color: var(--main-bg-color)07;
+    --control-default-color: #999999;
+    --control-on-hover-color: #F16531;
+
+    --page-bg-color: #EBF6F5;
+    --main-bg-color: #EBF6F5;
+
+    --raised: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    --raised-little: 0 8px 15px -12px rgba(0, 0, 0, 0.56), 0 2px 12px 0px rgba(0, 0, 0, 0.12), 0 4px 5px -5px rgba(0, 0, 0, 0.2);
+    --shadow-color: rgb(0, 0, 0);
+    --shadow-small: 0 0 5px -10px var(--shadow-color);
+    --shadow-medium: 0 0 15px -10px var(--shadow-color);
+    --shadow-big: 0 0 25px -10px var(--shadow-color);
+}
+
+/*  ------------------------------------------------------vars---------------------------------------------------- */
+
+/*
+    util
+*/
+
+/* 
+    Text
+*/
+
+.alert-text {
+    color: var(--danger-color) !important;
+}
+
+/* ------------------- text -----------------  */
+
+/*
+    Separator
+*/
+
+.separator {
+    display: inline-block;
+    height: 3px;
+    width: 100px;
+    margin: 25px auto;
+    background: var(--font-main-color);
+}
+
+/* ------------------- separator -----------------  */
+
+/* 
+    Dropdown button
+*/
+
+.dropbtn {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: var(--font-light-color);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: -21px;
+    padding: 20px 20px;
+    z-index: 1;
+}
+
+.dropdown-content li {
+    margin-bottom: 20px;
+}
+
+.dropdown-content input[type=submit] {
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 20px;
+    background-color: var(--control-default-color);
+    box-shadow: var(--raised-little);
+}
+
+.dropdown-content input[type=submit]:hover {
+    background-color: var(--success-color);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    filter: brightness(115%);
+}
+
+/* ------------------- dropdown button -----------------  */
+
+/* 
+    Button
+*/
+
+.btn {
+    display: inline;
+    min-width: 110px;
+    box-sizing: border-box;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    text-align: center;
+    background-color: var(--control-default-color);
+    color: var(--font-light-color) !important;
+    box-shadow: var(--raised-little) !important;
+}
+
+.page_btn {
+    display: inline-block;
+    width: 20px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    padding: 6px;
+    background-color: var(--control-default-color);
+    color: var(--font-light-color) !important;
+    box-shadow: var(--raised-little) !important;
+}
+
+.btn:hover, .page_btn:hover {
+    cursor: pointer !important;
+    box-shadow: var(--raised) !important;
+}
+
+.btn_icon {
+    width: 30px;
+}
+
+/* ------------------- button -----------------  */
+
+/*
+    Hrefs
+*/
+
+.reference {
+    display: inline-block;
+    color: var(--reference-color);
+    line-height: 2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.reference:after {
+    background-color: currentColor;
+    display: block;
+    content: "";
+    height: 2px;
+    width: 0;
+}
+
+.reference:hover:after, .reference:focus:after {
+    width: 100%;
+}
+
+/* ------------------- hrefs -----------------  */
+
+/*
+    Shadow
+*/
+
+.raised {
+    box-shadow: var(--raised);
+}
+
+/* ------------------- shadow -----------------  */
+
+/*
+    Special classes
+*/
+
+.alert {
+    background-color: var(--danger-color) !important;
+    color: var(--font-light-color);
+}
+
+.italic {
+    font-style: italic;
+}
+
+/* ------------------- Special classes -----------------  */
+
+/* ------------------------------------------------------util---------------------------------------------------- */

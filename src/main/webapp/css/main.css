@@ -1,0 +1,490 @@
+/* 
+    Body 
+*/
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+body * {
+    color: var(--font-main-color);
+}
+
+.nav-main {
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1800px;
+    min-width: 200px;
+    box-sizing: border-box;
+    width: 90%;
+}
+
+/*
+    Header 
+*/
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    max-width: 1800px;
+    min-width: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 90%;
+    border-radius: 2rem;
+    background-color: var(--main-bg-color);
+    box-shadow: var(--raised);
+}
+
+.header_top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_buttons {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.header_buttons>* {
+    margin: 5px 10px;
+}
+
+
+.logo {
+    margin-top: 40px;
+}
+
+.user_info {
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.user_info p {
+    font-size: 1.3rem;
+}
+
+.navigation {
+    position: sticky;
+    top: 5px;
+    max-width: 210px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main-bg-color);
+    padding: 20px;
+    border-radius: 2rem;
+    margin-right: 20px;
+    width: 20%;
+    box-shadow: var(--raised);
+}
+
+/*  ------------------------------------------------------header---------------------------------------------------- */
+
+/* 
+    Main 
+*/
+
+.main {
+    padding: 20px;
+    width: 100%;
+    min-height: 700px;
+    background-color: var(--main-bg-color);
+    border-radius: 2rem;
+    box-shadow: var(--raised);
+}
+
+.items {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 86%;
+    background-color: var(--dark-bg-color);
+    border-radius: 10px;
+}
+
+.item * {
+    color: var(--font-light-color);
+}
+
+.item_info {
+    width: 70%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.avatar {
+    display: inline-block;
+    box-sizing: border-box;
+    min-height: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -moz-background-size: cover;
+    background-size: cover;
+    margin: auto 10px;
+    box-shadow: var(--raised);
+}
+
+.item_header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    margin: 20px 0;
+}
+
+.item_header h2 {
+    font-weight: bold;
+    font-size: 2.2rem;
+    text-align: left;
+}
+
+.item_header_buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.item_header_buttons .btn {
+    margin: 10px 10px;
+}
+
+.item_header_buttons a {
+    background-color: var(--control-default-color);
+    margin-right: 20px;
+}
+
+.item_body {
+    text-align: justify;
+    white-space: pre-wrap;
+    margin-bottom: 20px;
+}
+
+.item_body p {
+    font-size: 1.4rem;
+}
+
+.user_name {
+    margin-top: 10px;
+}
+
+.item_more {
+    background-color: var(--main-bg-color);
+    padding: 30px;
+}
+
+.item_edit {
+    background-color: var(--main-bg-color);
+    padding: 30px;
+}
+
+.item_edit input[type=text], textarea {
+    border: none;
+    border-radius: 2rem;
+    outline: none;
+    box-shadow: var(--raised-little);
+}
+
+.item_edit input[type=text] {
+    padding: 10px 20px;
+    box-shadow: var(--raised-little);
+}
+
+.item_edit input[type=submit] {
+    padding: 6px 10px;
+    background-color: var(--success-color);
+    box-shadow: var(--raised-little);
+}
+
+.item_edit textarea {
+    padding: 30px;
+    font-size: 1.2rem;
+}
+
+.item_edit form {
+    display: flex;
+    flex-direction: column;
+}
+
+.item_edit_actions {
+    display: flex;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.item_edit input[type=text] {
+    font-size: 1.2rem;
+}
+
+.item_name {
+    word-wrap: anywhere;
+}
+
+.item_description {
+    margin: 10px;
+}
+
+.item_short_desc {
+    display: inline-block;
+    text-align: justify;
+    word-wrap: break-word;
+    margin-top: 10px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 30%;
+}
+
+.single_action {
+    display: inline-block;
+    margin-right: 20px;
+    align-items: center;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.item>.actions img {
+    display: block;
+    margin: 6px auto;
+    max-height: 17px;
+}
+
+.page_bar {
+    margin-bottom: 15px;
+}
+
+.page_bar>* {
+    margin: 0 10px;
+}
+
+.current_page {
+    filter: brightness(150%);
+}
+
+.control_set {
+    margin: 0 auto 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    width: 90%;
+}
+
+.control_set > * {
+    margin: 10px;
+
+}
+
+.user_info_top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 30px 10px 50px;
+}
+
+.resumes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.single_resume_item {
+    display: inline-block;
+    width: max-content;
+    margin: 10px 6px;
+    padding: 6px 14px;
+    background-color: var(--dark-bg-color);
+    border-radius: 1rem;
+    min-width: 120px;
+    text-align: center;
+}
+
+.single_resume_item * {
+    color: var(--font-light-color);
+}
+
+.account_resumes {
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    border-radius: 2rem;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.account_resumes>* {
+    margin-left: 5%;
+}
+
+.account_resumes> form {
+    margin-top: 15px;
+    margin-left: 6%;
+}
+
+.account_resumes .single_resume_item {
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.single_resume_item>form>.single_action {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.single_resume_item>form>.single_action img {
+    width: 13px;
+    height: 13px;
+}
+
+.item_body_top, .resume, .notes>form, .vacancy_description {
+    border-radius: 2rem;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    margin-top: 20px;
+}
+
+.interview_note {
+    box-sizing: border-box;
+    width: 90%;
+    height: 200px;
+    resize: none;
+    margin-left: 5%;
+    padding: 10px 10px 10px 20px;
+    box-shadow: var(--raised-little);
+}
+
+.interview_modify_btn {
+    box-sizing: border-box;
+    margin-left: 20px;
+    background-color: var(--success-color) !important;
+}
+
+.message {
+    margin-top: 20px;
+}
+
+.ban_info {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+.page_bar > * {
+    margin: 10px;
+}
+
+/*  ------------------------------------------------------main---------------------------------------------------- */
+
+/* 
+    Media query
+*/
+
+@media all and (max-width: 670px) {
+    .main {
+        min-height: 0;
+    }
+    .nav-main {
+        flex-direction: column;
+    }
+    .navigation {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
+        box-sizing: border-box;
+        flex-direction: row;
+        align-items: center;
+    }
+    .separator {
+        display: inline-block;
+        width: 3px;
+        height: 30px;
+        margin: 0 20px;
+    }
+    .main {
+        width: 100%;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+}
+
+@media all and (max-width: 410px) {
+    .nav-main {
+        flex-direction: column;
+    }
+    .navigation {
+        width: 100%;
+        margin: 10px 0;
+        box-sizing: border-box;
+        flex-direction: column;
+        align-items: center;
+    }
+    .item {
+        justify-content: center;
+    }
+    .item_description {
+        width: 90%;
+        margin: 10px;
+    }
+    .item_name {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .item_short_desc {
+        display: inline-block;
+        word-wrap: break-word;
+    }
+    .actions {
+        margin-top: 10px;
+        width: 60%;
+        justify-content: space-around;
+    }
+    .separator {
+        display: inline-block;
+        height: 3px;
+        width: 50%;
+        margin: auto 10px;
+    }
+    .main {
+        width: 100%;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+    .single_action {
+        margin-right: 0;
+    }
+}
+
+/*  ------------------------------------------------------meadia query---------------------------------------------------- */
